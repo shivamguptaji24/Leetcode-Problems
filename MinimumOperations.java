@@ -193,19 +193,19 @@ class Solution {
 Visualization of the above code
     Let's visualize the given code step by step using the example:  
 
-**Input:** `nums = [0, 1, 1, 1, 0, 0]`
+Input: `nums = [0, 1, 1, 1, 0, 0]`
 
 ---
 
-### **Initial Array**
+Initial Array
 ```
 [ 0, 1, 1, 1, 0, 0 ]
 ```
 
 ---
 
-### **Step 1: Iteration Starts**  
-- **Index `i = 0`**
+Step 1: Iteration Starts  
+- Index `i = 0`
 - Since `nums[0] == 0`, perform the flip operation on indices **0**, **1**, and **2**.
 - **Flip Operation:**  
 ```
