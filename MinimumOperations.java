@@ -188,3 +188,101 @@ class Solution {
         return count;
     }
 }
+
+/*
+Visualization of the above code
+    Let's visualize the given code step by step using the example:  
+
+**Input:** `nums = [0, 1, 1, 1, 0, 0]`
+
+---
+
+### **Initial Array**
+```
+[ 0, 1, 1, 1, 0, 0 ]
+```
+
+---
+
+### **Step 1: Iteration Starts**  
+- **Index `i = 0`**
+- Since `nums[0] == 0`, perform the flip operation on indices **0**, **1**, and **2**.
+- **Flip Operation:**  
+```
+nums[0] = 1 - 0 → 1
+nums[1] = 1 - 1 → 0
+nums[2] = 1 - 1 → 0
+```
+
+**Array after Step 1:**  
+```
+[ 1, 0, 0, 1, 0, 0 ]
+```
+
+**Operations Count:** `1`
+
+---
+
+### **Step 2: Iteration Continues**  
+- **Index `i = 1`**
+- Since `nums[1] == 0`, perform the flip operation on indices **1**, **2**, and **3**.
+- **Flip Operation:**  
+```
+nums[1] = 1 - 0 → 1
+nums[2] = 1 - 0 → 1
+nums[3] = 1 - 1 → 0
+```
+
+**Array after Step 2:**  
+```
+[ 1, 1, 1, 0, 0, 0 ]
+```
+
+**Operations Count:** `2`
+
+---
+
+### **Step 3: Iteration Continues**  
+- **Index `i = 3`**
+- Since `nums[3] == 0`, perform the flip operation on indices **3**, **4**, and **5**.
+- **Flip Operation:**  
+```
+nums[3] = 1 - 0 → 1
+nums[4] = 1 - 0 → 1
+nums[5] = 1 - 0 → 1
+```
+
+**Array after Step 3:**  
+```
+[ 1, 1, 1, 1, 1, 1 ]
+```
+
+**Operations Count:** `3`
+
+---
+
+### **Step 4: Final Check**  
+- Since `nums[nums.length - 1] == 1` and `nums[nums.length - 2] == 1`, the condition for returning `-1` is **not** triggered.
+
+✅ **Final Output:** `3`
+
+---
+
+### **Visual Summary**
+
+| Step | Array State            | Operations |
+|------|------------------------|-------------|
+| Start | `[0, 1, 1, 1, 0, 0]`   | 0           |
+| Flip @ index 0 | `[1, 0, 0, 1, 0, 0]` | 1           |
+| Flip @ index 1 | `[1, 1, 1, 0, 0, 0]` | 2           |
+| Flip @ index 3 | `[1, 1, 1, 1, 1, 1]` | 3           |
+
+✅ **Final Output:** `3`
+
+---
+
+### **Key Observations**
+1. The loop iterates through the array while ensuring that all elements become `1`.
+2. Each `0` triggers a flip of itself and its next two consecutive elements.
+3. After the loop, the code verifies if the last two elements are `1`. If not, it returns `-1`.
+*/
