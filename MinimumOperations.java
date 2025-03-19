@@ -73,50 +73,50 @@ class Solution {
 Visualization of the above code
   Let's visualize the given code step by step using the example:  
 
-**Input:** `nums = [0, 1, 1, 1, 0, 0]`
+Input: `nums = [0, 1, 1, 1, 0, 0]`
 
 ---
 
-### **Initial Array**
+Initial Array
 ```
 [ 0, 1, 1, 1, 0, 0 ]
 ```
 
 ---
 
-### **Step 1: Encounter `0` at index 0**
-- Since `nums[0] == 0`, perform the flip operation on indices **0, 1, and 2**.
-- **Flip Operation:**  
+Step 1: Encounter `0` at index 0
+- Since `nums[0] == 0`, perform the flip operation on indices 0, 1, and 2.
+- Flip Operation:  
 ```
 nums[0] ^= 1 → 0 → 1  
 nums[1] ^= 1 → 1 → 0  
 nums[2] ^= 1 → 1 → 0
 ```
 
-**Array after Step 1:**  
+Array after Step 1:  
 ```
 [ 1, 0, 0, 1, 0, 0 ]
 ```
 
-**Operations Count:** `1`
+Operations Count: `1`
 
 ---
 
-### **Step 2: Encounter `0` at index 1**
-- Since `nums[1] == 0`, perform the flip operation on indices **1, 2, and 3**.
-- **Flip Operation:**  
+Step 2: Encounter `0` at index 1
+- Since `nums[1] == 0`, perform the flip operation on indices 1, 2, and 3.
+- Flip Operation:  
 ```
 nums[1] ^= 1 → 0 → 1  
 nums[2] ^= 1 → 0 → 1  
 nums[3] ^= 1 → 1 → 0
 ```
 
-**Array after Step 2:**  
+Array after Step 2:  
 ```
 [ 1, 1, 1, 0, 0, 0 ]
 ```
 
-**Operations Count:** `2`
+Operations Count: `2`
 
 ---
 
