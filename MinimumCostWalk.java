@@ -121,3 +121,152 @@ class Solution {
         return a == b ? g[a] : -1;
     }
 }
+
+/*
+Visualiztion of the above code
+ Let's break down the provided code with clear explanations and a visual representation for better understanding. The code uses **Union-Find (Disjoint Set Union)** to efficiently manage connected components and calculate the **minimum AND value** for given queries.
+
+---
+
+### 📌 **Step 1: Understanding the Union-Find Class**
+The `UnionFind` class is designed to efficiently manage disjoint sets (connected components).
+
+```java
+class UnionFind {
+    private final int[] p;    // Parent array (tracks the leader of each set)
+    private final int[] size; // Size array (tracks the size of each set)
+
+    public UnionFind(int n) {
+        p = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; ++i) {
+            p[i] = i;        // Each node is its own parent (initially)
+            size[i] = 1;     // Each set starts with size 1
+        }
+    }
+
+    public int find(int x) {
+        if (p[x] != x) {
+            p[x] = find(p[x]); // Path compression for efficiency
+        }
+        return p[x];
+    }
+
+    public boolean union(int a, int b) {
+        int pa = find(a), pb = find(b);
+        if (pa == pb) {
+            return false; // Already connected
+        }
+        if (size[pa] > size[pb]) {
+            p[pb] = pa;            // Merge smaller set into the larger one
+            size[pa] += size[pb];
+        } else {
+            p[pa] = pb;
+            size[pb] += size[pa];
+        }
+        return true;
+    }
+
+    public int size(int x) {
+        return size[find(x)]; // Return the size of the component
+    }
+}
+```
+
+---
+
+### 📌 **Step 2: Solution Logic (`minimumCost` Method)**
+The `minimumCost` method processes the graph and queries.
+
+```java
+class Solution {
+    private UnionFind uf;
+    private int[] g;  // Stores minimum AND value for each connected component
+
+    public int[] minimumCost(int n, int[][] edges, int[][] query) {
+        uf = new UnionFind(n);
+
+        // Step 1: Build Union-Find structure
+        for (var e : edges) {
+            uf.union(e[0], e[1]);
+        }
+
+        // Step 2: Initialize 'g' array with -1 (no AND values assigned yet)
+        g = new int[n];
+        Arrays.fill(g, -1);
+
+        // Step 3: Compute AND values for each connected component
+        for (var e : edges) {
+            int root = uf.find(e[0]);
+            g[root] &= e[2];  // Minimum AND value for this component
+        }
+
+        // Step 4: Process queries
+        int m = query.length;
+        int[] ans = new int[m];
+        for (int i = 0; i < m; ++i) {
+            int s = query[i][0], t = query[i][1];
+            ans[i] = f(s, t);
+        }
+
+        return ans;
+    }
+
+    // Step 5: Logic for answering queries
+    private int f(int u, int v) {
+        if (u == v) return 0; // Same node → AND value = 0
+        int a = uf.find(u), b = uf.find(v);
+        return a == b ? g[a] : -1;  // If connected, return AND value; else -1
+    }
+}
+```
+
+---
+
+### 📊 **Visual Representation**
+
+**Input Example**
+```
+n = 3
+edges = [[0,2,7],[0,1,15],[1,2,6],[1,2,1]]
+queries = [[1, 2]]
+```
+
+**Step 1: Union-Find Initialization**
+```
+Nodes:  [ 0, 1, 2 ]
+Parent: [ 0, 1, 2 ]  --> Each node is its own parent
+```
+
+**Step 2: Union Operations**
+- Union(0, 2) → `Parent[2] = 0`
+- Union(0, 1) → `Parent[1] = 0`
+- Union(1, 2) → Already connected, skip.
+
+**Updated Parent Array:**
+```
+Nodes:  [ 0, 1, 2 ]
+Parent: [ 0, 0, 0 ]  --> All nodes are now part of the same component
+```
+
+**Step 3: Computing Minimum AND Values**
+- Component 0 (with nodes 0, 1, 2) → AND Value = `7 & 15 & 6 & 1 = 0`
+
+**Step 4: Processing Queries**
+- Query(1, 2) → Both nodes belong to component 0 → Answer = `0`
+
+**Final Output:** `[0]`
+
+---
+
+### 🚀 **Complexity Analysis**
+- **Time Complexity:** `O(n + m)` — Efficiently processes nodes, edges, and queries.
+- **Space Complexity:** `O(n)` — For Union-Find arrays and AND value tracking.
+
+---
+
+### 🔎 **Key Learning Points**
+✅ **Union-Find** effectively tracks connected components.  
+✅ Efficient `find()` with **path compression** ensures optimal performance.  
+✅ The `g[]` array efficiently tracks the **minimum AND value** for each connected component.
+*/
