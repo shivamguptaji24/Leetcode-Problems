@@ -128,7 +128,7 @@ Visualiztion of the above code
 
 ---
 
-### 📌 **Step 1: Understanding the Union-Find Class**
+📌 Step 1: Understanding the Union-Find Class
 The `UnionFind` class is designed to efficiently manage disjoint sets (connected components).
 
 ```java
@@ -175,7 +175,7 @@ class UnionFind {
 
 ---
 
-### 📌 **Step 2: Solution Logic (`minimumCost` Method)**
+📌 Step 2: Solution Logic (`minimumCost` Method)
 The `minimumCost` method processes the graph and queries.
 
 ```java
@@ -223,50 +223,50 @@ class Solution {
 
 ---
 
-### 📊 **Visual Representation**
+📊 Visual Representation
 
-**Input Example**
+Input Example
 ```
 n = 3
 edges = [[0,2,7],[0,1,15],[1,2,6],[1,2,1]]
 queries = [[1, 2]]
 ```
 
-**Step 1: Union-Find Initialization**
+Step 1: Union-Find Initialization
 ```
 Nodes:  [ 0, 1, 2 ]
 Parent: [ 0, 1, 2 ]  --> Each node is its own parent
 ```
 
-**Step 2: Union Operations**
+Step 2: Union Operations
 - Union(0, 2) → `Parent[2] = 0`
 - Union(0, 1) → `Parent[1] = 0`
 - Union(1, 2) → Already connected, skip.
 
-**Updated Parent Array:**
+Updated Parent Array:
 ```
 Nodes:  [ 0, 1, 2 ]
 Parent: [ 0, 0, 0 ]  --> All nodes are now part of the same component
 ```
 
-**Step 3: Computing Minimum AND Values**
+Step 3: Computing Minimum AND Values
 - Component 0 (with nodes 0, 1, 2) → AND Value = `7 & 15 & 6 & 1 = 0`
 
-**Step 4: Processing Queries**
+Step 4: Processing Queries
 - Query(1, 2) → Both nodes belong to component 0 → Answer = `0`
 
-**Final Output:** `[0]`
+Final Output: `[0]`
 
 ---
 
-### 🚀 **Complexity Analysis**
-- **Time Complexity:** `O(n + m)` — Efficiently processes nodes, edges, and queries.
-- **Space Complexity:** `O(n)` — For Union-Find arrays and AND value tracking.
+🚀 Complexity Analysis
+- Time Complexity: `O(n + m)` — Efficiently processes nodes, edges, and queries.
+- Space Complexity: `O(n)` — For Union-Find arrays and AND value tracking.
 
 ---
 
-### 🔎 **Key Learning Points**
-✅ **Union-Find** effectively tracks connected components.  
-✅ Efficient `find()` with **path compression** ensures optimal performance.  
-✅ The `g[]` array efficiently tracks the **minimum AND value** for each connected component.
+🔎 Key Learning Points
+✅ Union-Find effectively tracks connected components.  
+✅ Efficient `find()` with path compression ensures optimal performance.  
+✅ The `g[]` array efficiently tracks the minimum AND value for each connected component.
 */
