@@ -261,18 +261,18 @@ class Solution {
 
 /*
 Visualization of the above code
- Let's **visualize the execution** of this **Disjoint Set Union (DSU)** approach with an example.
+ Let's visualize the execution of this Disjoint Set Union (DSU) approach with an example.
 
 ---
 
-## **Example Input**
-```java
+Example Input
+```
 n = 6
 edges = [[0,1],[0,2],[1,2],[3,4],[3,5]]
 ```
 
-### **Graph Representation**
-We represent the graph as **an adjacency list**:
+Graph Representation
+We represent the graph as an adjacency list:
 ```
 0 → {1, 2}
 1 → {0, 2}
@@ -284,31 +284,31 @@ We represent the graph as **an adjacency list**:
 
 ---
 
-## **Step-by-Step Execution**
-The code uses the **Union-Find (DSU) with path compression** to find connected components.
+Step-by-Step Execution
+The code uses the Union-Find (DSU) with path compression to find connected components.
 
-### **Step 1: Initialize DSU Arrays**
-```java
+Step 1: Initialize DSU Arrays
+```
 parent = [0, 1, 2, 3, 4, 5]
 groupSize = [1, 1, 1, 1, 1, 1]
 groupEdges = [0, 0, 0, 0, 0, 0]
 ```
 
-Each node is its **own parent**, has a **size of 1**, and **zero edges counted initially**.
+Each node is its own parent, has a size of 1, and zero edges counted initially.
 
 ---
 
-### **Step 2: Process Edges**
-We iterate through the edges and perform **Union-Find** operations.
+Step 2: Process Edges
+We iterate through the edges and perform Union-Find operations.
 
-#### **Processing edge [0,1]**
+Processing edge [0,1]
 1. Find root of `0`: `root1 = 0`
 2. Find root of `1`: `root2 = 1`
-3. **Union:** Make `1` the parent of `0`.
+3. Union: Make `1` the parent of `0`.
 4. Update `groupSize[1] = 2` (group size increases).
 5. Increase `groupEdges[1]` by 1.
 
-```java
+```
 parent = [1, 1, 2, 3, 4, 5]
 groupSize = [1, 2, 1, 1, 1, 1]
 groupEdges = [0, 1, 0, 0, 0, 0]
@@ -316,14 +316,14 @@ groupEdges = [0, 1, 0, 0, 0, 0]
 
 ---
 
-#### **Processing edge [0,2]**
+Processing edge [0,2]
 1. Find root of `0` → `root1 = 1`
 2. Find root of `2` → `root2 = 2`
-3. **Union:** Make `2` the parent of `1`.
+3. Union: Make `2` the parent of `1`.
 4. Update `groupSize[2] = 3`.
 5. Increase `groupEdges[2]` by 1.
 
-```java
+```
 parent = [1, 2, 2, 3, 4, 5]
 groupSize = [1, 2, 3, 1, 1, 1]
 groupEdges = [0, 1, 2, 0, 0, 0]
