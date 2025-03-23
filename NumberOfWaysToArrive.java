@@ -246,3 +246,10 @@ Conclusion
 - Time Complexity: \( O((V + E) \log V) \) (Efficient)
 - Space Complexity: \( O(V + E) \) (Optimal)
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 4ms runtime which is the lowest time in this problem
+*/
+
