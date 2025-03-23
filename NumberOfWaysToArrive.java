@@ -253,3 +253,242 @@ Conclusion
 This is the solution that takes only 4ms runtime which is the lowest time in this problem
 */
 
+
+class Pair{
+    int node;
+    long dist;
+    public Pair(int nd , long d){
+        node = nd;
+        dist = d;
+    }
+}
+class Solution {
+    public int countPaths(int n, int[][] roads) {
+       long[]weight = new long[n];
+       int[]ways = new int[n];
+
+       Arrays.fill(weight , Long.MAX_VALUE);
+
+        //    create adjancy list
+        ArrayList<ArrayList<Pair>>adj = new ArrayList<>();
+
+        for(int i=0; i<n; i++){
+            adj.add(new ArrayList<>());
+        }
+
+        for(int[]edgd : roads){
+            int src = edgd[0];
+            int dest = edgd[1];
+            long wgt = edgd[2];
+
+            adj.get(src).add(new Pair(dest , wgt));
+            adj.get(dest).add(new Pair(src , wgt));
+            
+        }
+
+        // create a que
+        PriorityQueue<Pair>que = new PriorityQueue<>((x , y)->Long.compare(x.dist , y.dist));
+        que.add(new Pair(0, 0));
+        weight[0]=0;
+        ways[0]=1;
+
+
+        int mod = (int)(Math.pow(10 , 9)+7);
+        
+        while(que.isEmpty() == false){
+            Pair temp = que.poll();
+
+
+            // traverse through all it's edges
+            for(Pair neighbour : adj.get(temp.node)){
+                long newDist = temp.dist + neighbour.dist;
+
+                
+                if(weight[neighbour.node] > newDist){
+                    
+                    weight[neighbour.node] = newDist;
+                    ways[neighbour.node] =  ways[temp.node];
+                    que.add(new Pair(neighbour.node  , newDist));
+
+                }else if(weight[neighbour.node] == newDist){
+                    ways[neighbour.node] =  (ways[neighbour.node] + ways[temp.node])%(mod);
+                }
+            }
+        }
+
+        return ways[n-1];
+    }
+}
+
+/*
+Visualization of the above code
+ Visualization of the Code Execution (Dijkstra's Algorithm for Path Counting)  
+
+This code solves the "Number of Ways to Arrive at Destination" problem using Dijkstra's algorithm with path counting.  
+
+---
+
+1️⃣ Understanding the Code Flow
+- Graph Representation: Uses an adjacency list.
+- Priority Queue (Min-Heap): Ensures nodes are processed in increasing order of distance.
+- `weight[]` Array: Stores the minimum time required to reach each node.
+- `ways[]` Array: Stores the number of shortest paths to each node.
+- Modulo Constraint: Used to prevent integer overflow in large cases.
+
+---
+
+2️⃣ Example Input
+```
+n = 7
+roads = [
+  [0,6,7], [0,1,2], [1,2,3], [1,3,3], [6,3,3],
+  [3,5,1], [6,5,1], [2,5,1], [0,4,5], [4,6,2]
+]
+```
+
+Graph Representation
+Each edge represents a road with a travel time:
+
+```
+    (0)
+   / |  \
+  /  |   \
+(1)  (4)  (6)
+  \  /  \  /
+   (2)   (3)
+      \  /
+      (5)
+```
+
+Edges:
+```
+0 --(7)--> 6
+0 --(2)--> 1
+0 --(5)--> 4
+1 --(3)--> 2
+1 --(3)--> 3
+6 --(3)--> 3
+3 --(1)--> 5
+6 --(1)--> 5
+2 --(1)--> 5
+4 --(2)--> 6
+```
+
+---
+
+3️⃣ Step-by-Step Execution
+Initialization
+- `weight[]`: Store shortest distances.  
+  → `weight = [0, ∞, ∞, ∞, ∞, ∞, ∞]`
+- `ways[]`: Store the number of ways to reach each node.  
+  → `ways = [1, 0, 0, 0, 0, 0, 0]`
+- Priority Queue:  
+  → `pq = [(0, 0)]` (Start from node `0` with `time = 0`)
+
+---
+
+Step 1: Process Node `0` (Start)
+`(0,0)` is dequeued from `pq`  
+- Neighbors:
+  - `0 → 6` (7 min) → `weight[6] = 7`, `ways[6] = 1`
+  - `0 → 1` (2 min) → `weight[1] = 2`, `ways[1] = 1`
+  - `0 → 4` (5 min) → `weight[4] = 5`, `ways[4] = 1`
+- Updated Arrays:
+  - `weight = [0, 2, ∞, ∞, 5, ∞, 7]`
+  - `ways = [1, 1, 0, 0, 1, 0, 1]`
+- Queue: `pq = [(2,1), (5,4), (7,6)]`
+
+---
+
+Step 2: Process Node `1`
+`(1,2)` is dequeued  
+- Neighbors:
+  - `1 → 2` (2+3 = 5 min) → `weight[2] = 5`, `ways[2] = 1`
+  - `1 → 3` (2+3 = 5 min) → `weight[3] = 5`, `ways[3] = 1`
+- Updated Arrays:
+  - `weight = [0, 2, 5, 5, 5, ∞, 7]`
+  - `ways = [1, 1, 1, 1, 1, 0, 1]`
+- Queue: `pq = [(5,4), (5,2), (5,3), (7,6)]`
+
+---
+
+Step 3: Process Node `4`
+`(4,5)` is dequeued  
+- Neighbors:
+  - `4 → 6` (5+2 = 7 min)  
+  - `weight[6] == 7` → `ways[6] += ways[4]`  
+  - `ways[6] = 1 + 1 = 2`
+- Updated Arrays:
+  - `weight = [0, 2, 5, 5, 5, ∞, 7]`
+  - `ways = [1, 1, 1, 1, 1, 0, 2]`
+- Queue: `pq = [(5,2), (5,3), (7,6)]`
+
+---
+
+Step 4: Process Node `2`
+`(2,5)` is dequeued  
+- Neighbors:
+  - `2 → 5` (5+1 = 6 min) → `weight[5] = 6`, `ways[5] = 1`
+- Updated Arrays:
+  - `weight = [0, 2, 5, 5, 5, 6, 7]`
+  - `ways = [1, 1, 1, 1, 1, 1, 2]`
+- Queue: `pq = [(5,3), (6,5), (7,6)]`
+
+---
+
+Step 5: Process Node `3`
+`(3,5)` is dequeued  
+- Neighbors:
+  - `3 → 5` (5+1 = 6 min)  
+  - `weight[5] == 6` → `ways[5] += ways[3]`  
+  - `ways[5] = 1 + 1 = 2`
+- Updated Arrays:
+  - `weight = [0, 2, 5, 5, 5, 6, 7]`
+  - `ways = [1, 1, 1, 1, 1, 2, 2]`
+- Queue: `pq = [(6,5), (7,6)]`
+
+---
+
+Step 6: Process Node `5`
+`(5,6)` is dequeued  
+- Neighbors:
+  - `5 → 6` (6+1 = 7 min)  
+  - `weight[6] == 7` → `ways[6] += ways[5]`  
+  - `ways[6] = 2 + 2 = 4`
+- Updated Arrays:
+  - `weight = [0, 2, 5, 5, 5, 6, 7]`
+  - `ways = [1, 1, 1, 1, 1, 2, 4]`
+- Queue: `pq = [(7,6)]`
+
+---
+
+Step 7: Process Node `6`
+`(6,7)` is dequeued  
+- All nodes processed! ✅
+
+---
+
+Final Answer
+The number of ways to reach node `n-1 (6)` in the shortest time is:  
+```
+Output: 4
+```
+✅ Paths:
+1. `0 → 6`
+2. `0 → 4 → 6`
+3. `0 → 1 → 2 → 5 → 6`
+4. `0 → 1 → 3 → 5 → 6`
+
+---
+
+4️⃣ Time Complexity Analysis
+- Dijkstra’s Algorithm Complexity:  
+  \( O((V + E) \log V) \)
+- Space Complexity:  
+  \( O(V + E) \)
+
+---
+
+✨ Conclusion
+🚀 This code efficiently finds the number of ways to reach the last node in minimum time using Dijkstra’s Algorithm + Path Counting.
+*/
