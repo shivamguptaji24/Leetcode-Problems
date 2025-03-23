@@ -89,3 +89,160 @@ class Solution {
     }
 }
 
+/*
+Visualization of the above code
+ Let's break down the execution of the Dijkstra’s Algorithm with Path Counting using an example and visualize each step.
+
+---
+
+Example Input
+```
+n = 7
+roads = [
+  [0,6,7], [0,1,2], [1,2,3], [1,3,3], [6,3,3],
+  [3,5,1], [6,5,1], [2,5,1], [0,4,5], [4,6,2]
+]
+```
+
+Graph Representation
+We first build an adjacency list representation of the graph:
+
+```
+    (0)
+   / |  \
+  /  |   \
+(1)  (4)  (6)
+  \  /  \  /
+   (2)   (3)
+      \  /
+      (5)
+```
+
+Each edge represents a road with a travel time:
+
+```
+0 --(7)--> 6
+0 --(2)--> 1
+0 --(5)--> 4
+1 --(3)--> 2
+1 --(3)--> 3
+6 --(3)--> 3
+3 --(1)--> 5
+6 --(1)--> 5
+2 --(1)--> 5
+4 --(2)--> 6
+```
+
+---
+
+Step-by-Step Execution of Dijkstra’s Algorithm
+Initialization
+- `dist[]`: Stores the shortest time to each intersection  
+  → `dist = [0, ∞, ∞, ∞, ∞, ∞, ∞]`  
+- `ways[]`: Stores the number of shortest paths to each node  
+  → `ways = [1, 0, 0, 0, 0, 0, 0]`  
+- Priority Queue (`pq`) → Min-heap to always process the node with the smallest time first.  
+  → `pq = [(0, 0)]` (Starting from node `0` with `time = 0`)
+
+---
+
+Step 1: Process Node 0
+- Current node = `0`, Time = `0`
+- Update its neighbors:
+  - `0 → 6` (7 min) → Update `dist[6] = 7`, `ways[6] = 1`
+  - `0 → 1` (2 min) → Update `dist[1] = 2`, `ways[1] = 1`
+  - `0 → 4` (5 min) → Update `dist[4] = 5`, `ways[4] = 1`
+- Updated Arrays:
+  - `dist = [0, 2, ∞, ∞, 5, ∞, 7]`
+  - `ways = [1, 1, 0, 0, 1, 0, 1]`
+- Priority Queue: `pq = [(2,1), (5,4), (7,6)]`
+
+---
+
+Step 2: Process Node 1
+- Current node = `1`, Time = `2`
+- Update its neighbors:
+  - `1 → 2` (2 + 3 = 5 min) → Update `dist[2] = 5`, `ways[2] = 1`
+  - `1 → 3` (2 + 3 = 5 min) → Update `dist[3] = 5`, `ways[3] = 1`
+- Updated Arrays:
+  - `dist = [0, 2, 5, 5, 5, ∞, 7]`
+  - `ways = [1, 1, 1, 1, 1, 0, 1]`
+- Priority Queue: `pq = [(5,4), (5,2), (5,3), (7,6)]`
+
+---
+
+Step 3: Process Node 4
+- Current node = `4`, Time = `5`
+- Update its neighbors:
+  - `4 → 6` (5 + 2 = 7 min)
+  - `dist[6] == 7` (same as before) → Increment `ways[6] += ways[4]`  
+  - `ways[6] = 1 + 1 = 2`
+- Updated Arrays:
+  - `dist = [0, 2, 5, 5, 5, ∞, 7]`
+  - `ways = [1, 1, 1, 1, 1, 0, 2]`
+- Priority Queue: `pq = [(5,2), (5,3), (7,6)]`
+
+---
+
+Step 4: Process Node 2
+- Current node = `2`, Time = `5`
+- Update its neighbor:
+  - `2 → 5` (5 + 1 = 6 min) → Update `dist[5] = 6`, `ways[5] = 1`
+- Updated Arrays:
+  - `dist = [0, 2, 5, 5, 5, 6, 7]`
+  - `ways = [1, 1, 1, 1, 1, 1, 2]`
+- Priority Queue: `pq = [(5,3), (6,5), (7,6)]`
+
+---
+
+Step 5: Process Node 3
+- Current node = `3`, Time = `5`
+- Update its neighbors:
+  - `3 → 5` (5 + 1 = 6 min)
+  - `dist[5] == 6` → Increment `ways[5] += ways[3]`
+  - `ways[5] = 1 + 1 = 2`
+- Updated Arrays:
+  - `dist = [0, 2, 5, 5, 5, 6, 7]`
+  - `ways = [1, 1, 1, 1, 1, 2, 2]`
+- Priority Queue: `pq = [(6,5), (7,6)]`
+
+---
+
+Step 6: Process Node 5
+- Current node = `5`, Time = `6`
+- Update its neighbor:
+  - `5 → 6` (6 + 1 = 7 min)
+  - `dist[6] == 7` → Increment `ways[6] += ways[5]`
+  - `ways[6] = 2 + 2 = 4`
+- Updated Arrays:
+  - `dist = [0, 2, 5, 5, 5, 6, 7]`
+  - `ways = [1, 1, 1, 1, 1, 2, 4]`
+- Priority Queue: `pq = [(7,6)]`
+
+---
+
+Step 7: Process Node 6
+- Current node = `6`, Time = `7`
+- All nodes processed! ✅
+
+---
+
+Final Answer
+The number of ways to reach node `6` in the shortest time is:  
+```
+Output: 4
+```
+✅ Paths:
+1. `0 → 6`
+2. `0 → 4 → 6`
+3. `0 → 1 → 2 → 5 → 6`
+4. `0 → 1 → 3 → 5 → 6`
+
+---
+
+Conclusion
+- Shortest travel time to node `n-1 (6)` = `7 min`
+- Total paths using shortest time = 4
+- Time Complexity: \( O((V + E) \log V) \) (Efficient)
+- Space Complexity: \( O(V + E) \) (Optimal)
+*/
