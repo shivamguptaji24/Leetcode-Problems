@@ -38,3 +38,54 @@ There is at most one road connecting any two intersections.
 You can reach any intersection from any other intersection.
 */
 
+class Solution {
+    public int countPaths(int n, int[][] roads) {
+        int MOD = 1_000_000_007;
+
+        // Step 1: Build the graph as an adjacency list
+        List<List<int[]>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) graph.add(new ArrayList<>());
+
+        for (int[] road : roads) {
+            int u = road[0], v = road[1], time = road[2];
+            graph.get(u).add(new int[]{v, time});
+            graph.get(v).add(new int[]{u, time});
+        }
+
+        // Step 2: Use Dijkstra's algorithm with path counting
+        long[] dist = new long[n];  // Shortest distance array
+        int[] ways = new int[n];    // Number of shortest paths array
+        Arrays.fill(dist, Long.MAX_VALUE);
+        dist[0] = 0;
+        ways[0] = 1; // One way to reach node 0
+
+        // Min-heap (priority queue) storing {time, node}
+        PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(a -> a[0]));
+        pq.add(new long[]{0, 0}); // {time, node}
+
+        while (!pq.isEmpty()) {
+            long[] top = pq.poll();
+            long time = top[0];
+            int node = (int) top[1];
+
+            // If we already processed this node with a smaller time, skip it
+            if (time > dist[node]) continue;
+
+            for (int[] neighbor : graph.get(node)) {
+                int next = neighbor[0];
+                long newTime = time + neighbor[1];
+
+                if (newTime < dist[next]) {
+                    dist[next] = newTime;
+                    ways[next] = ways[node]; // Reset ways to the new shortest path count
+                    pq.add(new long[]{newTime, next});
+                } else if (newTime == dist[next]) {
+                    ways[next] = (ways[next] + ways[node]) % MOD; // Add new ways
+                }
+            }
+        }
+
+        return ways[n - 1]; // Number of ways to reach destination in shortest time
+    }
+}
+
