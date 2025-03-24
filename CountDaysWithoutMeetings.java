@@ -69,3 +69,71 @@ class Solution {
     }
 }
 
+/*
+Visualization of the above code
+ Let's visualize the optimal approach step by step with an example.
+
+---
+
+Example
+Input:
+```
+days = 10
+meetings = [[5,7], [1,3], [9,10]]
+```
+
+---
+
+Step 1: Sorting the Meetings
+First, we sort the meetings based on the `start` day.
+
+| Before Sorting | After Sorting |
+|--------------------|------------------|
+| `[[5,7], [1,3], [9,10]]` | `[[1,3], [5,7], [9,10]]` |
+
+---
+
+Step 2: Processing Meetings and Tracking Occupied Days
+We initialize:
+- `prevEnd = 0` (Keeps track of the last occupied day)
+- `occupiedDays = 0` (Counts total occupied days)
+
+Processing Each Meeting
+| Meeting | Start (Max of prevEnd+1 and meeting start) | End | New Occupied Days | `occupiedDays` (Cumulative) | `prevEnd` (Updated) |
+|---------|----------------------------------------------|-----|------------------|----------------|----------------|
+| [1,3] | `max(0+1, 1) = 1` | `3` | `3 - 1 + 1 = 3` | `3` | `3` |
+| [5,7] | `max(3+1, 5) = 5` | `7` | `7 - 5 + 1 = 3` | `6` | `7` |
+| [9,10] | `max(7+1, 9) = 9` | `10` | `10 - 9 + 1 = 2` | `8` | `10` |
+
+---
+
+Step 3: Calculate Available Days
+```
+availableDays = days - occupiedDays
+```
+\[
+10 - 8 = 2
+\]
+
+Final Answer: `2` available days.
+
+---
+
+Visual Representation of Days
+
+We represent days from 1 to 10, marking meetings as `X` and available days as `_`:
+
+```
+1   2   3   4   5   6   7   8   9   10
+X   X   X   _   X   X   X   _   X   X
+```
+
+Available days: `4` and `8` ✅
+
+---
+
+Summary
+✔ Sorted the meetings to process them efficiently  
+✔ Tracked occupied days dynamically to avoid iterating over large `days` values  
+✔ Final count of available days is computed in `O(N log N)`  
+*/
