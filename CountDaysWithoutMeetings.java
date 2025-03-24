@@ -46,3 +46,26 @@ Constraints:
 meetings[i].length == 2
 1 <= meetings[i][0] <= meetings[i][1] <= days
 */
+
+class Solution {
+    public int countDays(int days, int[][] meetings) {
+        // Sort meetings by start time
+        Arrays.sort(meetings, (a, b) -> Integer.compare(a[0], b[0]));
+
+        int occupiedDays = 0;
+        int prevEnd = 0;
+
+        for(int[] meeting : meetings) {
+            int start = Math.max(prevEnd + 1, meeting[0]);  // Avoid counting overlap twice
+            int end = meeting[1];
+
+            if(start <= end) {  // If there are new occupied days
+                occupiedDays += (end - start + 1);
+                prevEnd = end;
+            }
+        }
+
+        return days - occupiedDays;
+    }
+}
+
