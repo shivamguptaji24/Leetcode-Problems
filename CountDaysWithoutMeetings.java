@@ -187,4 +187,116 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's walk through the code execution step by step with an example.
+
+---
+
+Example
+Input:
+```
+days = 10
+meetings = [[5,7], [1,3], [9,10]]
+```
+
+---
+
+Step 1: Initialize Variables
+- `freeDays = 10` (Total days initially)
+- `TreeMap<Integer, Integer> meetingDays = new TreeMap<>();`
+  - This will store merged meeting ranges (start → end).
+
+---
+
+Step 2: Processing Each Meeting
+We iterate over the `meetings` array one by one.
+
+---
+
+Processing Meeting [5,7]
+- `start = 5`, `end = 7`
+- Checking Overlapping Meetings
+  - Previous (`floorEntry`): None
+  - Next (`ceilingEntry`): None
+- No overlap → Add to TreeMap
+  ```
+  meetingDays.put(5, 7);
+  ```
+- Reduce free days:  
+  ```
+  freeDays -= (7 - 5 + 1) = 10 - 3 = 7
+  ```
+
+TreeMap after processing [5,7]
+```
+{ 5 → 7 }
+```
+
+---
+
+Processing Meeting [1,3]
+- `start = 1`, `end = 3`
+- Checking Overlapping Meetings
+  - Previous (`floorEntry`): None
+  - Next (`ceilingEntry`): None
+- No overlap → Add to TreeMap
+  ```
+  meetingDays.put(1, 3);
+  ```
+- Reduce free days:
+  ```
+  freeDays -= (3 - 1 + 1) = 7 - 3 = 4
+  ```
+
+TreeMap after processing [1,3]
+```
+{ 1 → 3, 5 → 7 }
+```
+
+---
+
+Processing Meeting [9,10]
+- `start = 9`, `end = 10`
+- Checking Overlapping Meetings
+  - Previous (`floorEntry`): None
+  - Next (`ceilingEntry`): None
+- No overlap → Add to TreeMap
+  ```
+  meetingDays.put(9, 10);
+  ```
+- Reduce free days:
+  ```
+  freeDays -= (10 - 9 + 1) = 4 - 2 = 2
+  ```
+
+TreeMap after processing [9,10]
+```
+{ 1 → 3, 5 → 7, 9 → 10 }
+```
+
+---
+
+Step 3: Return the Result
+```
+return freeDays; // 2
+```
+
+---
+
+Final Visualization of Days
+
+We represent days from 1 to 10, marking meetings as `X` and available days as `_`:
+
+```
+1   2   3   4   5   6   7   8   9   10
+X   X   X   _   X   X   X   _   X   X
+```
+✅ Available days: `4` and `8`  
+✅ Final Output: `2`
+
+---
+
+Summary
+✔ Uses a TreeMap to efficiently merge meeting intervals  
+✔ Tracks `freeDays` dynamically without iterating over all days  
+✔ Final count of available days is computed in `O(N log N)`  
+*/
