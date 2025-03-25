@@ -230,4 +230,92 @@ public class Solution {
 
 /*
 Visualization of the above code
- 
+ This solution efficiently determines whether two valid horizontal or vertical cuts can be made on an `m × m` grid, ensuring that:
+1. Each section has at least one rectangle.
+2. Each rectangle belongs to exactly one section.
+
+---
+🔹 Key Concepts Used
+- Bitwise Manipulation: The code encodes `start` and `end` values into a single `long` number using bit-shifting (`<< 32`) for efficient sorting.
+- Sorting & Interval Merging: Rectangles are sorted by their start values, and a sweep line approach is used to count sections.
+- Masking (`MASK = (1 << 30) - 1`) is used to extract the end value efficiently.
+
+---
+🔹 Step-by-Step Execution
+Example Input
+```
+m = 4
+rectangles = [[0,2,2,4],[1,0,3,2],[2,2,3,4],[3,0,4,2],[3,2,4,4]]
+```
+---
+
+🔸 Step 1: Encode Y-Intervals into `long` Values
+Each rectangle is encoded as:
+```
+(start_y, end_y) → ((long) start_y << 32) + end_y
+```
+| Rectangle  | `(start_y, end_y)` | Encoded Value |
+|------------|--------------------|--------------|
+| `[0,2,2,4]` | `(2,4)` | `(2 << 32) + 4 = 8589934596` |
+| `[1,0,3,2]` | `(0,2)` | `(0 << 32) + 2 = 2` |
+| `[2,2,3,4]` | `(2,4)` | `(2 << 32) + 4 = 8589934596` |
+| `[3,0,4,2]` | `(0,2)` | `(0 << 32) + 2 = 2` |
+| `[3,2,4,4]` | `(2,4)` | `(2 << 32) + 4 = 8589934596` |
+
+---
+🔸 Step 2: Sorting Y-Intervals
+After sorting:
+```
+[2, 2, 8589934596, 8589934596, 8589934596]
+```
+
+---
+🔸 Step 3: Validate Sections (`validate()` function)
+Logic: Count distinct sections where a new rectangle starts after a previous one ended.
+| Index | Encoded Value | Start (Extracted) | End (Extracted) | Cut Count |
+|--------|--------------|------------------|------------------|------------|
+| 0      | 2            | 0                | 2                | 1          |
+| 1      | 2            | 0                | 2                | 1 (Merged) |
+| 2      | 8589934596   | 2                | 4                | 2 (New) ✅ |
+| 3      | 8589934596   | 2                | 4                | 2 (Merged) |
+| 4      | 8589934596   | 2                | 4                | 2 (Merged) |
+
+Since we found two cuts, we return `true`.
+
+---
+🔸 Step 4: If Y-Cuts Fail, Repeat for X-Intervals
+If horizontal cuts fail, repeat the same steps with `x` coordinates:
+```
+(start_x, end_x) → ((long) start_x << 32) + end_x
+```
+This ensures that we also check vertical separations.
+
+---
+🔹 Visualization of the Grid
+```
+Grid: 4x4
+
+  4 ┌──────────┐
+  3 │  R1  R3  │
+  2 ├──┬───┬───┤
+  1 │R2 │   │R5│
+  0 ├──┴───┴───┤
+    0   1   2   3   4
+```
+✅ The algorithm finds two valid cuts and returns `true`.
+
+---
+🔹 Complexity Analysis
+- Encoding: `O(n)`
+- Sorting: `O(n log n)`
+- Sweep Line Counting: `O(n)`
+
+Total Complexity: `O(n log n)` (efficient for large inputs)
+
+---
+🔹 Summary
+✅ Optimized with Bit Manipulation  
+✅ Efficient Sorting & Interval Merging  
+✅ Handles Large Inputs (`10^5` Rectangles)  
+✅ Passes All Test Cases
+*/
