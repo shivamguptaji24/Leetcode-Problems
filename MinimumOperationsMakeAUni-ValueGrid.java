@@ -283,4 +283,134 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize and break down the execution of this Java code step by step. The goal is to transform the `grid` into a uni-value grid by adding or subtracting `x` the minimum number of times.
+
+---
+
+🔹 Understanding the Code Flow
+Given:
+- A `m x n` integer grid.
+- An integer `x`, which we can add or subtract from elements.
+
+🔹 Example Walkthrough
+Input:
+```
+grid = [[2,4],[6,8]], x = 2
+```
+
+Step 1️⃣: Initialize Variables
+```
+int m = grid.length, n = grid[0].length;
+int len = m * n;  // Total elements = 4
+if (len < 2) return 0;
+```
+✅ Total number of elements in the grid: `4`.
+
+Step 2️⃣: Feasibility Check & Count Frequency
+```
+int[] count = new int[10001]; // Frequency array
+int totalSum = 0;
+int r = grid[0][0] % x; // Check remainder mod x
+```
+- `count[]` is used to store the frequency of each number in the grid.
+- `r = 2 % 2 = 0`, which is used to check feasibility.
+
+Loop through grid:
+```
+for (int i = 0; i < m; ++i){
+    for (int j = 0; j < n; ++j){
+        int v = grid[i][j]; 
+        if (v % x != r) return -1; // If any remainder is different, return -1
+        count[v]++; // Store frequency
+    }
+}
+```
+✅ Frequency Table (count array)
+```
+count[2] = 1
+count[4] = 1
+count[6] = 1
+count[8] = 1
+```
+✅ Feasibility Check Passed! 🎉 (all elements % x == 0)
+
+---
+
+Step 3️⃣: Find the Median Efficiently
+The median minimizes the sum of absolute differences, so we need to find the median in the frequency array.
+```
+len = (len + 1) / 2; // Median position (1-based index)
+int total = 0, median = 0;
+```
+✅ Find the median:
+We iterate over the `count[]` array:
+```
+v = 2 → count[2] = 1 → total = 1
+v = 4 → count[4] = 1 → total = 2 (median found!)
+```
+So, median = 4.
+
+---
+
+Step 4️⃣: Compute Minimum Operations
+```
+int ans = 0;
+for(int v = 0; v <= median; ++v){
+    if(count[v] == 0) continue;
+    ans += count[v] * (median - v) / x;
+}
+for(int v = median + 1; v < count.length; ++v){
+    if(count[v] == 0) continue;
+    ans += count[v] * (v - median) / x;
+}
+```
+✅ Operations Calculation:
+```
+Convert 2 → 4: (4 - 2) / 2 = 1 op
+Convert 4 → 4: 0 ops
+Convert 6 → 4: (6 - 4) / 2 = 1 op
+Convert 8 → 4: (8 - 4) / 2 = 2 ops
+
+Total Operations = 1 + 0 + 1 + 2 = 4
+```
+Final Answer: ✅ `4`
+
+---
+
+🖼️ Visualization of Execution
+```
+Original Grid:
+2   4
+6   8
+
+Flattened Frequency Count:
+[2] → 1 occurrence
+[4] → 1 occurrence
+[6] → 1 occurrence
+[8] → 1 occurrence
+
+Feasibility Check:
+All elements % x = 0  ✅ Possible
+
+Finding Median:
+Median Value = 4
+
+Operations:
+2 → 4   (1 operation)
+4 → 4   (0 operations)
+6 → 4   (1 operation)
+8 → 4   (2 operations)
+
+Total Operations = 4
+```
+
+---
+
+🔹 Complexity Analysis
+- Checking feasibility: `O(m * n)`
+- Finding median: `O(10⁴)` (since count array has fixed size `10⁴`)
+- Computing operations: `O(10⁴)`
+
+Final Complexity: O(m * n)
+🚀 Optimal for large grids (up to 10⁵ elements).
+*/
