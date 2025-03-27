@@ -213,21 +213,20 @@ class Solution {
 
 /*
 Visualization of the above code
- ## **Visualization of the Code Execution**
-We will walk through the given Java code **step by step** with an example.
+ We will walk through the given Java code step by step with an example.
 
-### **Example 1**
-```java
+Example 1
+```
 Input: nums = [2,1,3,1,1,1,7,1,2,1]
 Output: 4
 ```
 
 ---
 
-### **Step 1: Find the Dominant Element using Boyer-Moore Voting Algorithm**
+Step 1: Find the Dominant Element using Boyer-Moore Voting Algorithm
 We use Boyer-Moore Voting to determine the dominant element in `nums`.
 
-#### **Tracking the candidate and count**
+Tracking the candidate and count
 | Index | Number | Current Candidate | Count |
 |--------|---------|------------------|-------|
 | 0      | 2       | 2                | 1     |
@@ -241,12 +240,12 @@ We use Boyer-Moore Voting to determine the dominant element in `nums`.
 | 8      | 2       | 1                | 1     |
 | 9      | 1       | 1                | 2     |
 
-- **Dominant Element Found:** `1`
+- Dominant Element Found: `1`
 
 ---
 
-### **Step 2: Count the Total Occurrences of the Dominant Element**
-```java
+Step 2: Count the Total Occurrences of the Dominant Element
+```
 int maxC=0;
 for(int i=0;i<n;i++){
     if(nums.get(i)==dominant){
@@ -258,7 +257,7 @@ for(int i=0;i<n;i++){
 
 ---
 
-### **Step 3: Find the Minimum Valid Split**
+Step 3: Find the Minimum Valid Split
 We iterate through `nums` and track the occurrences of the dominant element in both left and right parts.
 
 | Index | Left Subarray | Count of `1` in Left | Left Size | Condition `c * 2 > (i+1)` | Count of `1` in Right | Right Size | Condition `(maxC - c) * 2 > (n - i - 1)` | **Valid Split?** |
@@ -270,10 +269,10 @@ We iterate through `nums` and track the occurrences of the dominant element in b
 | 4      | `[2,1,3,1,1]`  | 3                   | 5          | ✅                         | 3                    | 5          | ✅                               | ✅ **(Valid Split at index 4)** |
 
 ---
-### **Final Answer**
-```java
+Final Answer
+```
 Output: 4
 ```
 ---
-✅ **Efficiently finds the minimum index for a valid split in `O(n)`.** 🚀
+✅ Efficiently finds the minimum index for a valid split in `O(n)`. 🚀
 */
