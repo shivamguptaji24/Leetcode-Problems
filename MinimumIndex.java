@@ -91,19 +91,17 @@ class Solution {
 
 /*
 Visualization of the above code
- ### **Visualization of the Code Execution**
+ We will walk through the Example 2 step by step:
 
-We will walk through the **Example 2** step by step:
-
-```java
+```
 Input: nums = [2,1,3,1,1,1,7,1,2,1]
 Output: 4
 ```
 
 ---
 
-### **Step 1: Find the Dominant Element**
-We use the **Boyer-Moore Voting Algorithm** to determine the dominant element.
+Step 1: Find the Dominant Element
+We use the Boyer-Moore Voting Algorithm to determine the dominant element.
 
 | Index | Number | Candidate | Count |
 |--------|---------|-------------|-------|
@@ -118,16 +116,16 @@ We use the **Boyer-Moore Voting Algorithm** to determine the dominant element.
 | 8      | 2       | 1           | 1     |
 | 9      | 1       | 1           | 2     |
 
-- The **dominant element** is `1`, since it remained as the candidate in the Boyer-Moore algorithm.
+- The dominant element is `1`, since it remained as the candidate in the Boyer-Moore algorithm.
 - We now count the total occurrences of `1` in `nums`.
 
-```java
+```
 Total occurrences of 1 = 6
 ```
 
 ---
 
-### **Step 2: Find the Minimum Valid Split**
+Step 2: Find the Minimum Valid Split
 We iterate through `nums` and track the count of `1` in both left and right parts.
 
 | Index | Subarray Left  | Count of `1` in Left | Left Size | Condition `count * 2 > leftSize` | Count of `1` in Right | Right Size | Condition `count * 2 > rightSize` |
@@ -136,34 +134,34 @@ We iterate through `nums` and track the count of `1` in both left and right part
 | 1      | `[2,1]`         | 1                  | 2          | ❌                              | 5                    | 8          | ✅                              |
 | 2      | `[2,1,3]`       | 1                  | 3          | ❌                              | 5                    | 7          | ✅                              |
 | 3      | `[2,1,3,1]`     | 2                  | 4          | ❌                              | 4                    | 6          | ✅                              |
-| 4      | `[2,1,3,1,1]`   | 3                  | 5          | ✅                              | 3                    | 5          | ✅                              | ✅ **Valid split found at index 4** ✅ |
+| 4      | `[2,1,3,1,1]`   | 3                  | 5          | ✅                              | 3                    | 5          | ✅                              | ✅ Valid split found at index 4 ✅ |
 
-Thus, **index `4` is the minimum valid split**.
+Thus, index `4` is the minimum valid split.
 
 ---
 
-### **Summary of Code Flow**
-1. **Find the dominant element using Boyer-Moore Algorithm.**  
+Summary of Code Flow
+1. Find the dominant element using Boyer-Moore Algorithm.  
    - Found `1` as the dominant element.
-2. **Count occurrences of dominant element.**  
+2. Count occurrences of dominant element.  
    - Found `1` appears `6` times.
-3. **Iterate through the array to find the minimum split index where the element remains dominant in both left and right subarrays.**  
-   - **Found valid split at index `4`**.
+3. Iterate through the array to find the minimum split index where the element remains dominant in both left and right subarrays.  
+   - Found valid split at index `4`.
 
 ---
 
-### **Complexity Breakdown**
-- **Finding dominant element** → `O(n)`
-- **Counting occurrences** → `O(n)`
-- **Finding the split index** → `O(n)`
+Complexity Breakdown
+- Finding dominant element → `O(n)`
+- Counting occurrences → `O(n)`
+- Finding the split index → `O(n)`
 
-**Total Time Complexity: `O(n)`**  
-**Space Complexity: `O(1)`**
+Total Time Complexity: `O(n)`  
+Space Complexity: `O(1)`
 
 ---
 
-### **Final Answer**
-```java
+Final Answer
+```
 Output: 4
 ```
 ---
