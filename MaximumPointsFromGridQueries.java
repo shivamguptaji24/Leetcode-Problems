@@ -33,3 +33,53 @@ k == queries.length
 1 <= grid[i][j], queries[i] <= 106
 */
 
+class Solution {
+    public int[] maxPoints(int[][] grid, int[] queries) {
+                int m = grid.length, n = grid[0].length;
+        int[] answer = new int[queries.length];
+        int[][] directions = {{0,1}, {1,0}, {0,-1}, {-1,0}};
+        
+        // Sort queries with their original indices
+        int[][] indexedQueries = new int[queries.length][2];
+        for (int i = 0; i < queries.length; i++) {
+            indexedQueries[i] = new int[]{queries[i], i};
+        }
+        Arrays.sort(indexedQueries, Comparator.comparingInt(a -> a[0]));
+        
+        // Min-Heap to process grid cells in increasing order of values
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        minHeap.offer(new int[]{grid[0][0], 0, 0});
+        
+        boolean[][] visited = new boolean[m][n];
+        visited[0][0] = true;
+        
+        int points = 0;
+        int index = 0;
+        
+        while (index < queries.length) {
+            int query = indexedQueries[index][0];
+            int queryIndex = indexedQueries[index][1];
+
+            // Expand cells that have a value < query
+            while (!minHeap.isEmpty() && minHeap.peek()[0] < query) {
+                int[] cell = minHeap.poll();
+                int value = cell[0], row = cell[1], col = cell[2];
+                points++; // A new cell is visited
+                
+                // Try moving in all 4 directions
+                for (int[] dir : directions) {
+                    int newRow = row + dir[0], newCol = col + dir[1];
+                    if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && !visited[newRow][newCol]) {
+                        visited[newRow][newCol] = true;
+                        minHeap.offer(new int[]{grid[newRow][newCol], newRow, newCol});
+                    }
+                }
+            }
+            
+            answer[queryIndex] = points; // Store the answer for this query
+            index++;
+        }
+        
+        return answer;
+    }
+}
