@@ -248,3 +248,9 @@ This approach avoids redundant checks and ensures optimal processing.
 
 ✅ Handles large inputs efficiently!
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 41ms runtime which is the lowest time in this problem
+*/
