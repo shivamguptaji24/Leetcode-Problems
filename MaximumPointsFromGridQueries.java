@@ -300,3 +300,123 @@ class Solution {
         return ans;
     }
 }
+
+/*
+Visualization of the above code
+ This code solves the problem using Breadth-First Search (BFS) with a priority queue (min-heap) to efficiently traverse the grid and determine how many points can be collected for each query. Let's go step by step to understand and visualize how it works.
+
+---
+
+Understanding the Approach
+1. Sorting Queries:  
+   - Queries are processed in ascending order to ensure that smaller queries are handled first.
+   
+2. BFS with a Min-Heap (`PriorityQueue`):  
+   - The search starts from the top-left corner `(0,0)`.
+   - Cells with values less than the query value are counted and marked as visited (`-1`).
+   - Higher value cells are stored in a priority queue and revisited later.
+
+3. Efficient Expansion:  
+   - If a cell is less than the query, explore its four neighbors recursively.
+   - If a cell is greater than or equal to the query, it is pushed into the priority queue for later expansion.
+
+---
+
+Example Walkthrough
+Input:
+```
+grid = [[1,2,3],
+        [2,5,7],
+        [3,5,1]]
+
+queries = [5,6,2]
+```
+
+---
+
+Step 1: Sorting Queries
+We sort `queries` in ascending order and keep track of their original indices:
+```
+Sorted Queries:
+[
+  (2, 2),  // query=2, original index=2
+  (5, 0),  // query=5, original index=0
+  (6, 1)   // query=6, original index=1
+]
+```
+
+---
+Step 2: Processing Queries Using BFS
+We now process queries in sorted order.
+
+Query = 2
+- Start BFS from (0,0)
+- Expand Cells with Value < 2:
+  - `grid[0][0] = 1` → Count +1, mark as visited (`-1`)
+  - Try to expand in 4 directions:
+    - Right: `grid[0][1] = 2` (≥ 2, push to priority queue)
+    - Down: `grid[1][0] = 2` (≥ 2, push to priority queue)
+- Heap State: `[(0,1,2), (1,0,2)]`
+- Answer for Query 2: `ans[2] = 1`
+
+```
+Updated Grid:
+[[-1, 2, 3],
+ [ 2, 5, 7],
+ [ 3, 5, 1]]
+```
+
+---
+
+Query = 5
+- Expand Cells with Value < 5:
+  - `grid[0][1] = 2` → Count +1, mark as visited
+  - `grid[1][0] = 2` → Count +1, mark as visited
+  - `grid[0][2] = 3` → Count +1, mark as visited
+  - `grid[2][0] = 3` → Count +1, mark as visited
+- Heap State: `[(1,1,5), (2,1,5), (1,2,7)]`
+- Answer for Query 5: `ans[0] = 5`
+
+```
+Updated Grid:
+[[-1, -1, -1],
+ [-1,  5, 7],
+ [-1,  5, 1]]
+```
+
+---
+
+Query = 6
+- Expand Cells with Value < 6:
+  - `grid[1][1] = 5` → Count +1, mark as visited
+  - `grid[2][1] = 5` → Count +1, mark as visited
+  - `grid[2][2] = 1` → Count +1, mark as visited
+- Heap State: `[(1,2,7)]`
+- Answer for Query 6: `ans[1] = 8`
+
+```
+Final Grid:
+[[-1, -1, -1],
+ [-1, -1,  7],
+ [-1, -1, -1]]
+```
+
+---
+
+Final Output
+```
+ans = [5, 8, 1]
+```
+
+---
+
+Key Observations
+1. Sorting queries first ensures efficient grid traversal.
+2. Priority queue (Min-Heap) keeps track of unexplored cells to optimize performance.
+3. Avoids redundant traversal by marking visited cells with `-1`.
+4. Time Complexity: \( O(mn \log(mn) + k \log k) \) ensures it runs efficiently even for large inputs.
+
+---
+
+✅ This approach is optimal for handling large grids efficiently! 🚀
+*/
