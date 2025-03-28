@@ -83,3 +83,168 @@ class Solution {
         return answer;
     }
 }
+
+/*
+Visualization of the above code
+ We will walk through the execution of the code with the given input example:
+
+---
+
+Input:
+```
+grid = [[1,2,3],
+        [2,5,7],
+        [3,5,1]]
+
+queries = [5,6,2]
+```
+
+---
+
+Step 1: Sorting Queries
+We sort the `queries` array while keeping track of their original indices:
+```
+Sorted Queries (with indices):
+[
+  (2, 2),  // query=2, original index=2
+  (5, 0),  // query=5, original index=0
+  (6, 1)   // query=6, original index=1
+]
+```
+Now we process them in order: `2 → 5 → 6`.
+
+---
+
+Step 2: Min-Heap Initialization
+We initialize a Min-Heap with the top-left cell `(0,0)` having value `1`:
+```
+Min-Heap: [(1,0,0)]  // (value, row, col)
+Visited Matrix:
+[
+  [✔,  ,  ],
+  [  ,  ,  ],
+  [  ,  ,  ]
+]
+Points Collected: 0
+```
+
+---
+
+Step 3: Processing Queries
+We process queries in sorted order.
+
+Query = 2
+We process all cells with values less than 2:
+1. Pop `(1,0,0)`: Value 1 < 2, so +1 point.
+2. Expand to adjacent cells:
+   - Push `(2,0,1)`
+   - Push `(2,1,0)`
+
+```
+Min-Heap: [(2,0,1), (2,1,0)]
+Visited Matrix:
+[
+  [✔, ✔,  ],
+  [✔,  ,  ],
+  [  ,  ,  ]
+]
+Points Collected: 1
+```
+Since all remaining heap values are ≥2, we stop.
+```
+Answer[2] = 1
+```
+
+---
+
+Query = 5
+We process all cells with values less than 5:
+1. Pop `(2,0,1)`: Value 2 < 5, +1 point.
+2. Expand to:
+   - Push `(3,0,2)`
+   - Push `(5,1,1)`
+
+3. Pop `(2,1,0)`: Value 2 < 5, +1 point.
+4. Expand to:
+   - Push `(3,2,0)`
+
+5. Pop `(3,0,2)`: Value 3 < 5, +1 point.
+6. Expand to:
+   - Push `(7,1,2)`
+
+7. Pop `(3,2,0)`: Value 3 < 5, +1 point.
+8. Expand to:
+   - Push `(5,2,1)`
+
+Heap Status:
+```
+Min-Heap: [(5,1,1), (5,2,1), (7,1,2)]
+Visited Matrix:
+[
+  [✔, ✔, ✔],
+  [✔, ✔, ✔],
+  [✔, ✔,  ]
+]
+Points Collected: 5
+```
+```
+Answer[0] = 5
+```
+
+---
+
+Query = 6
+We process all cells with values less than 6:
+1. Pop `(5,1,1)`: Value 5 < 6, +1 point.
+2. Expand to:
+   - Push `(5,2,1)`
+
+3. Pop `(5,2,1)`: Value 5 < 6, +1 point.
+4. Expand to:
+   - Push `(1,2,2)`
+
+5. Pop `(1,2,2)`: Value 1 < 6, +1 point.
+6. Expand to:
+   - Push `(7,1,2)`
+
+Heap Status:
+```
+Min-Heap: [(7,1,2)]
+Visited Matrix:
+[
+  [✔, ✔, ✔],
+  [✔, ✔, ✔],
+  [✔, ✔, ✔]
+]
+Points Collected: 8
+```
+```
+Answer[1] = 8
+```
+
+---
+
+Final Answer
+After processing all queries:
+```
+Output: [5,8,1]
+```
+
+---
+
+Visualization Summary
+1. Process queries in increasing order.
+2. Expand grid cells using a min-heap.
+3. Only count new cells that satisfy query conditions.
+
+This approach avoids redundant checks and ensures optimal processing.
+
+---
+
+🚀 Efficiency and Optimization
+- Sorting Queries: \(O(k \log k)\)
+- Heap Operations: \(O(mn \log(mn))\)
+- Total Complexity: \(O(mn \log(mn) + k \log k)\)
+
+✅ Handles large inputs efficiently!
+*/
