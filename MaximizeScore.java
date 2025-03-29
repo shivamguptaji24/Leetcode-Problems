@@ -224,3 +224,9 @@ Final Answer: 81
 
 This approach efficiently finds the best numbers to maximize the score while using at most `k` operations.
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 114ms runtime which is the lowest time in this problem
+*/
