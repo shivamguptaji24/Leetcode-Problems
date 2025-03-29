@@ -326,3 +326,113 @@ class Solution {
         return res;
     }
 }
+
+/*
+Visualization of the above code
+---
+
+Overview
+The problem is to maximize a score based on multiplications using a subset of elements from `nums`, while considering prime factors and subarray contributions.
+
+Steps Involved
+1. Compute Prime Scores  
+   - For each number in `nums`, compute the count of distinct prime factors.
+  
+2. Find Left & Right Boundaries  
+   - Determine the rightmost left index and leftmost right index where the prime score is greater or equal with a higher value.
+
+3. Compute Contribution as a Multiplier  
+   - Calculate the total subarrays where the element is the highest priority.
+   - Determine how many times it can be used as a multiplier.
+  
+4. Compute Final Score using Fast Exponentiation  
+   - Multiply the numbers based on their contribution, using modular exponentiation.
+
+---
+
+Example Walkthrough
+Input
+```
+nums = [8, 3, 9, 3, 8]
+k = 2
+```
+Step 1: Compute Prime Scores
+- Using a sieve method, the distinct prime factors of each number are:
+  - `8 = {2}` → Prime Score = 1
+  - `3 = {3}` → Prime Score = 1
+  - `9 = {3}` → Prime Score = 1
+  - `3 = {3}` → Prime Score = 1
+  - `8 = {2}` → Prime Score = 1
+
+- Prime Scores:
+```
+primeScores = [1, 1, 1, 1, 1]
+```
+
+Step 2: Find Next Greater Prime Score Indices
+- Left (`greaterThanLeft[]`): Find the rightmost index on the left with a higher prime score or equal score but greater value.
+- Right (`greaterThanRight[]`): Find the leftmost index on the right with a higher prime score.
+
+Since all prime scores are equal (1), we instead look for the greater values.
+
+```
+nums =            [8, 3, 9, 3, 8]
+index =           [0, 1, 2, 3, 4]
+primeScores =     [1, 1, 1, 1, 1]
+
+greaterThanLeft:  [-1, 0, -1, 2, 2]
+greaterThanRight: [2, 2, 5, 4, 5]
+```
+
+Step 3: Compute Contribution of Each Number
+For each `nums[i]`, compute how many subarrays exist where it is the highest scoring element.
+
+Using formula:
+\[
+\text{Total subarrays} = (r - l - 1) * (r - l) / 2
+\]
+\[
+\text{Valid subarrays} = \text{Total subarrays} - (\text{left-side subarrays}) - (\text{right-side subarrays})
+\]
+
+Example for `9` at index `2`:
+- `left[2] = -1`, `right[2] = 5`
+- `size = (5 - (-1) - 1) = 5`
+- `leftSize = (2 - (-1) - 1) = 2`
+- `rightSize = (5 - 2 - 1) = 2`
+- `subarrays = (5 * 6 / 2) - (2 * 3 / 2) - (2 * 3 / 2) = 15 - 3 - 3 = 9`
+
+Step 4: Multiply the Highest Contribution First
+Sort by value in descending order:
+```
+nums = [9, 8, 8, 3, 3]
+```
+Start with the largest `9`:
+\[
+res = 1 \times 9^2 = 81
+\]
+Since `k = 2` is exhausted, stop.
+
+---
+
+Final Output
+```
+Output = 81
+```
+
+---
+
+Visualization
+```
+nums = [ 8,  3,  9,  3,  8]
+index = [ 0,  1,  2,  3,  4]
+score = [ 1,  1,  1,  1,  1]
+
+Sorted by value:
+  Value 9 at index 2 is chosen first
+  Possible count = 9, but k = 2
+  Multiply by 9^2 → 81
+
+Final Answer: 81
+```
+*/
