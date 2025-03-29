@@ -118,3 +118,109 @@ class Solution {
         return (int) ans;
     }
 }
+
+/*
+Visualization of the above code
+ Let's break down and visualize the code step by step to understand its logic.
+
+---
+
+Overview of the Approach
+1. Calculate Prime Score  
+   - For each number in `nums`, compute its prime score (number of distinct prime factors).
+   - Store `(index, prime_score, value)` in `arr`.
+
+2. Find Next Greater Prime Score Indices  
+   - Using monotonic stacks, find the nearest index to the left (`left[i]`) and right (`right[i]`) where the prime score is greater.
+
+3. Sort by Value (Descending Order)  
+   - Sort elements by their value in descending order.
+   - The idea is to pick the largest possible value first.
+
+4. Select Elements to Maximize Score  
+   - Calculate the contribution of each element in possible subarrays.
+   - If its contribution (`cnt`) is within `k`, multiply the score by the element raised to `cnt` power.
+   - If `cnt` exceeds `k`, use only `k` operations and break.
+
+---
+
+Step-by-Step Execution with Example
+Input
+```
+nums = [8,3,9,3,8], k = 2
+```
+
+Step 1: Calculate Prime Scores
+- Prime score of each number:
+  - `8 = 2 * 2 * 2` → Distinct prime factors `{2}` → Score = 1
+  - `3 = 3` → Distinct prime factors `{3}` → Score = 1
+  - `9 = 3 * 3` → Distinct prime factors `{3}` → Score = 1
+  - `3 = 3` → Distinct prime factors `{3}` → Score = 1
+  - `8 = 2 * 2 * 2` → Distinct prime factors `{2}` → Score = 1
+
+- `arr` stores:
+  ```
+  arr = [
+      {0, 1, 8},
+      {1, 1, 3},
+      {2, 1, 9},
+      {3, 1, 3},
+      {4, 1, 8}
+  ]
+  ```
+
+Step 2: Compute `left[]` and `right[]` (Next Greater Prime Score Indices)
+Since all prime scores are 1, no greater values exist:
+```
+left  = [-1, -1, -1, -1, -1]
+right = [5, 5, 5, 5, 5]
+```
+
+Step 3: Sort by Value (Descending)
+```
+arr = [
+    {2, 1, 9},
+    {0, 1, 8},
+    {4, 1, 8},
+    {1, 1, 3},
+    {3, 1, 3}
+]
+```
+Sorted by value in descending order.
+
+Step 4: Compute Contribution and Multiply Score
+1. Choose `9` at index `2`  
+   - `left[2] = -1`, `right[2] = 5`
+   - `cnt = (2 - (-1)) * (5 - 2) = 3 * 3 = 9`  
+   - `9 > k`, so use `k=2` operations:
+   - Multiply score:  
+     \[
+     ans = 1 \times 9^2 = 81
+     \]
+   - `k = 0`, so stop.
+
+---
+
+Final Output
+```
+Output = 81
+```
+
+---
+
+Visualization
+```
+nums = [ 8,  3,  9,  3,  8]
+index = [ 0,  1,  2,  3,  4]
+score = [ 1,  1,  1,  1,  1]
+
+Sorted by value:
+  Value 9 at index 2 is chosen first
+  Possible count = 9, but k = 2
+  Multiply by 9^2 → 81
+
+Final Answer: 81
+```
+
+This approach efficiently finds the best numbers to maximize the score while using at most `k` operations.
+*/
