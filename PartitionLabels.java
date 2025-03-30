@@ -26,3 +26,27 @@ Constraints:
 1 <= s.length <= 500
 s consists of lowercase English letters.
 */
+
+class Solution {
+    public List<Integer> partitionLabels(String s) {
+        List<Integer> result = new ArrayList<>();
+        int[] lastIndex = new int[26];  // Stores the last index of each character
+
+        // Step 1: Store the last occurrence of each character
+        for (int i = 0; i < s.length(); i++) {
+            lastIndex[s.charAt(i) - 'a'] = i;
+        }
+
+        // Step 2: Traverse the string and form partitions
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            end = Math.max(end, lastIndex[s.charAt(i) - 'a']); // Update end to the farthest occurrence of any character in the current partition
+            if (i == end) { // If current index reaches the end, partition ends
+                result.add(end - start + 1);
+                start = i + 1;
+            }
+        }
+
+        return result;
+    }
+}
