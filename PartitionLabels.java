@@ -50,3 +50,84 @@ class Solution {
         return result;
     }
 }
+
+/*
+Visualization of the above code
+ Let's take the first example:  
+Input: `"ababcbacadefegdehijhklij"`
+
+---
+
+Step 1: Compute Last Occurrence of Each Character
+We traverse the string and store the **last index** where each character appears.
+
+| Character | Last Occurrence |
+|-----------|----------------|
+| a         | 8              |
+| b         | 5              |
+| c         | 7              |
+| d         | 14             |
+| e         | 15             |
+| f         | 11             |
+| g         | 13             |
+| h         | 19             |
+| i         | 22             |
+| j         | 23             |
+| k         | 20             |
+| l         | 21             |
+
+---
+
+Step 2: Traverse the String and Form Partitions
+We maintain two pointers:  
+- `start`: Beginning of the current partition  
+- `end`: Farthest index we must reach for the current partition
+
+Traversal Steps
+| Index | Character | Last Occurrence | Current `end` | Action |
+|--------|------------|----------------|--------------|--------|
+| 0      | a          | 8              | 8            | Continue |
+| 1      | b          | 5              | 8            | Continue |
+| 2      | a          | 8              | 8            | Continue |
+| 3      | b          | 5              | 8            | Continue |
+| 4      | c          | 7              | 8            | Continue |
+| 5      | b          | 5              | 8            | Continue |
+| 6      | a          | 8              | 8            | Continue |
+| 7      | c          | 7              | 8            | Continue |
+| 8      | a          | 8              | 8 (Reached)  | Partition ends, add size = 9 |
+| 9      | d          | 14             | 14           | Continue |
+| 10     | e          | 15             | 15           | Continue |
+| 11     | f          | 11             | 15           | Continue |
+| 12     | e          | 15             | 15           | Continue |
+| 13     | g          | 13             | 15           | Continue |
+| 14     | d          | 14             | 15           | Continue |
+| 15     | e          | 15             | 15 (Reached) | Partition ends, add size = 7 |
+| 16     | h          | 19             | 19           | Continue |
+| 17     | i          | 22             | 22           | Continue |
+| 18     | j          | 23             | 23           | Continue |
+| 19     | h          | 19             | 23           | Continue |
+| 20     | k          | 20             | 23           | Continue |
+| 21     | l          | 21             | 23           | Continue |
+| 22     | i          | 22             | 23           | Continue |
+| 23     | j          | 23             | 23 (Reached) | Partition ends, add size = 8 |
+
+---
+
+Final Output
+```
+[9, 7, 8]
+```
+Partitions:
+1. `"ababcbaca"` → Length 9
+2. `"defegde"` → Length 7
+3. `"hijhklij"` → Length 8
+
+---
+
+Visual Representation
+```
+s = "ababcbacadefegdehijhklij"
+     |---------| |-------| |--------|
+        (9)        (7)       (8)
+```
+*/
