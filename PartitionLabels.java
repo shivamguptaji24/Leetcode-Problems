@@ -166,3 +166,81 @@ class Solution {
         return m;
     }
 }
+
+/*
+Visualization of the above code
+ Example Input:  
+```
+s = "ababcbacadefegdehijhklij"
+```
+
+---
+
+Step 1: Compute Last Occurrence of Each Character
+The first loop stores the **last index** where each character appears.
+
+| Character | Last Occurrence |
+|-----------|----------------|
+| a         | 8              |
+| b         | 5              |
+| c         | 7              |
+| d         | 14             |
+| e         | 15             |
+| f         | 11             |
+| g         | 13             |
+| h         | 19             |
+| i         | 22             |
+| j         | 23             |
+| k         | 20             |
+| l         | 21             |
+
+Last Occurrence Array (Indexed by 'a' to 'z'):
+```
+[a:8, b:5, c:7, d:14, e:15, f:11, g:13, h:19, i:22, j:23, k:20, l:21, ...]
+```
+
+---
+
+Step 2: Partitioning the String
+Now we iterate through the string and form partitions.
+
+Iteration Details
+1. Start from index 0 ('a')
+   - `getMax(s, lastOccurrence, 0)` finds the farthest index where any character within the partition appears again.
+   - The partition expands until index 8 (last occurrence of 'a').
+
+   Partition: `"ababcbaca"` → Size = 9  
+   Next Start Index = 9
+
+2. Start from index 9 ('d')
+   - `getMax(s, lastOccurrence, 9)` finds index 15 (last occurrence of 'e').
+
+   Partition: `"defegde"` → Size = 7  
+   Next Start Index = 16
+
+3. Start from index 16 ('h')
+   - `getMax(s, lastOccurrence, 16)` finds index 23 (last occurrence of 'j').
+
+   Partition: `"hijhklij"` → Size = 8  
+   End of string reached
+
+---
+
+Final Output
+```
+[9, 7, 8]
+```
+Partitions:
+1. `"ababcbaca"` → Length 9
+2. `"defegde"` → Length 7
+3. `"hijhklij"` → Length 8
+
+---
+
+Visual Representation
+```
+s = "ababcbacadefegdehijhklij"
+     |---------| |-------| |--------|
+        (9)        (7)       (8)
+```
+*/
