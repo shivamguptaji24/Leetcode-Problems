@@ -145,3 +145,157 @@ Key Takeaways
 2. The difference between the sum of the k-1 largest and smallest cuts gives the answer.
 3. Time Complexity → `O(n log n)` due to sorting.
 */
+
+/*-----------------OR-----------------*/
+
+class Solution {
+    public long putMarbles(int[] weights, int k) {
+        int n = weights.length;
+        if (k == 1) return 0; // Only one bag, so no difference
+
+        // Step 1: Compute pairwise sums (costs of potential cuts)
+        int[] pairSums = new int[n - 1];
+        for (int i = 0; i < n - 1; i++) {
+            pairSums[i] = weights[i] + weights[i + 1];
+        }
+
+        // Step 2: Sort the pairwise sums
+        Arrays.sort(pairSums);
+
+        // Step 3: Compute min and max scores using long
+        long minScore = 0, maxScore = 0;
+        for (int i = 0; i < k - 1; i++) {
+            minScore += pairSums[i];                   // Take smallest k-1 splits
+            maxScore += pairSums[n - 2 - i];           // Take largest k-1 splits
+        }
+
+        return maxScore - minScore; // Difference between max and min scores
+    }
+}
+
+/*
+Visualization of the above code
+ Let's visualize the execution of this code step by step to understand how it calculates the difference between the maximum and minimum scores.
+
+---
+
+Example 1
+Input:
+```
+weights = [1, 3, 5, 1], k = 2
+```
+
+---
+Step 1: Compute Pairwise Sums
+We compute the sum of consecutive elements:
+```
+pairSums[i] = weights[i] + weights[i + 1]
+```
+
+| Index | Computation          | Value |
+|--------|----------------------|--------|
+| 0      | `1 + 3`  | `4` |
+| 1      | `3 + 5`  | `8` |
+| 2      | `5 + 1`  | `6` |
+
+So, the pairSums array is:
+```
+pairSums = [4, 8, 6]
+```
+
+---
+Step 2: Sort the `pairSums` array
+After sorting:
+```
+pairSums = [4, 6, 8]
+```
+
+---
+Step 3: Compute Min and Max Scores
+We select (k-1) = 1 elements from both ends:
+
+- Minimum Score:
+  - Take the smallest element (`pairSums[0] = 4`)
+  - `minScore = 4`
+
+- Maximum Score:
+  - Take the largest element (`pairSums[2] = 8`)
+  - `maxScore = 8`
+
+---
+Step 4: Compute Final Result
+```
+result = maxScore - minScore = 8 - 4 = 4
+```
+
+---
+Final Output:
+```
+Output: 4
+```
+
+---
+
+Example 2
+Input:
+```
+weights = [1, 3], k = 2
+```
+
+---
+Step 1: Compute Pairwise Sums
+Only one pair exists:
+```
+pairSums = [1 + 3] = [4]
+```
+
+---
+Step 2: Sort the `pairSums` array
+```
+pairSums = [4]
+```
+(Since there's only one element, sorting has no effect.)
+
+---
+Step 3: Compute Min and Max Scores
+We select (k-1) = 1 elements:
+- Minimum Score: `pairSums[0] = 4`
+- Maximum Score: `pairSums[0] = 4`
+
+---
+Step 4: Compute Final Result
+```
+result = maxScore - minScore = 4 - 4 = 0
+```
+
+---
+Final Output:
+```
+Output: 0
+```
+
+---
+
+Graphical Representation
+Imagine the numbers as marbles placed in a line. The cuts define groups of marbles.  
+
+Example 1 (`weights = [1, 3, 5, 1]`)
+Before sorting:
+```
+(1,3)   (3,5)   (5,1)
+   4       8       6
+```
+After sorting:
+```
+   4       6       8
+```
+- Min Score: Take smallest (`4`)
+- Max Score: Take largest (`8`)
+- Result: `8 - 4 = 4`
+
+---
+Key Observations
+✅ Sorting helps extract the largest and smallest cuts efficiently.  
+✅ Time Complexity: `O(n log n)` (due to sorting).  
+✅ Space Complexity: `O(n)`.  
+*/
