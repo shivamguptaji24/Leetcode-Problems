@@ -58,3 +58,90 @@ class Solution {
     return mx - mn;
   }
 }
+
+/*
+Visualization of the above code
+ Let's visualize the execution of this code step by step for better understanding.  
+
+---
+
+Example 1  
+Input:  
+```
+weights = [1, 3, 5, 1], k = 2
+```
+---
+Step 1: Compute Pair Sums
+The array `arr` stores the sum of consecutive elements:  
+```
+arr[i] = weights[i] + weights[i+1]
+```
+- `arr[0] = 1 + 3 = 4`
+- `arr[1] = 3 + 5 = 8`
+- `arr[2] = 5 + 1 = 6`
+
+So, arr = [4, 8, 6]  
+
+---
+Step 2: Sorting `arr`
+After sorting:
+```
+arr = [4, 6, 8]
+```
+---
+Step 3: Compute min and max scores  
+Since `k = 2`, we need to pick (k-1) = 1 element from both ends:
+- `mn = arr[0] = 4`
+- `mx = arr[2] = 8`
+
+---
+Step 4: Compute Result  
+```
+mx - mn = 8 - 4 = 4
+```
+---
+Final Output:
+```
+Output: 4
+```
+
+---
+
+Another Example
+Input:
+```
+weights = [1, 3], k = 2
+```
+---
+Step 1: Compute Pair Sums
+- `arr[0] = 1 + 3 = 4`
+  - arr = [4]  
+
+---
+Step 2: Sorting `arr`
+Since there's only one element, sorting doesn't change `arr = [4]`.  
+
+---
+Step 3: Compute min and max scores  
+Since `k = 2`, we need to pick (k-1) = 1 element:
+- `mn = arr[0] = 4`
+- `mx = arr[0] = 4`
+
+---
+Step 4: Compute Result  
+```
+mx - mn = 4 - 4 = 0
+```
+---
+Final Output:
+```
+Output: 0
+```
+
+---
+
+Key Takeaways
+1. Sorting is used to extract the (k-1) smallest and largest sums efficiently.
+2. The difference between the sum of the k-1 largest and smallest cuts gives the answer.
+3. Time Complexity → `O(n log n)` due to sorting.
+*/
