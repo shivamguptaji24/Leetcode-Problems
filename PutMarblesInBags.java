@@ -328,3 +328,143 @@ class Solution {
         return answer;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize the execution of this `putMarbles` method step by step.
+
+---
+
+Understanding the Code
+This method finds the difference between the maximum and minimum possible scores when dividing an array `weights` into `k` bags while following specific partition rules.
+
+Key Observations
+1. Pairs Formation  
+   - The sum of adjacent elements (`weights[i] + weights[i + 1]`) forms an array `pairWeights`.  
+   - This array represents possible "cut points" in the distribution of marbles.
+
+2. Sorting Strategy  
+   - Sorting `pairWeights` helps find:
+     - The k-1 smallest sums → Contribute to the minimum score.
+     - The k-1 largest sums → Contribute to the maximum score.
+
+3. Final Computation  
+   - We compute the difference between the sum of the (k-1) largest values and the (k-1) smallest values.
+
+---
+
+Step-by-Step Execution
+Example 1
+Input:
+```
+weights = [1, 3, 5, 1], k = 2
+```
+
+Step 1: Compute Pair Weights
+We create an array containing adjacent sums:
+
+| Index | Computation  | Value |
+|--------|------------|--------|
+| `0`    | `1 + 3`    | `4` |
+| `1`    | `3 + 5`    | `8` |
+| `2`    | `5 + 1`    | `6` |
+
+So, we get:
+```
+pairWeights = [4, 8, 6]
+```
+
+---
+
+Step 2: Sort the Pair Weights
+Sorting the `pairWeights` array:
+```
+pairWeights = [4, 6, 8]
+```
+
+---
+
+Step 3: Compute the Difference Between Maximum and Minimum Scores
+Since `k = 2`, we need `k-1 = 1` elements from both ends:
+
+- Minimum score: `pairWeights[0] = 4`
+- Maximum score: `pairWeights[2] = 8`
+
+We compute the difference:
+```
+answer = maxSum - minSum = 8 - 4 = 4
+```
+
+---
+
+Final Output:
+```
+Output: 4
+```
+
+---
+
+Example 2
+Input:
+```
+weights = [1, 3], k = 2
+```
+
+Step 1: Compute Pair Weights
+Only one pair exists:
+```
+pairWeights = [1 + 3] = [4]
+```
+
+Step 2: Sort the Pair Weights
+Since there's only one element, sorting has no effect:
+```
+pairWeights = [4]
+```
+
+Step 3: Compute the Difference Between Maximum and Minimum Scores
+We need `k-1 = 1` values:
+- Minimum Score: `pairWeights[0] = 4`
+- Maximum Score: `pairWeights[0] = 4`
+
+Difference:
+```
+answer = 4 - 4 = 0
+```
+
+---
+
+Final Output:
+```
+Output: 0
+```
+
+---
+
+Graphical Representation
+Example 1 (`weights = [1, 3, 5, 1]`)
+```
+Before sorting:  (1,3)   (3,5)   (5,1)
+                   4       8       6
+After sorting:    4       6       8
+```
+- Min Score: Take smallest (`4`)
+- Max Score: Take largest (`8`)
+- Result: `8 - 4 = 4`
+
+---
+
+Time and Space Complexity Analysis
+- Sorting step: `O(n log n)`
+- Pairwise sum computation: `O(n)`
+- Final computation (loop over `k-1` elements): `O(k)`
+
+Thus, the overall complexity is `O(n log n)` due to sorting.
+
+---
+
+Key Takeaways
+✅ Sorting simplifies the problem  
+✅ Extracting min and max k-1 sums is efficient  
+✅ Time complexity is optimal for large inputs (`n ≤ 10^5`)
+*/
