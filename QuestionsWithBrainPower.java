@@ -214,3 +214,6 @@ class Solution {
         return dp[0];
     }
 }
+
+/*
+Visualization of the above code
