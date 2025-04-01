@@ -57,3 +57,121 @@ class Solution {
         return dp[0]; // Maximum points from question 0
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize how the bottom-up DP approach works for the problem step by step.
+
+---
+
+Example 1
+Input:
+```
+questions = [[3,2], [4,3], [4,4], [2,5]]
+```
+Each question is represented as [points, brainpower]:
+- Question 0 → `3 points, skip 2`
+- Question 1 → `4 points, skip 3`
+- Question 2 → `4 points, skip 4`
+- Question 3 → `2 points, skip 5`
+
+---
+
+Step-by-Step DP Calculation
+We initialize:
+```
+long[] dp = new long[n + 1];
+```
+This means `dp[i]` stores the maximum points we can collect from index `i` to the end.
+
+We iterate backward (`i = n - 1` to `0`).
+
+---
+
+Step 1: Start from the Last Question
+Processing `i = 3` (Question `[2, 5]`)
+- Skip it → `dp[3] = dp[4] = 0`
+- Solve it → `dp[3] = points[3] + dp[9] = 2 + 0 = 2`
+- Best Choice: `dp[3] = 2`
+  
+```
+dp = [0, 0, 0, 2, 0]
+```
+
+---
+
+Step 2: Processing `i = 2` (Question `[4, 4]`)
+- Skip it → `dp[2] = dp[3] = 2`
+- Solve it → `dp[2] = 4 + dp[7] = 4 + 0 = 4`
+- Best Choice: `dp[2] = 4`
+
+```
+dp = [0, 0, 4, 2, 0]
+```
+
+---
+
+Step 3: Processing `i = 1` (Question `[4, 3]`)
+- Skip it → `dp[1] = dp[2] = 4`
+- Solve it → `dp[1] = 4 + dp[5] = 4 + 0 = 4`
+- Best Choice: `dp[1] = 4`
+
+```
+dp = [0, 4, 4, 2, 0]
+```
+
+---
+
+Step 4: Processing `i = 0` (Question `[3, 2]`)
+- Skip it → `dp[0] = dp[1] = 4`
+- Solve it → `dp[0] = 3 + dp[3] = 3 + 2 = 5`
+- Best Choice: `dp[0] = 5`
+
+```
+dp = [5, 4, 4, 2, 0]
+```
+
+---
+
+Final Answer
+```
+return dp[0];  // Output: 5
+```
+✅ Maximum points: 5 (Solving question 0 and 3)
+
+---
+
+Example 2
+Input:
+```
+questions = [[1,1],[2,2],[3,3],[4,4],[5,5]]
+```
+
+Step-by-Step DP Calculation
+Starting from the last index:
+
+| `i` | Question | Solve (points + next valid dp) | Skip (dp[i+1]) | `dp[i]` |
+|----|------------|----------------|----------------|-------|
+| 4  | `[5,5]`    | `5 + dp[10] = 5` | `0` | 5 |
+| 3  | `[4,4]`    | `4 + dp[8] = 4`  | `5` | 5 |
+| 2  | `[3,3]`    | `3 + dp[6] = 3`  | `5` | 5 |
+| 1  | `[2,2]`    | `2 + dp[4] = 2+5=7`  | `5` | 7 |
+| 0  | `[1,1]`    | `1 + dp[2] = 1+5=6`  | `7` | 7 |
+
+Final `dp` array:
+```
+dp = [7, 7, 5, 5, 5, 0]
+```
+```
+return dp[0];  // Output: 7
+```
+✅ Maximum points: 7 (Solving question 1 and 4)
+
+---
+
+Final Thoughts
+Key Observations
+1. Work backwards: Each `dp[i]` depends on `dp[i+1]` and `dp[i+brainpower+1]`.
+2. Two choices: Either skip the question or solve it and jump.
+3. Efficient: O(n) time, O(n) space (or O(1) space if optimized).
+*/
