@@ -32,3 +32,80 @@ Constraints:
 3 <= nums.length <= 100
 1 <= nums[i] <= 106
 */
+
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        long maxValue = 0; // Store maximum triplet value
+
+        // Iterate over all triplets (i, j, k) where i < j < k
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    long tripletValue = (long) (nums[i] - nums[j]) * nums[k];
+                    maxValue = Math.max(maxValue, tripletValue);
+                }
+            }
+        }
+
+        return maxValue;
+    }
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 1ms runtime which is the second lowest time in this problem
+*/
+
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        long maxVal = 0;
+
+        // Prefix max stores max nums[i] for i < j
+        int prefixMax = nums[0];
+
+        // Stores the maximum (nums[i] - nums[j]) value seen so far
+        long maxDiff = Long.MIN_VALUE;
+
+        // Iterate from j = 1 to n - 2, tracking maxDiff
+        for (int j = 1; j < n - 1; j++) {
+            maxDiff = Math.max(maxDiff, (long) prefixMax - nums[j]);
+            prefixMax = Math.max(prefixMax, nums[j]); // Update prefix max
+            
+            // Find max k > j in one pass
+            int maxK = Integer.MIN_VALUE;
+            for (int k = j + 1; k < n; k++) {
+                maxK = Math.max(maxK, nums[k]);
+            }
+
+            // Update result if maxDiff is valid
+            if (maxDiff != Long.MIN_VALUE) {
+                maxVal = Math.max(maxVal, maxDiff * maxK);
+            }
+        }
+
+        return maxVal;
+    }
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 0ms runtime which is the lowest time in this problem
+*/
+
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        long res = 0;
+        int imax = 0, dmax = 0;
+        for (int num: nums) {
+            res = Math.max(res, (long) dmax * num);
+            dmax = Math.max(dmax, imax - num);
+            imax = Math.max(imax, num);
+        }
+        return res;
+    }
+}
