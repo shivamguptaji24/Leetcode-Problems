@@ -77,9 +77,9 @@ Initialization
 Loop through `j`
 | `j` | `nums[j]` | `maxLeft` (so far) | `maxDiff = max(maxDiff, maxLeft - nums[j])` | `maxValue = max(maxValue, maxDiff * nums[j+1])` |
 |----|------|------|------|------|
-| **1** | 6 | 12 | `max(-∞, 12 - 6) = 6` | `max(0, 6 * 1) = 6` |
-| **2** | 1 | 12 | `max(6, 12 - 1) = 11` | `max(6, 11 * 2) = 22` |
-| **3** | 2 | 12 | `max(11, 12 - 2) = 10` | `max(22, 10 * 7) = 77` |
+| 1 | 6 | 12 | `max(-∞, 12 - 6) = 6` | `max(0, 6 * 1) = 6` |
+| 2 | 1 | 12 | `max(6, 12 - 1) = 11` | `max(6, 11 * 2) = 22` |
+| 3 | 2 | 12 | `max(11, 12 - 2) = 10` | `max(22, 10 * 7) = 77` |
 
 Final Answer
 - The maximum triplet value is `77`.
@@ -140,3 +140,82 @@ class Solution {
         return maxProduct>0?maxProduct:0;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize the execution of your optimized `O(n)` solution for the problem.
+
+---
+
+Understanding the Code Execution
+Key Variables:
+1. `maxProduct` → Stores the maximum triplet value found so far.
+2. `maxDiff` → Stores the maximum value of (nums[i] - nums[j]) seen so far.
+3. `maxNum` → Stores the maximum value seen so far (`nums[i]`).
+
+Main Logic:
+- Iterate through `nums`:
+  1. Update `maxProduct`: `maxProduct = max(maxProduct, maxDiff * num)`
+  2. Update `maxNum`: `maxNum = max(maxNum, num)` (stores max seen so far)
+  3. Update `maxDiff`: `maxDiff = max(maxDiff, maxNum - num)`
+
+---
+
+Example Input: `nums = [12,6,1,2,7]`
+Step-by-Step Execution
+| `num` | `maxNum` (Max seen so far) | `maxDiff = max(maxDiff, maxNum - num)` | `maxProduct = max(maxProduct, maxDiff * num)` |
+|----|------|------|------|
+| 12 | 12 | `max(0, 12 - 12) = 0` | `max(0, 0 * 12) = 0` |
+| 6 | 12 | `max(0, 12 - 6) = 6` | `max(0, 6 * 6) = 36` |
+| 1 | 12 | `max(6, 12 - 1) = 11` | `max(36, 11 * 1) = 36` |
+| 2 | 12 | `max(11, 12 - 2) = 11` | `max(36, 11 * 2) = 36` |
+| 7 | 12 | `max(11, 12 - 7) = 11` | `max(36, 11 * 7) = 77` |
+
+---
+
+Final Answer
+- The maximum triplet value is `77`.
+
+---
+
+Visualization
+```
+Iteration 1: num = 12
+    maxNum = max(0, 12) = 12
+    maxDiff = max(0, 12 - 12) = 0
+    maxProduct = max(0, 0 * 12) = 0
+
+Iteration 2: num = 6
+    maxNum = max(12, 6) = 12
+    maxDiff = max(0, 12 - 6) = 6
+    maxProduct = max(0, 6 * 6) = 36
+
+Iteration 3: num = 1
+    maxNum = max(12, 1) = 12
+    maxDiff = max(6, 12 - 1) = 11
+    maxProduct = max(36, 11 * 1) = 36
+
+Iteration 4: num = 2
+    maxNum = max(12, 2) = 12
+    maxDiff = max(11, 12 - 2) = 11
+    maxProduct = max(36, 11 * 2) = 36
+
+Iteration 5: num = 7
+    maxNum = max(12, 7) = 12
+    maxDiff = max(11, 12 - 7) = 11
+    maxProduct = max(36, 11 * 7) = 77
+```
+
+---
+
+Final Output
+`77` ✅
+
+---
+
+Time Complexity: `O(n)`
+- Single pass over `nums` array.
+
+Space Complexity: `O(1)`
+- Uses only three variables (`maxNum`, `maxDiff`, `maxProduct`).
+*/
