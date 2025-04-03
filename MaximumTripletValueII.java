@@ -120,3 +120,9 @@ Time Complexity: `O(n)`
 Space Complexity: `O(1)`
 - Uses only a few variables, no extra arrays.
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 1ms runtime which is the lowest time in this problem
+*/
