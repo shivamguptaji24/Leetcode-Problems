@@ -32,3 +32,20 @@ Constraints:
 3 <= nums.length <= 105
 1 <= nums[i] <= 106
 */
+
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        long maxValue = 0;
+        int maxLeft = nums[0]; // Maximum nums[i] seen so far
+        long maxDiff = Long.MIN_VALUE; // Best (nums[i] - nums[j]) seen so far
+
+        for (int j = 1; j < n - 1; j++) {
+            maxDiff = Math.max(maxDiff, (long) maxLeft - nums[j]); // Best diff seen so far
+            maxValue = Math.max(maxValue, maxDiff * nums[j + 1]); // Best triplet value
+            maxLeft = Math.max(maxLeft, nums[j]); // Update maxLeft
+        }
+
+        return maxValue;
+    }
+}
