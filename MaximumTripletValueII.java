@@ -49,3 +49,6 @@ class Solution {
         return maxValue;
     }
 }
+
+/*
+Visualization of the above code
