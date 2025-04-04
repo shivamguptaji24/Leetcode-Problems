@@ -83,12 +83,12 @@ class Solution {
 
 /*
 Visualization of the above code
- Let's **visualize** how the optimized code works with an example.
+ Let's visualize how the optimized code works with an example.
 
 ---
 
-### **Example Tree**
-#### **Input:**  
+Example Tree
+Input:  
 ```
        3
       / \
@@ -98,48 +98,48 @@ Visualization of the above code
      / \
     7   4
 ```
-**Tree Representation (as an array)**:  
+Tree Representation (as an array):  
 `root = [3,5,1,6,2,0,8,null,null,7,4]`
 
-### **Step-by-Step Execution**
-1. **DFS Traversal (Bottom-Up Approach)**
+Step-by-Step Execution
+1. DFS Traversal (Bottom-Up Approach)
    - Traverse to the leaf nodes first.
    - Compute depth and find the LCA.
 
 ---
 
-### **Recursive Calls Breakdown**
-#### **Step 1: Leaf Nodes Processing**
+Recursive Calls Breakdown
+Step 1: Leaf Nodes Processing
 - `(6, depth = 1)`, `(0, depth = 1)`, and `(8, depth = 1)` are leaf nodes.
 - `(7, depth = 1)` and `(4, depth = 1)` are also leaf nodes.
 
-#### **Step 2: Process Their Parents**
+Step 2: Process Their Parents
 - Node `2` has children `(7, depth = 1)` and `(4, depth = 1)`.
   - Both have equal depth → LCA is `2`, depth = `2`.
 
-#### **Step 3: Process Internal Nodes**
+Step 3: Process Internal Nodes
 - Node `5` has `(6, depth = 1)` and `(2, depth = 2)`.
   - Right subtree is deeper → LCA remains `2`, depth = `3`.
 
 - Node `1` has `(0, depth = 1)` and `(8, depth = 1)`.
   - Both have equal depth → LCA is `1`, depth = `2`.
 
-#### **Step 4: Process Root**
+Step 4: Process Root
 - Root `3` has `(5, depth = 3)` and `(1, depth = 2)`.
   - Left subtree is deeper → LCA remains `2`.
 
 ---
 
-### **Final Output**
-```java
+Final Output
+```
 Output: [2,7,4]
 ```
-- The **deepest nodes** are `7` and `4`.
-- The **Lowest Common Ancestor** (LCA) of these nodes is **2**.
+- The deepest nodes are `7` and `4`.
+- The Lowest Common Ancestor (LCA) of these nodes is 2.
 
 ---
 
-### **Flow of Recursive Calls (Tree Traversal)**
+Flow of Recursive Calls (Tree Traversal)
 ```
 dfs(3)
 │
@@ -159,5 +159,5 @@ dfs(3)
 └── return (2, depth = 3)
 ```
 
-This **efficiently finds the LCA** of the **deepest leaves** in `O(N)` time!
+This efficiently finds the LCA of the deepest leaves in `O(N)` time!
 */
