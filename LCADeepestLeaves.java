@@ -80,3 +80,6 @@ class Solution {
         }
     }
 }
+
+/*
+Visualization of the above code
