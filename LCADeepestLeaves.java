@@ -35,3 +35,48 @@ The number of nodes in the tree will be in the range [1, 1000].
 0 <= Node.val <= 1000
 The values of the nodes in the tree are unique.
 */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+        return dfs(root).node;
+    }
+
+    private Pair dfs(TreeNode node) {
+        if (node == null) return new Pair(null, 0);
+        
+        Pair left = dfs(node.left);
+        Pair right = dfs(node.right);
+
+        if (left.depth == right.depth) {
+            return new Pair(node, left.depth + 1);
+        } else if (left.depth > right.depth) {
+            return new Pair(left.node, left.depth + 1);
+        } else {
+            return new Pair(right.node, right.depth + 1);
+        }
+    }
+
+    private static class Pair {
+        TreeNode node;
+        int depth;
+        Pair(TreeNode node, int depth) {
+            this.node = node;
+            this.depth = depth;
+        }
+    }
+}
