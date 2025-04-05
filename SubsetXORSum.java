@@ -164,3 +164,90 @@ class Solution {
         return total;
     }
 }
+
+/*
+Visualization of the above code
+ Let’s do a step-by-step dry run of the bitmasking solution for this problem using the input:
+
+---
+
+Input:
+```
+nums = [1, 3]
+```
+
+---
+
+n = 2, so total subsets = \( 2^n = 4 \)  
+We will loop over all values of `mask` from `0` to `3` (i.e. `00` to `11` in binary).
+
+---
+
+⚙️ Code Overview:
+```
+for (int mask = 0; mask < (1 << n); mask++) {
+    int xor = 0;
+    for (int i = 0; i < n; i++) {
+        if ((mask & (1 << i)) != 0) {
+            xor ^= nums[i];
+        }
+    }
+    total += xor;
+}
+```
+
+---
+
+✅ Dry Run Step-by-Step:
+
+---
+
+🔁 mask = 0 → binary: `00`
+
+- `i = 0`: (0 & 1) = 0 → not included  
+- `i = 1`: (0 & 2) = 0 → not included  
+➡️ Subset: `[]`  
+➡️ XOR = `0`  
+➡️ Total = `0`
+
+---
+
+🔁 mask = 1 → binary: `01`
+
+- `i = 0`: (1 & 1) = 1 → include `nums[0] = 1` → `xor = 1`
+- `i = 1`: (1 & 2) = 0 → not included  
+➡️ Subset: `[1]`  
+➡️ XOR = `1`  
+➡️ Total = `0 + 1 = 1`
+
+---
+
+🔁 mask = 2 → binary: `10`
+
+- `i = 0`: (2 & 1) = 0 → not included  
+- `i = 1`: (2 & 2) = 2 → include `nums[1] = 3` → `xor = 3`  
+➡️ Subset: `[3]`  
+➡️ XOR = `3`  
+➡️ Total = `1 + 3 = 4`
+
+---
+
+🔁 mask = 3 → binary: `11`
+
+- `i = 0`: (3 & 1) = 1 → include `nums[0] = 1` → `xor = 1`  
+- `i = 1`: (3 & 2) = 2 → include `nums[1] = 3` → `xor = 1 ^ 3 = 2`  
+➡️ Subset: `[1, 3]`  
+➡️ XOR = `2`  
+➡️ Total = `4 + 2 = 6`
+
+---
+
+🧾 Final Result:
+```
+return 6;
+```
+
+✅ Which is correct as per the problem’s explanation.
+
+---
+*/
