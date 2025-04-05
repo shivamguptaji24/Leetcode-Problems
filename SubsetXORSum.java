@@ -66,3 +66,72 @@ class Solution {
         return include + exclude;
     }
 }
+
+/*
+Visualization of the above code
+ Let’s visualize how the recursive DFS solution for `subsetXORSum()` works using an example.
+
+---
+
+Example Input:
+```
+nums = [1, 3]
+```
+
+Subsets:
+- `[]` → XOR = 0  
+- `[1]` → XOR = 1  
+- `[3]` → XOR = 3  
+- `[1, 3]` → XOR = 1 ^ 3 = 2  
+
+Total XOR Sum = 0 + 1 + 3 + 2 = 6
+
+---
+
+🌳 DFS Recursive Tree:
+
+```
+                   dfs(0, 0)
+                   /       \
+         include  /         \ exclude
+               dfs(1, 1)     dfs(1, 0)
+               /     \       /     \
+        dfs(2, 2) dfs(2, 1) dfs(2, 3) dfs(2, 0)
+         (end)    (end)     (end)     (end)
+         return   return    return    return
+           2        1         3         0
+```
+
+🔍 Explanation:
+
+Each `dfs(index, xorSoFar)` call means:
+- `index` → current index in `nums`
+- `xorSoFar` → XOR of elements included so far
+
+Let's walk through it:
+
+1. Start with `dfs(0, 0)`  
+2. First, **include `nums[0] = 1`** → `xorSoFar = 0 ^ 1 = 1`  
+3. Then include `nums[1] = 3` → `xorSoFar = 1 ^ 3 = 2` → reached end → return 2  
+4. Then exclude `nums[1]` → `xorSoFar = 1` → return 1  
+
+Now go back and exclude `nums[0]`:
+5. `xorSoFar = 0`  
+6. Include `nums[1] = 3` → `xorSoFar = 0 ^ 3 = 3` → return 3  
+7. Exclude `nums[1]` → `xorSoFar = 0` → return 0
+
+---
+
+🎯 Return Values:
+
+```
+dfs(0, 0) = dfs(1, 1) + dfs(1, 0)
+          = (dfs(2, 2) + dfs(2, 1)) + (dfs(2, 3) + dfs(2, 0))
+          = (2 + 1) + (3 + 0) = 6
+```
+
+---
+
+✅ Final Answer:
+6
+*/
