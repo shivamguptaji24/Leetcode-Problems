@@ -46,3 +46,23 @@ Constraints:
 1 <= nums.length <= 12
 1 <= nums[i] <= 20
 */
+
+class Solution {
+    public int subsetXORSum(int[] nums) {
+        return dfs(nums, 0, 0);
+    }
+
+    private int dfs(int[] nums, int index, int xorSoFar) {
+        if (index == nums.length) {
+            return xorSoFar;
+        }
+
+        // Include nums[index] in XOR
+        int include = dfs(nums, index + 1, xorSoFar ^ nums[index]);
+
+        // Exclude nums[index] from XOR
+        int exclude = dfs(nums, index + 1, xorSoFar);
+
+        return include + exclude;
+    }
+}
