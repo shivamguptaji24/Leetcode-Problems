@@ -172,3 +172,168 @@ Reverse the list → [1, 2, 4, 8]
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 10ms runtime which is the lowest time in this problem
+*/
+
+class Solution {
+    public List<Integer> largestDivisibleSubset(int[] arr) {
+        Arrays.sort(arr);
+        int n=arr.length;
+        int[] dp = new int[n];
+        int[] ind = new int[n];
+        int res=0;
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            int maxi=0;
+            ind[i]=i;
+            dp[i]=1;
+            int limit = (arr[i] + 1) / 2;
+            for(int j=0;j<i && arr[j]<=limit;j++){
+                if(arr[i]%arr[j]==0 && dp[j]+1>dp[i])
+                {
+                    dp[i]=1+dp[j];
+                    ind[i]=j;
+                }
+            }
+            res=dp[i]>dp[res]?i:res;
+        }
+        while(res!=ind[res]){
+            ans.add(arr[res]);
+            res=ind[res];
+        }
+        ans.add(arr[res]);
+        Collections.reverse(ans);
+        return ans;
+    }
+}
+
+/*
+Visualization of the above code
+ Let's visualize step-by-step how this Java code works for finding the largest divisible subset in a slightly different (and optimized) way than the standard solution.
+
+---
+
+📘 Problem Recap:
+Given an array `arr[]` of distinct positive integers, return the largest subset where every pair `(a, b)` satisfies:
+
+> `a % b == 0` OR `b % a == 0`
+
+---
+
+✅ Code Overview:
+This version optimizes inner loop range using a `limit`:
+```
+int limit = (arr[i] + 1) / 2;
+```
+This helps avoid unnecessary checks — numbers larger than `arr[i]/2` can't divide `arr[i]` except `arr[i]` itself.
+
+---
+
+🧪 Input Example:
+```
+arr = [1, 2, 3, 8, 4]
+```
+
+---
+
+🔢 Step 1: Sort the array
+```
+Arrays.sort(arr); // arr = [1, 2, 3, 4, 8]
+```
+
+---
+
+📦 Step 2: Initialize variables
+```
+dp  = [1, 1, 1, 1, 1]     // Length of largest subset ending at i
+ind = [0, 1, 2, 3, 4]     // To reconstruct the path
+res = 0                  // Index of max length subset
+```
+
+---
+
+🔁 Step 3: Build dp and ind arrays
+
+i = 0 → `arr[0] = 1`
+- Nothing before it → `dp[0] = 1`, `ind[0] = 0`
+
+---
+
+i = 1 → `arr[1] = 2`
+- limit = (2 + 1)/2 = 1
+- j = 0 → 2 % 1 == 0 → `dp[1] = dp[0] + 1 = 2`, `ind[1] = 0`
+
+---
+
+i = 2 → `arr[2] = 3`
+- limit = 2
+- j = 0 → 3 % 1 == 0 → `dp[2] = 2`, `ind[2] = 0`
+- j = 1 → 3 % 2 ≠ 0 → skip
+
+---
+
+i = 3 → `arr[3] = 4`
+- limit = (4+1)/2 = 2
+- j = 0 → 4 % 1 == 0 → `dp[3] = 2`, `ind[3] = 0`
+- j = 1 → 4 % 2 == 0 → `dp[3] = 3`, `ind[3] = 1`
+- j = 2 → 4 % 3 ≠ 0 → skip
+
+---
+
+i = 4 → `arr[4] = 8`
+- limit = 4
+- j = 0 → 8 % 1 == 0 → `dp[4] = 2`, `ind[4] = 0`
+- j = 1 → 8 % 2 == 0 → `dp[4] = 3`, `ind[4] = 1`
+- j = 2 → 8 % 3 ≠ 0 → skip
+- j = 3 → 8 % 4 == 0 → `dp[4] = 4`, `ind[4] = 3`
+
+---
+
+After loop:
+```
+dp   = [1, 2, 2, 3, 4]
+ind  = [0, 0, 0, 1, 3]
+res  = 4 // Index of max subset
+```
+
+---
+
+🔁 Step 4: Reconstruct the subset
+
+```
+res = 4 → arr[4] = 8
+ind[4] = 3 → arr[3] = 4
+ind[3] = 1 → arr[1] = 2
+ind[1] = 0 → arr[0] = 1
+```
+
+So:
+```
+ans = [8, 4, 2, 1] → reverse → [1, 2, 4, 8]
+```
+
+---
+
+✅ Final Output:
+```
+[1, 2, 4, 8]
+```
+
+---
+
+📊 Summary Table:
+
+| i | arr[i] | limit | dp[i] | ind[i] | Notes                          |
+|---|--------|-------|--------|--------|--------------------------------|
+| 0 | 1      | -     | 1      | 0      | First element                 |
+| 1 | 2      | 1     | 2      | 0      | 2 % 1 == 0                    |
+| 2 | 3      | 2     | 2      | 0      | 3 % 1 == 0 only               |
+| 3 | 4      | 2     | 3      | 1      | 4 % 2 == 0                    |
+| 4 | 8      | 4     | 4      | 3      | 8 % 4 == 0                    |
+
+---
+*/
