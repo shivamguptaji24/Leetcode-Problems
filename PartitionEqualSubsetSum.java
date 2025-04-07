@@ -246,3 +246,125 @@ class Solution {
 
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize your code step by step with a dry run and an explanation.
+
+---
+
+✅ Problem:
+You are given an array of integers, and you want to determine if it can be partitioned into two subsets with equal sums.
+
+---
+
+🔍 Example Input:
+```
+nums = [1, 5, 11, 5]
+```
+
+Step 1: Total Sum Calculation
+```
+s = 1 + 5 + 11 + 5 = 22
+```
+
+✅ Since 22 is even, we continue.
+
+Target sum for one subset:
+```
+s = s / 2 = 11
+```
+
+---
+
+🧠 Goal:
+Check if any subset from `nums` adds up to 11.
+
+You're using **Top-down Memoized Recursion (DP)**.
+
+---
+
+🔁 Recursive Function:
+```
+canPartition(memo, s, index, nums)
+```
+
+Where:
+- `s`: remaining target sum
+- `index`: current index in `nums`
+- `memo[s]`: memoization array
+
+---
+
+🧰 Initial Call:
+```
+canPartition(memo, 11, 3, [1,5,11,5])
+```
+
+Let’s dry run this with a recursion tree style:
+
+---
+
+🔽 Call: `canPartition(memo, 11, 3, nums)`
+- nums[3] = 5
+- Try both:
+  - Include 5 → `canPartition(memo, 6, 2, nums)`
+  - Exclude 5 → `canPartition(memo, 11, 2, nums)`
+
+---
+
+🔽 Call: `canPartition(memo, 6, 2, nums)`
+- nums[2] = 11 (can't include since 11 > 6)
+- Only one option:
+  - `canPartition(memo, 6, 1, nums)`
+
+---
+
+🔽 Call: `canPartition(memo, 6, 1, nums)`
+- nums[1] = 5
+- Try both:
+  - Include 5 → `canPartition(memo, 1, 0, nums)`
+  - Exclude 5 → `canPartition(memo, 6, 0, nums)`
+
+---
+
+🔽 Call: `canPartition(memo, 1, 0, nums)`
+- nums[0] = 1
+- `s == nums[0] → true ✅`
+
+→ So this path returns `true`.
+
+🛑 This bubbles back up to return `true` all the way to the original call.
+
+---
+
+📌 Memoization Table (Boolean[] memo):
+
+After the run, memo looks like this:
+```
+memo = [null, true, null, ..., true]
+```
+Where indices like `memo[6]`, `memo[11]` hold computed `true` values.
+
+---
+
+✅ Final Output:
+```
+return true;
+```
+
+🧠 Meaning:
+Subset [1, 5, 5] sums to 11, and remaining [11] also sums to 11.
+
+---
+
+📌 Summary:
+
+| Part | Logic |
+|------|-------|
+| Approach | Top-down DP with memoization |
+| Time Complexity | `O(n * target)` where `target = sum/2` |
+| Space Complexity | `O(target)` for memo array, and recursion stack |
+
+---
+*/
