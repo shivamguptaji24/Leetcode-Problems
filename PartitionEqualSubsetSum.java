@@ -22,3 +22,142 @@ Constraints:
 1 <= nums.length <= 200
 1 <= nums[i] <= 100
 */
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums) sum += num;
+
+        // If total sum is odd, can't partition
+        if (sum % 2 != 0) return false;
+
+        int target = sum / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true; // sum 0 is always possible (empty subset)
+
+        for (int num : nums) {
+            // Traverse backwards to avoid using the same num multiple times
+            for (int i = target; i >= num; i--) {
+                dp[i] = dp[i] || dp[i - num];
+            }
+        }
+
+        return dp[target];
+    }
+}
+
+/*
+Visualization of the above code
+ Let's walk through a visualization (step-by-step dry run) of your code with the input:
+
+🔢 Example Input:
+```
+nums = [1, 5, 11, 5]
+```
+
+🔍 Step 1: Calculate Total Sum
+```
+sum = 1 + 5 + 11 + 5 = 22
+```
+✅ Total sum is even, so we continue.
+
+🎯 Target:
+```
+target = sum / 2 = 11
+```
+We now want to check if any subset sums up to 11.
+
+---
+
+🧠 Initialize DP Array
+```
+boolean[] dp = new boolean[12]; // size = target + 1
+dp[0] = true;
+```
+
+📦 `dp[i]` = true if subset with sum `i` is possible.
+
+Initial `dp[]`:
+```
+[true, false, false, false, false, false, false, false, false, false, false, false]
+```
+
+---
+
+🔁 Iterating Over nums = [1, 5, 11, 5]
+
+---
+
+👉 For `num = 1`:
+Loop from 11 → 1:
+
+Update:
+```
+dp[1] = dp[1] || dp[1 - 1] = false || true = true
+```
+
+dp becomes:
+```
+[true, true, false, false, false, false, false, false, false, false, false, false]
+```
+
+---
+
+👉 For `num = 5`:
+Loop from 11 → 5:
+
+- `dp[5] = dp[5] || dp[0] = false || true = true`
+- `dp[6] = dp[6] || dp[1] = false || true = true`
+
+dp becomes:
+```
+[true, true, false, false, false, true, true, false, false, false, false, false]
+```
+
+---
+
+👉 For `num = 11`:
+Loop from 11 → 11:
+
+- `dp[11] = dp[11] || dp[0] = false || true = true`
+
+dp becomes:
+```
+[true, true, false, false, false, true, true, false, false, false, false, true]
+```
+
+💥 We already reached `dp[11] = true`, but let’s continue.
+
+---
+
+👉 For `num = 5` (again):
+Loop from 11 → 5:
+
+- `dp[10] = dp[10] || dp[5] = false || true = true`
+- `dp[9] = dp[9] || dp[4] = false || false = false`
+- `dp[8] = dp[8] || dp[3] = false || false = false`
+- `dp[7] = dp[7] || dp[2] = false || false = false`
+- `dp[6] = dp[6] || dp[1] = true || true = true`
+- `dp[5] already true`
+
+Final `dp[]`:
+```
+[true, true, false, false, false, true, true, false, false, false, true, true]
+```
+
+---
+
+✅ Final Step:
+```
+return dp[11]; // true
+```
+
+---
+
+💡 Meaning:
+Yes, it's possible to partition `[1, 5, 11, 5]` into two subsets with equal sum (11):
+- One subset: `[1, 5, 5]`
+- Other subset: `[11]`
+
+---
+*/
