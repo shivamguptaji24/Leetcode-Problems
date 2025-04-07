@@ -161,3 +161,8 @@ Yes, it's possible to partition `[1, 5, 11, 5]` into two subsets with equal sum 
 
 ---
 */
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 4ms runtime which is the lowest time in this problem
+*/
