@@ -47,3 +47,34 @@ Constraints:
 1 <= nums.length <= 100
 1 <= nums[i] <= 100
 */
+
+class Solution {
+    public int minimumOperations(int[] nums) {
+        int ops = 0;
+        int i = 0;
+        while (i < nums.length) {
+            // Check if remaining array from index i has all unique elements
+            Set<Integer> seen = new HashSet<>();
+            boolean allUnique = true;
+
+            for (int j = i; j < nums.length; j++) {
+                if (seen.contains(nums[j])) {
+                    allUnique = false;
+                    break;
+                }
+                seen.add(nums[j]);
+            }
+
+            if (allUnique) {
+                break; // Already distinct, no more operations needed
+            }
+
+            // Remove 3 elements from front (by moving i forward)
+            i += 3;
+            ops++;
+        }
+
+        return ops;
+    }
+}
+
