@@ -78,3 +78,95 @@ class Solution {
     }
 }
 
+/*
+Visualization of the above code
+ Let's break down and visualize how your Java code for `minimumOperations` works step by step, using an example input:
+
+---
+
+✅ Problem Statement Recap
+You are given an array. You can remove 3 elements from the front in one operation. You must make the remaining array contain only unique elements. Return the minimum number of operations required.
+
+---
+
+🔍 Code Overview
+```
+public int minimumOperations(int[] nums) {
+    int ops = 0;           // Count of operations performed
+    int i = 0;             // Current starting index
+
+    while (i < nums.length) {
+        Set<Integer> seen = new HashSet<>();
+        boolean allUnique = true;
+
+        for (int j = i; j < nums.length; j++) {
+            if (seen.contains(nums[j])) {
+                allUnique = false;
+                break;
+            }
+            seen.add(nums[j]);
+        }
+
+        if (allUnique) break;
+
+        i += 3;    // Simulates removing 3 elements from the front
+        ops++;
+    }
+
+    return ops;
+}
+```
+
+---
+
+🔁 Step-by-Step Visualization
+Let’s take this input:
+
+Input:
+```
+nums = [1, 2, 3, 4, 2, 3, 3, 5, 7]
+```
+
+---
+
+Initial state:
+- `i = 0`, `ops = 0`
+- Check if elements from index `0 → end` are unique:
+  - `1 2 3 4` ✅
+  - `2` ❌ Already exists ⇒ **duplicate found**
+- → Not unique → `ops = 1`, move `i = 3`
+
+---
+
+After 1st operation (i = 3):
+- Remaining: `[4, 2, 3, 3, 5, 7]`
+- Check for duplicates:
+  - `4 2 3` ✅
+  - `3` ❌ Already exists
+- → Not unique → `ops = 2`, move `i = 6`
+
+---
+
+After 2nd operation (i = 6):
+- Remaining: `[3, 5, 7]`
+- All unique ✅ → Done
+
+---
+
+✅ Output:
+```
+return 2;
+```
+
+---
+
+📊 Time & Space Complexity
+- Time Complexity: `O(n²)` worst-case, because for each removal, it may scan the entire suffix for duplicates.
+- Space Complexity: `O(n)` due to the `HashSet`.
+
+---
+
+🎯 Final Notes
+- The code is well-written, efficient for `n ≤ 100`.
+- Handles edge cases (e.g., already distinct, fully duplicate).
+*/
