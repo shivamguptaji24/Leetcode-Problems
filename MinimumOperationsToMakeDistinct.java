@@ -189,3 +189,85 @@ class Solution {
         return 0;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize and understand your optimized `minimumOperations` code step by step. This solution is clever and uses a reverse traversal to find the minimum number of operations needed to make the remaining array distinct.
+
+---
+
+✅ Problem Recap
+You are given an integer array `nums`.  
+You can remove 3 elements from the beginning (i.e., the front) in one operation.
+
+Goal: Remove as few chunks of 3 as possible to make the remaining array contain only unique elements.
+
+---
+
+🔍 Code Overview
+```
+class Solution {
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        boolean[] seen = new boolean[101];  // nums[i] <= 100
+
+        for(int i = n - 1 ; i >= 0 ; i--){  // Traverse from back
+            if(seen[nums[i]])
+                return i / 3 + 1;  // First duplicate from end → how many ops needed to remove it
+            else
+                seen[nums[i]] = true;
+        }
+
+        return 0; // Already unique
+    }
+}
+```
+
+---
+
+🔁 Step-by-Step Visualization
+
+Let's use this input:
+```
+nums = [1, 2, 3, 4, 2, 3, 3, 5, 7]
+```
+
+Traverse from right to left:
+
+- i = 8 → 7 → ✅ new
+- i = 7 → 5 → ✅ new
+- i = 6 → 3 → ✅ new
+- i = 5 → 3 → ❌ already seen!
+
+Now:  
+- Duplicate at index 5
+- How many groups of 3 need to be removed to eliminate index `0..5`?
+  ```
+  0..2   → op 1
+  3..5   → op 2
+  ```
+  So, `i / 3 + 1 = 5 / 3 + 1 = 1 + 1 = 2`
+
+✅ Return `2`
+
+---
+
+📊 Time & Space Complexity
+
+- Time: `O(n)`
+- Space: `O(1)` → constant (array size 101 for values ≤ 100)
+
+---
+
+⚡ Why This Works Optimally
+
+By going backward, it finds the **first repeated element from the end**—the earliest point at which the duplicates must be removed. It then calculates how many triplets need to be removed to eliminate that point (using `i / 3 + 1`).
+
+---
+
+🔚 Output
+
+For the input `[1,2,3,4,2,3,3,5,7]` → Output is `2`
+
+---
+*/
