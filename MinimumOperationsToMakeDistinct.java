@@ -170,3 +170,10 @@ return 2;
 - The code is well-written, efficient for `n ≤ 100`.
 - Handles edge cases (e.g., already distinct, fully duplicate).
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 4ms runtime which is the lowest time in this problem
+*/
+
