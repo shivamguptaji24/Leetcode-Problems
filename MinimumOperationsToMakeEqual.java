@@ -321,3 +321,86 @@ class Solution {
         return cnt;
     }
 }
+
+/*
+Visualization of the above code
+ Absolutely, Shivam! Let's visualize your code step by step using a real example and see how it's working.
+
+---
+
+✅ Example
+```
+nums = [5, 2, 5, 4, 5]
+k = 2
+```
+
+Expected Output: `2`
+
+---
+
+🔍 Step-by-step Execution
+
+1️⃣ Track which numbers exist in the array using a boolean array
+
+```
+boolean[] has = new boolean[101];
+
+for (int num : nums) {
+    has[num] = true;
+}
+```
+
+After processing:
+- `nums = [5, 2, 5, 4, 5]`
+- So `has[2] = true`, `has[4] = true`, `has[5] = true`
+
+All other `has[i] = false`.
+
+---
+
+2️⃣ Scan the `has` array and count all numbers > `k`
+
+```
+int cnt = 0;
+for (int i = 0; i < has.length; i++) {
+    if (!has[i]) continue;
+
+    if (has[i] && i < k)
+        return -1;
+    else if (has[i] && i > k)
+        cnt++;
+}
+```
+
+- Now iterate from `i = 0` to `100`:
+  - i = 2 → `i == k`, nothing added ✅
+  - i = 4 → `4 > 2` → `cnt++` → `cnt = 1`
+  - i = 5 → `5 > 2` → `cnt++` → `cnt = 2`
+
+No number < `k` is present → so no early `-1`
+
+---
+
+✅ Final Result
+```
+return cnt; // 2
+```
+
+---
+
+🧠 Summary
+
+Your code:
+- Uses a `boolean[101]` to track presence of each number in O(1) space.
+- Efficiently counts how many distinct numbers > k exist.
+- If any number < k is found → returns `-1` immediately (since we can't increase values).
+- Time complexity: `O(n + 100)` = `O(n)` (since 100 is constant)
+
+---
+
+✅ Example 2: `[2,1,2], k = 2`
+
+- `has[1] = true`, which is `< k`, so the code returns `-1` early.
+
+Perfectly correct!
+*/
