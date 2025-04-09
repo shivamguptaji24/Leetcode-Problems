@@ -170,3 +170,128 @@ return ops; // 2
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 5ms runtime which is the time in this problem
+*/
+
+class Solution {
+    public int minOperations(int[] nums, int k) {
+        for (int num : nums) {
+            if (num < k) return -1; // Cannot increase any number to reach k
+        }
+
+        Set<Integer> seen = new HashSet<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        // Collect unique numbers > k
+        for (int num : nums) {
+            if (num > k && seen.add(num)) {
+                maxHeap.offer(num);
+            }
+        }
+
+        int ops = 0;
+        while (!maxHeap.isEmpty()) {
+            int curr = maxHeap.poll();
+            ops++;
+        }
+
+        return ops;
+    }
+}
+
+/*
+Visualization of the above code
+ Sure Shivam! Let’s visualize your code step by step with an example and understand what’s going on. This version uses a `PriorityQueue` as a max-heap to always pick the largest element greater than `k` first.
+
+---
+
+✅ Example Input
+```
+nums = [5, 2, 5, 4, 5]
+k = 2
+```
+
+Expected Output: `2`
+
+---
+
+🔍 Step-by-step Execution
+
+1️⃣ Check if any element is less than `k`
+```
+for (int num : nums) {
+    if (num < k) return -1;
+}
+```
+- `nums = [5, 2, 5, 4, 5]`
+- `k = 2`
+- All elements are `>= 2` → ✅ continue
+
+---
+
+2️⃣ Use a HashSet to collect unique values > k, and a max-heap to process in descending order
+
+```
+Set<Integer> seen = new HashSet<>();
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+for (int num : nums) {
+    if (num > k && seen.add(num)) {
+        maxHeap.offer(num);
+    }
+}
+```
+
+- Process `nums`:
+  - 5 > 2 → added to `seen` and `maxHeap`
+  - 2 == 2 → skip
+  - 5 again → already in `seen`, skip
+  - 4 > 2 → added to `seen` and `maxHeap`
+  - 5 again → already in `seen`, skip
+
+👉 Now:
+- `seen = {4, 5}`
+- `maxHeap = [5, 4]`
+
+---
+
+3️⃣ Count operations needed to reduce each unique number > k
+
+```
+int ops = 0;
+while (!maxHeap.isEmpty()) {
+    int curr = maxHeap.poll(); // Remove the largest element
+    ops++;
+}
+```
+
+Loop:
+- `maxHeap = [5, 4]`
+  - `poll()` → `5` → `ops = 1`
+- `maxHeap = [4]`
+  - `poll()` → `4` → `ops = 2`
+- `maxHeap = []` → end
+
+---
+
+✅ Final Output
+```
+return ops; // 2
+```
+
+---
+
+🧠 Summary
+
+This code:
+- Efficiently handles finding unique elements > `k` ✔️
+- Uses a max-heap to simulate the idea of reducing the largest values first
+- Ensures no duplicates are counted using `seen` ✔️
+- Returns `-1` early if making all elements `k` is impossible ❌
+
+---
+*/
