@@ -52,4 +52,102 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize the code using the example:
+
+---
+
+🧠 Example:
+Input:  
+```
+low = 1200  
+high = 1230
+```
+
+We're finding symmetric integers between 1200 and 1230.
+
+---
+
+🔁 Code Walkthrough:
+
+```
+int count = 0;
+```
+
+Initialize a counter to keep track of how many symmetric numbers we find.
+
+---
+
+Now we loop from 1200 to 1230:
+
+---
+
+▶️ num = 1200  
+- Convert to string: `"1200"`  
+- Length = 4 (even ✅)  
+- First half = `"12"` → 1 + 2 = 3  
+- Second half = `"00"` → 0 + 0 = 0  
+→ 3 ≠ 0 ❌ → Not symmetric
+
+---
+
+▶️ num = 1201  
+- `"1201"` → First: 1+2=3, Second: 0+1=1 ❌
+
+---
+
+▶️ num = 1202  
+- `"1202"` → First: 1+2=3, Second: 0+2=2 ❌
+
+---
+
+▶️ num = 1203  
+- `"1203"` → First: 1+2=3, Second: 0+3=3 ✅  
+→ Count = 1
+
+---
+
+▶️ num = 1204 → 3 vs 4 ❌  
+▶️ num = 1205 → 3 vs 5 ❌  
+▶️ num = 1206 → 3 vs 6 ❌  
+▶️ num = 1207 → 3 vs 7 ❌  
+▶️ num = 1208 → 3 vs 8 ❌  
+▶️ num = 1209 → 3 vs 9 ❌
+
+---
+
+▶️ num = 1210 → 1+2 = 3, 1+0 = 1 ❌  
+▶️ num = 1211 → 1+2 = 3, 1+1 = 2 ❌  
+▶️ num = 1212 → 1+2 = 3, 1+2 = 3 ✅  
+→ Count = 2
+
+---
+
+▶️ num = 1213 → 1+2 vs 1+3 → 3 vs 4 ❌  
+...  
+▶️ num = 1221 → 1+2 vs 2+1 → 3 vs 3 ✅  
+→ Count = 3
+
+...  
+▶️ num = 1230 → 1+2 vs 3+0 → 3 vs 3 ✅  
+→ Count = 4
+
+---
+
+✅ Final Output:
+```
+return 4;
+```
+
+---
+
+🔢 Summary:
+
+The symmetric integers between 1200 and 1230 are:
+
+- 1203
+- 1212
+- 1221
+- 1230
+
+So, the result is: 4
+*/
