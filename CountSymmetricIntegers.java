@@ -201,3 +201,153 @@ class Solution {
         symCount[10_000] = symCount[9999];
     }
 }
+
+/*
+Visualization of the above code
+ Let's break down and visualize this optimized code using an example:
+
+---
+
+🧠 Problem Recap:
+
+You are given two integers `low` and `high`. Count how many symmetric integers are in the range `[low, high]`.  
+A symmetric number has an even number of digits (e.g., 2 or 4), and the sum of the first half of digits equals the sum of the second half.
+
+---
+
+📘 Example:
+```
+low = 1200, high = 1230
+```
+
+We want to find how many symmetric integers are in this range.
+
+---
+
+🧠 Code Concept:
+
+The code uses precomputation and prefix sums:
+
+```
+private static final short[] symCount = new short[10_001];
+```
+
+- This array stores how many symmetric numbers exist from 1 to any index `i`.
+- So `symCount[i]` = number of symmetric integers ≤ `i`
+
+---
+
+🔁 `countSymmetricIntegers(low, high)`
+
+Step 1: First time check:
+```
+if (symCount[11] == 0) buildCounts();
+```
+- Only builds the array once. The `symCount` array is reused between test cases.
+
+Step 2: Return count between low and high:
+```
+return symCount[high] - symCount[low - 1];
+```
+
+In our case:
+```
+symCount[1230] - symCount[1199]
+```
+
+---
+
+🔨 `buildCounts()` Step-by-step:
+
+1. Fill from 11 to 99:
+These are 2-digit symmetric numbers: 11, 22, ..., 99 (each digit repeated).
+```
+for (int num = 11; num <= 99; num++)
+    symCount[num] = (short)(num / 11);
+```
+So:
+- `symCount[11] = 1`
+- `symCount[22] = 2`
+- ...
+- `symCount[99] = 9`
+
+---
+
+2. Fill from 100 to 999:
+3-digit numbers can't be symmetric (odd length).
+```
+for (int num = 100; num <= 999; num++)
+    symCount[num] = symCount[99]; // i.e., 9
+```
+
+---
+
+3. Fill from 1000 to 9999:
+
+Loop through all 4-digit numbers:
+
+```
+for (int high10 = 1; high10 <= 9; high10++) {
+    for (int high1 = 0; high1 <= 9; high1++) {
+        int highSum = high10 + high1;
+
+        for (int low10 = 0; low10 <= 9; low10++) {
+            for (int low1 = 0; low1 <= 9; low1++) {
+                // Check if first two digits = last two digits in sum
+                if (highSum == low10 + low1)
+                    symCount[idx++] = ++prev;
+                else
+                    symCount[idx++] = prev;
+            }
+        }
+    }
+}
+```
+
+Example:
+- 1203
+  - First two digits: 1 + 2 = 3
+  - Last two digits: 0 + 3 = 3 ✅
+
+- This logic adds +1 if symmetric, else keeps previous count.
+
+---
+
+4. Set value for 10,000:
+```
+symCount[10000] = symCount[9999];
+```
+(10,000 is 5-digit → can't be symmetric)
+
+---
+
+✅ Now Let’s Use the Code:
+
+We run:
+```
+countSymmetricIntegers(1200, 1230)
+```
+
+- `symCount[1230] = 13` (say)
+- `symCount[1199] = 9`
+
+Result:
+```
+13 - 9 = 4
+```
+
+✅ There are 4 symmetric integers between 1200 and 1230:  
+- 1203  
+- 1212  
+- 1221  
+- 1230  
+
+---
+
+🔍 Summary:
+
+The code is optimized using:
+- Prefix sum array
+- One-time precomputation
+- O(1) query time for each test case
+*/
