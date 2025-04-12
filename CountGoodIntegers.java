@@ -349,3 +349,123 @@ class Solution {
     
 }
 
+/*
+Visualization of the above code
+ You're sharing an advanced and quite clever solution involving digit combination backtracking, permutations, and modular arithmetic to count how many `n`-digit k-divisible palindromes can be formed.
+
+It’s long, so let me break down and help with:
+
+❓ What you're solving:
+Given:
+- `n`: number of digits
+- `k`: number should be divisible by this
+
+You're computing:
+- How many `n`-digit numbers that are palindromes exist and are divisible by `k`.
+
+---
+
+✅ Summary of Approach
+
+Palindrome insight:
+If you have the first `n/2` digits, the rest of the palindrome is fixed — it's the reverse of those (for even `n`), or the same plus a middle digit (for odd `n`).
+
+Core idea:
+- Loop through all digit *multisets* of length `n/2` (considering repetition, but sorted to avoid duplicates).
+- For each valid digit multiset:
+  - Try all permutations that don't start with `0`.
+  - Form the full palindrome.
+  - Check if it's divisible by `k`.
+
+But instead of checking full palindromes numerically, you:
+- Use modular math to check if permutations satisfy the divisibility condition (`mod k`).
+- Optimize with precalculated `modPow10` for modular exponentiation of 10.
+- Use backtracking + memoization to prune permutations early.
+
+---
+
+🧠 Complex Parts:
+1. `modPow10` table:
+Precomputed values of `10^x % k` to avoid recomputation during palindrome evaluation.
+
+2. `hasKPalPerm(...)`:
+This function tests if **any permutation** of the half-digit multiset can lead to a full palindrome divisible by `k`, without trying all permutations explicitly. It builds the palindrome’s contribution digit-by-digit.
+
+3. `validPermCnt(...)`:
+This function calculates the number of valid permutations (with or without center digit, based on parity of `n`) while:
+- Avoiding starting with `0`
+- Handling repeated digits via combinatorics (`n! / (freq[digit1]! * freq[digit2]! ...)`)
+- It accounts for reflection and possibly a center digit.
+
+---
+
+❌ Problem in the end of code:
+
+Your last method `validPermCnt(...)` is incomplete:
+```
+for(int i = nonZeroInd+1; i < digits.length; i++) {
+    if(digits[i] == digits[i-1]) {
+        streak++;
+    } else {
+        perms /= factorial[2...
+```
+
+The line is incomplete:
+```
+perms /= factorial[2...
+```
+
+You were trying to calculate the permutations’ denominator (due to repeating digits), something like:
+
+```
+        perms /= factorial[2 * streak];
+```
+
+Because each digit appears twice (in mirror), so for a digit count `c` in half, total is `2*c`.
+
+Here’s how you can complete this:
+
+---
+
+✅ Completed `validPermCnt(...)`:
+
+```
+private int validPermCnt(int[] digits, int n, int center) {
+    int nonZeroInd = 0;
+    while(nonZeroInd < digits.length && digits[nonZeroInd] == 0) nonZeroInd++;
+    int zeroCnt = nonZeroInd * 2 - (center == 0 ? 1 : 0);
+
+    long perms = factorial[n] / factorial[zeroCnt];
+    int streak = 1;
+    for(int i = nonZeroInd + 1; i <= digits.length; i++) {
+        if(i < digits.length && digits[i] == digits[i - 1]) {
+            streak++;
+        } else {
+            perms /= factorial[2 * streak]; // because each digit appears twice
+            streak = 1;
+        }
+    }
+    return (int)((((n - zeroCnt) * perms) / n)); // adjust for permutations starting with 0
+}
+```
+
+---
+
+🧪 Edge Cases:
+- `n = 1`: Return `9/k` (since only digits 1–9 are valid 1-digit pals).
+- `k = 1`: All palindrome numbers are valid.
+- Large `n`: The code handles up to `n = 10` efficiently.
+
+---
+
+🔥 Final Thoughts:
+
+This solution is:
+- Mathematically rich (number theory + combinatorics).
+- Optimized using bitmasking, symmetry, and modular math.
+- Elegant in avoiding brute-force checking of every `n`-digit number.
+
+If you plan to submit this on LeetCode or explain it to someone, consider:
+- Adding inline comments on the key steps (like why `modPow10` works, why 2× for palindromes, etc.).
+- Handling extremely large factorials using `BigInteger` if constraints go beyond `n=10`.
+*/
