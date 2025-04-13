@@ -26,3 +26,42 @@ Constraints:
 
 1 <= n <= 10^15
 */
+
+class Solution {
+    // Define the modulo constant as per the problem statement
+    private static final int MOD = 1_000_000_007;
+
+    public int countGoodNumbers(long n) {
+        // Count of digits at even indices (0, 2, 4, ...): these must be even digits (0, 2, 4, 6, 8) => 5 options
+        long evenCount = (n + 1) / 2;
+
+        // Count of digits at odd indices (1, 3, 5, ...): these must be prime digits (2, 3, 5, 7) => 4 options
+        long oddCount = n / 2;
+
+        // Compute total combinations for even and odd indices separately using modular exponentiation
+        long evenWays = modPow(5, evenCount); // 5^evenCount % MOD
+        long oddWays = modPow(4, oddCount);   // 4^oddCount % MOD
+
+        // Multiply both results and take final modulo
+        return (int)((evenWays * oddWays) % MOD);
+    }
+
+    // Helper function to compute (base^exp) % MOD efficiently using fast exponentiation
+    private long modPow(long base, long exp) {
+        long result = 1;
+        base %= MOD;
+
+        while (exp > 0) {
+            // If current bit of exponent is 1, multiply the base to result
+            if ((exp & 1) == 1) {
+                result = (result * base) % MOD;
+            }
+
+            // Square the base and shift exponent to the right by 1 (equivalent to exp / 2)
+            base = (base * base) % MOD;
+            exp >>= 1;
+        }
+
+        return result;
+    }
+}
