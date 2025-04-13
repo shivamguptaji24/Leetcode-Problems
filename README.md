@@ -36,6 +36,8 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 13 Apr 2025   | [1922. Count Good Numbers](https://leetcode.com/problems/count-good-numbers/) | 🟠 Medium      |
+| 12 Apr 2025   | [3272. Find the Count of Good Integers](https://leetcode.com/problems/find-the-count-of-good-integers/) | 🔴 Hard      |
 | 11 Apr 2025   | [2843. Count Symmetric Integers](https://leetcode.com/problems/count-symmetric-integers/) | 🟢 Easy      |
 | 10 Apr 2025   | [2999. Count the Number of Powerful Integers](https://leetcode.com/problems/count-the-number-of-powerful-integers/) | 🔴 Hard      |
 | 09 Apr 2025   | [3375. Minimum Operations to Make Array Values Equal to K](https://leetcode.com/problems/minimum-operations-to-make-array-values-equal-to-k/) | 🟢 Easy    |
