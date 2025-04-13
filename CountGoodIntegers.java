@@ -93,7 +93,7 @@ class Solution {
 
 /*
 Visualization of the above code
- Sure Shivam! Let's walk through your Java solution step by step with visualization using an example:
+ Let's walk through your Java solution step by step with visualization using an example:
 
 ---
 
