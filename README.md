@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 14 Apr 2025   | [1534. Count Good Triplets in An Array](https://leetcode.com/problems/count-good-triplets-in-an-array/) | 🔴 Hard      |
 | 14 Apr 2025   | [1534. Count Good Triplets](https://leetcode.com/problems/count-good-triplets/) | 🟢 Easy      |
 | 13 Apr 2025   | [1922. Count Good Numbers](https://leetcode.com/problems/count-good-numbers/) | 🟠 Medium      |
 | 12 Apr 2025   | [3272. Find the Count of Good Integers](https://leetcode.com/problems/find-the-count-of-good-integers/) | 🔴 Hard      |
