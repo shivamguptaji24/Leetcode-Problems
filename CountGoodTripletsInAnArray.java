@@ -221,3 +221,9 @@ Step 4: num = 3 → p = 4
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 10ms runtime which is the lowest time in this problem.
+*/
