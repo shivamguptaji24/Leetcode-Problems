@@ -227,3 +227,215 @@ Step 4: num = 3 → p = 4
 /*
 This is the solution that takes only 10ms runtime which is the lowest time in this problem.
 */
+
+class Solution 
+{
+    public long goodTriplets(int[] nums1, int[] nums2) 
+    {
+        int n = nums1.length;
+        int[] pos2 = new int[n], reversedIndexMapping = new int[n];
+        
+        for (int i = 0; i < n; i++) 
+        {
+            pos2[nums2[i]] = i;
+        }
+        for (int i = 0; i < n; i++) 
+        {
+            reversedIndexMapping[pos2[nums1[i]]] = i;
+        }
+        
+        FenwickTree tree = new FenwickTree(n);
+        long res = 0;
+        for (int value = 0; value < n; value++) 
+        {
+            int pos = reversedIndexMapping[value];
+            int left = tree.query(pos);
+            tree.update(pos, 1);
+            int right = (n - 1 - pos) - (value - left);
+            res += (long) left * right;
+        }
+        return res;
+    }
+
+    private class FenwickTree 
+    {
+        private int[] tree;
+
+        public FenwickTree(int size) 
+        {
+            this.tree = new int[size + 1];
+        }
+
+        public void update(int index, int delta) 
+        {
+            index++;
+            while (index < tree.length) 
+            {
+                this.tree[index] += delta;
+                index += index & -index;
+            }
+        }
+
+        public int query(int index) 
+        {
+            index++;
+            int res = 0;
+            while (index > 0) 
+            {
+                res += this.tree[index];
+                index -= index & -index;
+            }
+            return res;
+        }
+    }
+}
+
+/*
+Visualization of the above code
+ Let’s visualize and break down this optimized solution for counting "good triplets" using a Fenwick Tree (BIT), in a very intuitive and simple way.
+
+---
+
+🔍 Problem Summary:
+
+Given two permutations `nums1` and `nums2`, you want to count the number of increasing triplets `(i, j, k)` such that:
+
+- The elements in the triplet are from `nums1`.
+- Their positions in `nums2` also maintain the same increasing order.
+
+---
+
+🧠 Intuition Behind the Code:
+
+We are converting the problem into:
+- A 1D inversion count style problem.
+- We're processing elements based on position order in `nums2`, but actually iterating over `nums1`.
+
+So let's go through the code line-by-line with inline visualization.
+
+---
+
+🪄 Step-by-Step Visualization:
+
+✅ Sample Input:
+
+```
+nums1 = [2, 0, 1, 3]
+nums2 = [0, 1, 2, 3]
+```
+
+📌 Step 1: Map `nums2` values to their indices
+
+```
+for (int i = 0; i < n; i++) {
+    pos2[nums2[i]] = i;
+}
+```
+
+This will give:
+```
+pos2 = [0, 1, 2, 3]  // pos2[value] = index in nums2
+```
+
+📌 Step 2: Convert `nums1` to positions in `nums2` using pos2
+
+```
+for (int i = 0; i < n; i++) {
+    reversedIndexMapping[pos2[nums1[i]]] = i;
+}
+```
+
+Walkthrough:
+- `nums1[0] = 2` → `pos2[2] = 2` → `reversedIndexMapping[2] = 0`
+- `nums1[1] = 0` → `pos2[0] = 0` → `reversedIndexMapping[0] = 1`
+- `nums1[2] = 1` → `pos2[1] = 1` → `reversedIndexMapping[1] = 2`
+- `nums1[3] = 3` → `pos2[3] = 3` → `reversedIndexMapping[3] = 3`
+
+So:
+
+```
+reversedIndexMapping = [1, 2, 0, 3]
+```
+
+---
+
+📈 Step 3: Main Triplet Counting Loop
+
+```
+for (int value = 0; value < n; value++) {
+    int pos = reversedIndexMapping[value];
+    int left = tree.query(pos);
+    tree.update(pos, 1);
+    int right = (n - 1 - pos) - (value - left);
+    res += (long) left * right;
+}
+```
+
+🔍 What’s happening here?
+
+- We treat `value` as the middle of a triplet.
+- `pos` = index in `nums1` where `nums2[value]` appears.
+- `left` = number of values to the left of `pos` that have already appeared.
+- `right` = number of values to the right of `pos` that will appear after this, but are greater in `nums2`.
+
+🔁 Dry Run for our example:
+
+```
+reversedIndexMapping = [1, 2, 0, 3]
+n = 4
+```
+
+🔹 value = 0 → pos = 1
+- left = `tree.query(1)` = 0
+- update BIT at 1
+- right = (3 - 1) - (0 - 0) = 2
+- `res += 0 * 2 = 0`
+
+🔹 value = 1 → pos = 2
+- left = `tree.query(2)` = 1 (one value inserted before)
+- update BIT at 2
+- right = (3 - 2) - (1 - 1) = 1
+- `res += 1 * 1 = 1`
+
+🔹 value = 2 → pos = 0
+- left = `tree.query(0)` = 0
+- update BIT at 0
+- right = (3 - 0) - (2 - 0) = 1
+- `res += 0 * 1 = 0`
+
+🔹 value = 3 → pos = 3
+- left = `tree.query(3)` = 3
+- update BIT at 3
+- right = (3 - 3) - (3 - 3) = 0
+- `res += 3 * 0 = 0`
+
+---
+
+✅ Final Result:
+```
+res = 1
+```
+
+So only 1 good triplet exists, which maintains increasing order in both `nums1` and `nums2`.
+
+---
+
+🌳 FenwickTree (Binary Indexed Tree)
+
+Efficiently supports:
+- `update(index, delta)` in `O(log n)` – adds a value at index
+- `query(index)` in `O(log n)` – prefix sum up to index
+
+Used here to keep track of how many values appeared before the current `pos`.
+
+---
+
+✅ Summary
+
+- 🧠 Uses clever mapping from `nums2` to index positions.
+- 🔄 Transforms triplet problem into a 1D prefix-suffix combo using a BIT.
+- 💡 Time complexity: O(n log n)
+- 🎯 Space complexity: O(n)
+
+---
+*/
