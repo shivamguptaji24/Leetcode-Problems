@@ -183,3 +183,227 @@ Window invalid → done
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 30ms runtime which is the lowest time in this problem.
+*/
+
+public class Solution {
+    public long countGood(int[] nums, int k) {
+        if (nums.length < 2) {
+            return 0L;
+        }
+        Map<Integer, Integer> countMap = new HashMap<>(nums.length, 0.99f);
+        long goodSubArrays = 0L;
+        long current = 0L;
+        int left = 0;
+        int right = -1;
+        while (left < nums.length) {
+            if (current < k) {
+                if (++right == nums.length) {
+                    break;
+                }
+          
+                Integer num = nums[right];
+                Integer count = countMap.get(num);
+                if (count == null) {
+                    count = 1;
+                } else {
+                    current += count;
+                    if (current >= k) {
+                        goodSubArrays += nums.length - right;
+                    }
+                    count = count + 1;
+                }
+                countMap.put(num, count);
+            } else {
+                Integer num = nums[left++];
+                int count = countMap.get(num) - 1;
+                if (count > 0) {
+                    countMap.put(num, count);
+                    current -= count;
+                } else {
+                    countMap.remove(num);
+                }
+                if (current >= k) {
+                    goodSubArrays += nums.length - right;
+                }
+            }
+        }
+        return goodSubArrays;
+    }
+}
+
+/*
+Visualization of the above code
+ Let's visualize this sliding window solution step-by-step for the problem:
+
+---
+
+🔍 Problem Recap
+You are given:
+- An array `nums`
+- An integer `k`
+
+You must count the number of subarrays where there are **at least `k` equal pairs** `(i, j)` such that `i < j` and `nums[i] == nums[j]`.
+
+---
+
+👨‍💻 Code Summary
+
+```
+Map<Integer, Integer> countMap
+```
+Stores the frequency of elements in the current window.
+
+```
+long current
+```
+Keeps track of how many valid pairs are currently in the window.
+
+```
+long goodSubArrays
+```
+Counts all valid subarrays found so far.
+
+```
+int left, right
+```
+Used to control the sliding window.
+
+---
+
+⚙️ Working Logic (Step-by-Step)
+
+Let’s take a sample input:
+```
+nums = [3, 1, 4, 3, 2, 2, 4]
+k = 2
+```
+
+We'll simulate the loop:
+
+---
+
+📦 Initial State
+
+- `left = 0`, `right = -1`
+- `current = 0`, `goodSubArrays = 0`
+- `countMap = {}`
+
+---
+
+➕ Expand `right` until we find `k` pairs
+
+➡️ `right = 0` → nums[0] = 3
+
+- 3 is new → `count = 1`, `current = 0`  
+- `countMap = {3:1}`
+
+➡️ `right = 1` → nums[1] = 1
+
+- 1 is new → `count = 1`, `current = 0`  
+- `countMap = {3:1, 1:1}`
+
+➡️ `right = 2` → nums[2] = 4
+
+- 4 is new → `count = 1`, `current = 0`  
+- `countMap = {3:1, 1:1, 4:1}`
+
+➡️ `right = 3` → nums[3] = 3
+
+- 3 already exists → old count = 1 → add 1 pair
+- `current = 1`
+- `countMap = {3:2, 1:1, 4:1}`
+
+➡️ `right = 4` → nums[4] = 2
+
+- 2 is new → `count = 1`, `current = 1`  
+- `countMap = {3:2, 1:1, 4:1, 2:1}`
+
+➡️ `right = 5` → nums[5] = 2
+
+- 2 already exists → old count = 1 → add 1 pair
+- `current = 2 ✅`
+- Subarray [0…5] is valid
+
+✅ Add `nums.length - right = 7 - 5 = 2` to result  
+`goodSubArrays = 2`
+
+---
+
+➖ Shrink `left` while maintaining `current >= k`
+
+➡️ `left = 0` → remove 3
+
+- `count = 2 → 1` → remove 1 pair  
+- `current = 1 ❌`  
+- `countMap = {3:1, 1:1, 4:1, 2:2}`
+
+---
+
+➕ Expand `right = 6` → nums[6] = 4
+
+- 4 already exists → old count = 1 → add 1 pair  
+- `current = 2 ✅`
+- Subarray [1…6] is valid
+
+✅ Add `nums.length - right = 7 - 6 = 1` to result  
+`goodSubArrays = 3`
+
+---
+
+➖ Shrink `left = 1` → remove 1
+
+- `count = 1 → 0` → no pair removed  
+- `countMap = {3:1, 4:2, 2:2}`
+- `current = 2 ✅`
+✅ Add `1` more → `goodSubArrays = 4`
+
+---
+
+➖ Shrink `left = 2` → remove 4
+
+- `count = 2 → 1` → remove 1 pair  
+- `current = 1 ❌`
+
+---
+
+🚫 Can't expand anymore → loop ends.
+
+---
+
+✅ Final Result: `goodSubArrays = 4`
+
+---
+
+📊 Visual Summary Table
+
+| Window      | Right | Current Pairs | Valid? | Subarrays Added |
+|-------------|-------|----------------|--------|------------------|
+| [3,1,4,3,2,2] | 5     | 2              | ✅     | 2                |
+| [1,4,3,2,2,4] | 6     | 2              | ✅     | 2                |
+
+---
+
+🎨 Diagram (Sliding Window)
+
+```
+[3, 1, 4, 3, 2, 2, 4]
+ ^                 ^  → left = 0, right = 6
+Valid subarrays = [3,1,4,3,2,2]
+                  [3,1,4,3,2,2,4]
+
+Shift window:
+[1, 4, 3, 2, 2, 4]
+ ^                 ^  → valid again
+
+Shift:
+[4, 3, 2, 2, 4]
+ → invalid after removing pair
+```
+
+---
+*/
