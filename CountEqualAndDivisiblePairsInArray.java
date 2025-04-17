@@ -134,3 +134,97 @@ private static int helper(int[] nums, int k, int i){
     return count+helper(nums,k,i+1);
   }
 }
+
+/*
+Visualization of the above code
+ Let’s visualize the recursive code step-by-step for this problem:
+
+---
+
+🔍 Problem Recap:
+
+We are given:
+- An array `nums`
+- An integer `k`
+We need to count **pairs (i, j)** such that:
+- `0 <= i < j < nums.length`
+- `nums[i] == nums[j]`
+- `(i * j) % k == 0`
+
+---
+
+🧠 Code Breakdown:
+
+You’re using recursion with a helper function that checks for valid `(i, j)` pairs starting from each `i`.
+
+```
+private static int helper(int[] nums, int k, int i) {
+    if (i >= nums.length) return 0;
+    int count = 0;
+    for (int j = i + 1; j < nums.length; j++) {
+        if (nums[i] == nums[j] && (i * j) % k == 0) {
+            count++;
+        }
+    }
+    return count + helper(nums, k, i + 1); // Recurse to the next i
+}
+```
+
+---
+
+📦 Input Example:
+
+```
+nums = [3, 1, 2, 2, 2, 1, 3], k = 2
+```
+
+---
+
+🧾 Visualization Table:
+
+Let’s simulate each recursive call:
+
+| `i` | `j` Range     | `nums[i]` | Matching `nums[j]` | `i * j` | `(i * j) % 2 == 0` | Count from i |
+|-----|---------------|-----------|---------------------|---------|---------------------|--------------|
+| 0   | 1 → 6         | 3         | 6 → `nums[6] = 3`   | 0       | ✅                  | 1 ✅         |
+| 1   | 2 → 6         | 1         | 5 → `nums[5] = 1`   | 5       | ❌                  | 0            |
+| 2   | 3 → 6         | 2         | 3, 4 → ✅            | 6, 8    | ✅                  | 2 ✅         |
+| 3   | 4 → 6         | 2         | 4 → ✅              | 12      | ✅                  | 1 ✅         |
+| 4   | 5 → 6         | 2         | -                   | -       | -                   | 0            |
+| 5   | 6             | 1         | -                   | -       | -                   | 0            |
+| 6   | -             | 3         | -                   | -       | -                   | 0            |
+
+---
+
+🔢 Final Count:
+
+```
+= 1 (from i=0)
++ 0 (from i=1)
++ 2 (from i=2)
++ 1 (from i=3)
++ 0 (from i=4)
++ 0 (from i=5)
++ 0 (from i=6)
+= 4 ✅
+```
+
+---
+
+🔁 Recursive Call Trace (Simplified):
+
+```
+helper(i=0) ➜ 1 + helper(i=1)
+helper(i=1) ➜ 0 + helper(i=2)
+helper(i=2) ➜ 2 + helper(i=3)
+helper(i=3) ➜ 1 + helper(i=4)
+helper(i=4) ➜ 0 + helper(i=5)
+helper(i=5) ➜ 0 + helper(i=6)
+helper(i=6) ➜ 0 + helper(i=7)
+helper(i=7) ➜ base case: return 0
+```
+
+---
+
+✅ Answer: `4`
+*/
