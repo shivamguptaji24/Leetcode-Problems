@@ -68,3 +68,114 @@ class Solution {
         return result;
     }
 }
+
+/*
+Visualization of the above code
+ Let’s visually trace the code logic of the `countAndSay(n)` function for better understanding. We'll go step-by-step through how the string is constructed at each level for an example like `n = 5`.
+
+---
+
+🧠 Initial Setup
+We start with:
+```
+String result = "1";
+```
+
+---
+
+🔁 Iteration Breakdown (Step-by-step)
+
+Let’s visualize how each term is constructed using run-length encoding.
+
+---
+
+✅ Step 1: `n = 1`
+```
+result = "1"
+```
+
+---
+
+✅ Step 2: `n = 2`
+Read `"1"`:
+- One `1` → `"11"`
+
+```
+result = "11"
+```
+
+---
+
+✅ Step 3: `n = 3`
+Read `"11"`:
+- Two `1`s → `"21"`
+
+```
+result = "21"
+```
+
+---
+
+✅ Step 4: `n = 4`
+Read `"21"`:
+- One `2` → `"12"`
+- One `1` → `"11"`
+
+```
+result = "1211"
+```
+
+---
+
+✅ Step 5: `n = 5`
+Read `"1211"`:
+- One `1` → `"11"`
+- One `2` → `"12"`
+- Two `1`s → `"21"`
+
+So final string:
+```
+result = "111221"
+```
+
+---
+
+🧩 Final Visualization Table
+
+| n | countAndSay(n) |
+|---|----------------|
+| 1 | `"1"`          |
+| 2 | `"11"`         |
+| 3 | `"21"`         |
+| 4 | `"1211"`       |
+| 5 | `"111221"`     |
+
+---
+
+🔍 Loop Logic (Zooming in)
+Each time inside the loop:
+- We iterate over the current `result` string.
+- Count how many times the same digit appears in a row.
+- Append the `count + digit` to the new string.
+
+---
+
+🔄 Code Segment Visual
+Imagine `result = "1211"`:
+```
+for (int j = 1; j < result.length(); j++) {
+    if (result.charAt(j) == result.charAt(j - 1)) {
+        count++;
+    } else {
+        sb.append(count).append(result.charAt(j - 1));
+        count = 1;
+    }
+}
+```
+At the end, don’t forget to append the last group:
+```
+sb.append(count).append(result.charAt(result.length() - 1));
+```
+
+---
+*/
