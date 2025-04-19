@@ -27,3 +27,45 @@ nums.length == n
 -109 <= nums[i] <= 109
 -109 <= lower <= upper <= 109
 */
+
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        long count = 0;
+        int n = nums.length;
+
+        for (int i = 0; i < n; i++) {
+            int left = lowerBound(nums, i + 1, n - 1, lower - nums[i]);
+            int right = upperBound(nums, i + 1, n - 1, upper - nums[i]);
+            count += (right - left);
+        }
+
+        return count;
+    }
+
+    // Finds the first index where element >= target
+    private int lowerBound(int[] arr, int start, int end, int target) {
+        int low = start, high = end + 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] < target)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        return low;
+    }
+
+    // Finds the first index where element > target
+    private int upperBound(int[] arr, int start, int end, int target) {
+        int low = start, high = end + 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] <= target)
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        return low;
+    }
+}
