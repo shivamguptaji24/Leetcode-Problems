@@ -175,3 +175,9 @@ The confusion is because in the sorted version, we still preserve valid pairs `(
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 23ms runtime which is the lowest time in this problem.
+*/
