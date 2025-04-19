@@ -181,3 +181,22 @@ The confusion is because in the sorted version, we still preserve valid pairs `(
 /*
 This is the solution that takes only 23ms runtime which is the lowest time in this problem.
 */
+
+import java.util.Arrays;
+
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        return count(nums, upper) - count(nums, lower - 1);
+    }
+
+    private long count(int[] nums, int target) {
+        long res = 0;
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            if (nums[left] + nums[right] > target) right--;
+            else res += right - left++;
+        }
+        return res;
+    }
+}
