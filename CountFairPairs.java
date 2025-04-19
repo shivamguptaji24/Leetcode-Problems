@@ -200,3 +200,132 @@ class Solution {
         return res;
     }
 }
+
+/*
+Visualization of the above code
+ Let’s visualize how this Java code works step-by-step using the example:
+
+---
+
+✅ Problem
+You're given:
+- an integer array `nums`
+- two integers `lower` and `upper`
+
+You need to count the number of fair pairs `(i, j)` where:
+- `0 <= i < j < n`
+- `lower <= nums[i] + nums[j] <= upper`
+
+---
+
+🧠 Code Breakdown
+
+🔹 Main Logic
+```
+Arrays.sort(nums);
+return count(nums, upper) - count(nums, lower - 1);
+```
+
+This uses a clever trick:  
+To count how many pairs sum within `[lower, upper]`, we do:
+
+```
+count(upper) - count(lower - 1)
+```
+
+Why?  
+Because:
+- `count(upper)` gives pairs where sum ≤ `upper`
+- `count(lower - 1)` gives pairs where sum < `lower`
+- Subtracting gives you pairs where `lower <= sum <= upper`
+
+---
+
+🔹 Helper Function
+```
+private long count(int[] nums, int target)
+```
+This function counts pairs `(i, j)` with `i < j` and `nums[i] + nums[j] <= target` using two pointers.
+
+---
+
+🧪 Dry Run with Example
+
+Input:
+```
+nums = [0, 1, 7, 4, 4, 5]
+lower = 3, upper = 6
+```
+
+Step 1: Sort the array
+```
+[0, 1, 4, 4, 5, 7]
+```
+
+---
+
+Step 2: `count(nums, upper)` → count(nums, 6)
+
+We’ll use two pointers: `left = 0`, `right = 5`
+
+| Left | Right | nums[left] + nums[right] | Action          | Pairs Count |
+|------|--------|---------------------------|------------------|--------------|
+| 0    | 5      | 0 + 7 = 7 > 6            | right-- → 4     | 0            |
+| 0    | 4      | 0 + 5 = 5 ≤ 6            | res += 4        | 4            |
+| 1    | 4      | 1 + 5 = 6 ≤ 6            | res += 3        | 7            |
+| 2    | 4      | 4 + 5 = 9 > 6            | right-- → 3     | 7            |
+| 2    | 3      | 4 + 4 = 8 > 6            | right-- → 2     | 7            |
+
+🔹 Final result of `count(nums, 6)` = 7
+
+---
+
+Step 3: `count(nums, lower - 1)` → count(nums, 2)
+
+| Left | Right | Sum      | Action          | Count |
+|------|--------|-----------|------------------|--------|
+| 0    | 5      | 0 + 7 = 7 | > 2 → right--    | 0      |
+| 0    | 4      | 0 + 5 = 5 | > 2 → right--    | 0      |
+| 0    | 3      | 0 + 4 = 4 | > 2 → right--    | 0      |
+| 0    | 2      | 0 + 4 = 4 | > 2 → right--    | 0      |
+| 0    | 1      | 0 + 1 = 1 | ≤ 2 → res += 1   | 1      |
+
+🔹 Final result of `count(nums, 2)` = 1
+
+---
+
+Final Result:
+```
+countFairPairs = 7 - 1 = 6 ✅
+```
+
+---
+
+🖼️ Visual Summary
+
+```
+Sorted nums: [0, 1, 4, 4, 5, 7]
+
+Pairs with sum ≤ 6:
+- (0,1): 0+1 = 1
+- (0,2): 0+4 = 4
+- (0,3): 0+4 = 4
+- (0,4): 0+5 = 5
+- (1,2): 1+4 = 5
+- (1,3): 1+4 = 5
+- (1,4): 1+5 = 6
+
+Pairs with sum < 3:
+- (0,1): 0+1 = 1
+
+Fair Pairs = All in [3,6] = 7 - 1 = 6 ✅
+```
+
+---
+
+🚀 Time & Space Complexity
+- Time: O(n log n) due to sorting + O(n) for two-pointer traversal
+- Space: O(1) (in-place two pointers)
+
+---
+*/
