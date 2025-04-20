@@ -27,3 +27,23 @@ Constraints:
 1 <= answers.length <= 1000
 0 <= answers[i] < 1000
 */
+
+class Solution {
+    public int numRabbits(int[] answers) {
+                // Map to count how many times each answer appears
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int ans : answers) {
+            freq.put(ans, freq.getOrDefault(ans, 0) + 1);
+        }
+
+        int res = 0;
+        for (int x : freq.keySet()) {
+            int count = freq.get(x);       // Number of rabbits that answered x
+            int groupSize = x + 1;         // Each group has (x + 1) rabbits of the same color
+            int groups = (count + groupSize - 1) / groupSize; // Ceiling division
+            res += groups * groupSize;     // Total rabbits for this answer group
+        }
+
+        return res;
+    }
+}
