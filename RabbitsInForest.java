@@ -145,3 +145,87 @@ class Solution {
         return ans;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize the working of your code using an example. The code counts the minimum number of rabbits in the forest based on their answers about how many other rabbits share their color.
+
+---
+
+✅ Example Input:
+
+```
+answers = [1, 1, 2]
+```
+
+---
+
+🔍 Step-by-step Explanation:
+
+You have:
+
+```
+int[] count = new int[1000]; // used to count occurrences of each answer
+int ans = 0; // the final number of rabbits
+```
+
+Now you iterate through the `answers` array.
+
+---
+
+🧠 Iteration 1: `x = 1`
+
+- `++count[1] = 1`
+- Since `count[1] == 1`, it’s the first rabbit of this color group.
+  - So, we add `x + 1 = 2` rabbits (1 who answered, 1 additional).
+  - `ans = 0 + 2 = 2`
+- Since `count[1] != x + 1 = 2`, do nothing more.
+
+---
+
+🧠 Iteration 2: `x = 1` (again)
+
+- `++count[1] = 2`
+- Now `count[1] == x + 1 = 2`, meaning this color group is full.
+  - So, reset: `count[1] = 0`
+
+`ans` remains 2
+
+---
+
+🧠 Iteration 3: `x = 2`
+
+- `++count[2] = 1`
+- Since `count[2] == 1`, it’s the first rabbit of a new color group of size 3 (2 + 1)
+  - So, we add `x + 1 = 3`
+  - `ans = 2 + 3 = 5`
+- `count[2] != 3`, so don’t reset.
+
+---
+
+🎯 Final Output:
+
+```
+return ans = 5
+```
+
+---
+
+🔢 Visualization Table
+
+| x (answer) | count[x] after ++ | Condition Met                   | Action Taken         | ans |
+|------------|-------------------|----------------------------------|----------------------|-----|
+| 1          | 1                 | First rabbit in group            | `ans += 2`           | 2   |
+| 1          | 2                 | Group full (2 of same color)     | Reset count[x]       | 2   |
+| 2          | 1                 | First rabbit in group of 3       | `ans += 3`           | 5   |
+
+---
+
+🧠 Concept Behind Logic
+
+- When you see a rabbit answering `x`, it implies a group of (x + 1) rabbits of that same color.
+- You add `x + 1` to the answer only once for each new group.
+- Once that group is full, you reset the counter to be ready for a possible new group of the same kind.
+
+---
+*/
