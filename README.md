@@ -36,7 +36,8 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
-| 19 Apr 2025   | [2563. Count the Number of Fair Pairs]() | 🟠 Medium      |
+| 20 Apr 2025   | [781. Rabbits in Forest](https://leetcode.com/problems/rabbits-in-forest/) | 🟠 Medium      |
+| 19 Apr 2025   | [2563. Count the Number of Fair Pairs](https://leetcode.com/problems/count-the-number-of-fair-pairs/) | 🟠 Medium      |
 | 18 Apr 2025   | [38. Count and Say](https://leetcode.com/problems/count-and-say/) | 🟠 Medium      |
 | 17 Apr 2025   | [2176. Count Equal and Divisible Pairs in an Array](https://leetcode.com/problems/count-equal-and-divisible-pairs-in-an-array/) | 🟢 Easy      |
 | 16 Apr 2025   | [2537. Count the Number of Good Subarrays](https://leetcode.com/problems/count-the-number-of-good-subarrays/) | 🟠 Medium      |
