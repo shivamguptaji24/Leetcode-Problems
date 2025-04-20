@@ -47,3 +47,77 @@ class Solution {
         return res;
     }
 }
+
+/*
+Visualization of the above code
+ Let’s walk through a visualization of the code for the example:
+
+---
+
+🔢 Input:
+```
+answers = [1, 1, 2]
+```
+
+🧠 What answers mean:
+- A rabbit answering `1` means there is 1 other rabbit of the same color (i.e. a group of 2 rabbits total).
+- A rabbit answering `2` means there are 2 other rabbits of the same color (i.e. a group of 3 rabbits total).
+
+---
+
+🔍 Step-by-step Execution:
+
+Step 1: Build frequency map
+
+```
+Map<Integer, Integer> freq = new HashMap<>();
+```
+
+Loop through `answers`:
+
+- `answers[0] = 1` → `freq[1] = 1`
+- `answers[1] = 1` → `freq[1] = 2`
+- `answers[2] = 2` → `freq[2] = 1`
+
+So,
+```
+freq = {1=2, 2=1}
+```
+
+---
+
+Step 2: Iterate through the map
+
+For answer `x = 1`:
+
+- `count = 2` (2 rabbits said "1")
+- `groupSize = x + 1 = 2`
+- `groups = (2 + 2 - 1) / 2 = 3 / 2 = 1` group (because exactly 2 rabbits fit 1 group of size 2)
+- Total rabbits so far: `res = 1 * 2 = 2`
+
+For answer `x = 2`:
+
+- `count = 1` (1 rabbit said "2")
+- `groupSize = x + 1 = 3`
+- `groups = (1 + 3 - 1) / 3 = 3 / 3 = 1`
+- Total rabbits so far: `res += 1 * 3 = 3` (Now res = 2 + 3 = 5)
+
+---
+
+✅ Final Output:
+```
+return 5;
+```
+
+---
+
+🎯 Visualization Summary:
+
+| Answer x | Frequency | Group Size (x+1) | Groups Needed | Rabbits Counted |
+|----------|-----------|------------------|----------------|------------------|
+|    1     |     2     |        2         |       1        |        2         |
+|    2     |     1     |        3         |       1        |        3         |
+|  Total  |           |                  |                |      5       |
+
+---
+*/
