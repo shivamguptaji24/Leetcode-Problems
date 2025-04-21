@@ -214,3 +214,127 @@ class Solution {
     }
 
 }
+
+/*
+Visualization of the above code
+ Let’s visualize this optimized code for the LeetCode problem "Number of Valid Hidden Sequences", based on this input:
+
+---
+
+🧪 Example Input
+```
+differences = [1, -3, 4]
+lower = 1
+upper = 6
+```
+
+---
+
+🧠 Key Idea
+
+We want to build a hidden sequence such that:
+
+```
+hidden[i + 1] = hidden[i] + differences[i]
+```
+
+So, hidden values are formed by adding cumulative differences to a starting value `x`.
+
+🔍 The values of the sequence become:
+```
+hidden[0] = x
+hidden[1] = x + differences[0]
+hidden[2] = x + differences[0] + differences[1]
+hidden[3] = x + differences[0] + differences[1] + differences[2]
+```
+
+So the sequence = `x + prefixSum[i]` for all i.
+
+---
+
+🧮 Step-by-step Code Visualization
+
+```
+long start = 0, max = 0, min = 0;
+```
+- `start`: holds the cumulative prefix sum.
+- `max`: tracks max of prefix sum
+- `min`: tracks min of prefix sum
+
+---
+
+🔁 Loop through differences:
+
+```
+for(int diff : differences){
+    start += diff;
+    max = Math.max(max, start);
+    min = Math.min(min, start);
+}
+```
+
+For `differences = [1, -3, 4]`
+
+| i | diff | start (prefix sum) | max | min |
+|---|------|---------------------|-----|-----|
+| 0 |  1   | 1                   | 1   | 0   |
+| 1 | -3   | -2                  | 1   | -2  |
+| 2 |  4   | 2                   | 2   | -2  |
+
+🔍 So we found:
+- `max prefix sum = 2`
+- `min prefix sum = -2`
+
+---
+
+📏 Logic Behind Final Formula
+
+We want all hidden[i] values to be between `lower` and `upper`.
+
+Let’s say:
+- `x` is the first element of the sequence.
+- Then the sequence becomes: `x, x + ps1, x + ps2, ..., x + psN`
+- For the sequence to stay in bounds:
+  ```
+  lower ≤ x + min ≤ x + max ≤ upper
+  ```
+
+So,
+- x must be ≥ (lower - min)
+- x must be ≤ (upper - max)
+
+This gives us:
+```
+total_valid_x = (upper - max) - (lower - min) + 1
+              = (upper - lower) - (max - min) + 1
+```
+
+That’s why the return statement is:
+```
+return Math.max(0, (upper - lower) - (max - min) + 1);
+```
+
+✅ This computes how many valid starting points `x` produce a valid hidden sequence.
+
+---
+
+✅ Final Output for Example:
+```
+(6 - 1) - (2 - (-2)) + 1
+= 5 - 4 + 1
+= 2
+```
+
+So, the output is 2, matching the example from earlier:
+- [3, 4, 1, 5]
+- [4, 5, 2, 6]
+
+---
+
+💡 Summary:
+
+- No need to brute-force all values between lower and upper.
+- Just track min and max prefix sums, then calculate how many valid x values exist so that the entire sequence stays in bounds.
+- Time Complexity: O(n)  
+- Space Complexity: O(1)
+*/
