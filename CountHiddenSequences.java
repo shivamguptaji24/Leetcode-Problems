@@ -44,3 +44,32 @@ n == differences.length
 -105 <= differences[i] <= 105
 -105 <= lower <= upper <= 105
 */
+
+class Solution {
+    public int numberOfArrays(int[] differences, int lower, int upper) {
+                long min = 0, max = 0;
+        long curr = 0;
+
+        // Build prefix sum array to track min and max values
+        for (int diff : differences) {
+            curr += diff;
+            min = Math.min(min, curr);
+            max = Math.max(max, curr);
+        }
+
+        // The valid starting number must be in the range:
+        // [lower - min, upper - max]
+        long validStartMin = lower - min;
+        long validStartMax = upper - max;
+
+        // If the valid start range is invalid (min > max), return 0
+        if (validStartMin > validStartMax) return 0;
+
+        // Total number of valid starting values
+        return (int)(validStartMax - validStartMin + 1);
+    }
+}
+
+/*
+Visualization of the above code
+ 
