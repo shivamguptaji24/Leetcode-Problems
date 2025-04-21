@@ -161,3 +161,56 @@ Instead, we track the range of values based on prefix sum movement and check whi
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 3ms runtime which is the lowest time in this problem.
+*/
+
+class Solution {
+    //My Brute Force gives TLE beacuse it check each element in lower and upper bound
+
+   /*  public int numberOfArrays(int[] differences, int lower, int upper) {
+        int firstLastDiff = 0, n = differences.length, c =0;
+
+        for(int diff: differences) firstLastDiff+=diff;
+
+        for(int i = lower;i<=upper;i++){
+            int prev = i;
+            for(int j=0;j<n;j++){
+                prev = differences[j] + prev;
+                if(prev<lower || prev>upper){
+                    break;
+                }
+                if(j == n-1){
+                    if(prev != i+firstLastDiff) break;
+                    c++;
+                }
+            }
+        }
+
+        return c;
+    }*/
+
+    //Optimizing - what we can observe is
+    //hiddin[i] = firstEle + prefixSum[i];
+    //how? - 
+
+    /*[1,-3,4]=[1,-2,2]prefixSum
+    //first Ele = 3
+    [3,3+1,3-2,3+2]=[3,4,1,5]-VALID[1,2,-1,3]-NOT VALID[4,5,2,6]-VALDI*/
+
+    public int numberOfArrays(int[] differences, int lower, int upper) {
+        long start = 0, max = 0, min = 0;
+        for(int diff : differences){
+            start += diff;
+            max = (max<start)?start:max;
+            min = (min>start)?start:min;
+        }
+        // System.out.println(min+" "+max);        
+
+        return (int)Math.max(0,(upper-lower)-(max-min)+1);
+    }
+
+}
