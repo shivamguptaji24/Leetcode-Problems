@@ -72,4 +72,92 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let’s visualize how the solution works with a step-by-step breakdown for the example:
+
+---
+
+🧪 Example Input:
+```
+differences = [1, -3, 4]
+lower = 1
+upper = 6
+```
+
+We want to find how many hidden sequences of length 4 exist such that:
+- All values lie between 1 and 6.
+- The difference between consecutive elements is as given.
+
+---
+
+🔍 Step 1: Understanding What We’re Building
+
+Let:
+- `hidden[0] = x`
+- The rest of the sequence is built as:
+  - `hidden[1] = x + 1`
+  - `hidden[2] = x + 1 - 3 = x - 2`
+  - `hidden[3] = x - 2 + 4 = x + 2`
+
+So we generate the entire sequence by prefix sums of differences starting from x.
+
+---
+
+🔍 Step 2: Build Prefix Sums
+
+We simulate how `x` evolves through the sequence:
+
+| Index | Difference | Cumulative sum | Expression     |
+|-------|------------|----------------|----------------|
+| 0     | —          | 0              | x              |
+| 1     | +1         | 1              | x + 1          |
+| 2     | -3         | -2             | x - 2          |
+| 3     | +4         | 2              | x + 2          |
+
+➡️ So the full hidden sequence becomes:
+```
+[x, x + 1, x - 2, x + 2]
+```
+
+---
+
+🔍 Step 3: Find Min & Max from Prefix Sums
+
+From cumulative values: `0, 1, -2, 2`  
+- min prefix sum = -2  
+- max prefix sum = 2
+
+These show how far the values in the sequence can dip or rise relative to x.
+
+---
+
+🔍 Step 4: Set Valid Range for Starting Value (x)
+
+To ensure that all values of the sequence are between `lower` and `upper` (i.e., 1 and 6):
+
+- For min: `x + (-2) ≥ 1` ⟹ `x ≥ 3`
+- For max: `x + 2 ≤ 6` ⟹ `x ≤ 4`
+
+So x must lie in `[3, 4]`  
+✅ Valid `x` values: 3 and 4
+
+---
+
+✅ Final Answer:
+
+```
+return 4 - 3 + 1 = 2
+```
+
+There are 2 valid sequences:
+
+1. x = 3 → [3, 4, 1, 5]  
+2. x = 4 → [4, 5, 2, 6]
+
+---
+
+🧠 Final Insight:
+We’re not generating the sequences directly.  
+Instead, we track the range of values based on prefix sum movement and check which starting values produce valid full sequences.
+
+---
+*/
