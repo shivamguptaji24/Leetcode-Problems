@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 22 Apr 2025   | [2338. Count the Number of Ideal Arrays](https://leetcode.com/problems/count-the-number-of-ideal-arrays/) | 🔴 Hard      |
 | 21 Apr 2025   | [2145. Count the Hidden Sequences](https://leetcode.com/problems/count-the-hidden-sequences/) | 🟠 Medium      |
 | 20 Apr 2025   | [781. Rabbits in Forest](https://leetcode.com/problems/rabbits-in-forest/) | 🟠 Medium      |
 | 19 Apr 2025   | [2563. Count the Number of Fair Pairs](https://leetcode.com/problems/count-the-number-of-fair-pairs/) | 🟠 Medium      |
