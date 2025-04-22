@@ -84,3 +84,119 @@ class Solution {
 
 /*
 Visualization of the above code
+   Let’s walk through a visualization of this code for the problem "Ideal Arrays" from LeetCode.
+
+---
+
+💡 Problem Summary
+
+You're given:
+- `n`: the length of the array
+- `maxValue`: the maximum allowed value for any element
+
+We want to count the number of ideal arrays of length `n` such that:
+- Each element is in `[1, maxValue]`
+- For every `i < j`, `arr[j] % arr[i] == 0` (each value divides the next one — a divisible sequence)
+
+---
+
+🔍 High-Level Idea of the Code
+
+The solution uses:
+
+1. Dynamic Programming (`dfs`) with memoization:
+   - To build sequences starting from number `i` with current count `cnt`.
+
+2. Combinatorics (`c[i][j]`):
+   - To calculate the number of ways we can place values across `n` positions when we know how many values will be used (`cnt` length).
+
+---
+
+🧱 Data Structures
+
+- `f[i][cnt]`: memoization for number `i` used `cnt` times
+- `c[n][16]`: precomputed binomial coefficients `C(n-1, cnt-1)`
+- `MOD = 1e9+7`: To avoid integer overflow
+
+---
+
+📊 Let’s Walk Through an Example:
+
+Suppose:
+```
+n = 2, maxValue = 5
+```
+
+---
+
+🔁 For Loop (Main Logic):
+
+```
+for (int i = 1; i <= maxValue; ++i) {
+    ans = (ans + dfs(i, 1)) % MOD;
+}
+```
+
+You're starting sequences with each number from 1 to 5.
+
+---
+
+🔁 dfs(i, cnt)
+
+Let’s say `dfs(2, 1)`:
+- Base case: `cnt = 1`, result is `C(n-1, cnt-1) = C(1, 0) = 1`
+- Now try to multiply `i` with all integers ≥ 2: `2*2=4`, `2*3=6` (beyond `maxValue=5`)
+
+So:
+```
+res = 1 (base)
+→ dfs(4, 2): returns 1 → total res = 2
+```
+
+Same idea applies to `dfs(1, 1)`:
+- `1 → 2 → 4`
+- `1 → 3`
+- `1 → 5`
+(Tracks all valid divisible sequences of length 2)
+
+---
+
+🤯 Why Use Binomial Coefficients?
+
+You count different positions you can insert values for fixed-length sequences.
+
+For a sequence of length `cnt`, the number of ways to extend it to length `n` is:
+```
+C(n-1, cnt-1)
+```
+Because you're selecting `cnt-1` positions (excluding the fixed starting position) out of `n-1` remaining ones.
+
+---
+
+🧮 Final Answer
+
+For `n = 2`, `maxValue = 5`, we count all ideal sequences of length 2:
+
+- Starting from 1 → [1,1], [1,2], [1,3], [1,4], [1,5]
+- Starting from 2 → [2,2], [2,4]
+- Starting from 3 → [3,3]
+- Starting from 4 → [4,4]
+- Starting from 5 → [5,5]
+
+Total = 10 sequences → Output: `10`
+
+✅ Matches LeetCode's example!
+
+---
+
+📌 Summary
+
+| Part | Purpose |
+|------|---------|
+| `dfs(i, cnt)` | Recursively builds sequences from `i` of length `cnt` |
+| `c[n-1][cnt-1]` | Number of ways to place a sequence of length `cnt` into `n` positions |
+| Memoization (`f`) | Avoid recomputing the same subproblems |
+| MOD | Ensures results fit in integer limits |
+
+---
+*/
