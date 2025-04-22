@@ -250,3 +250,112 @@ class Solution {
 		return s;
 	}
 }
+
+/*
+Visualization of the above code
+  Let's break down and visualize this optimized version of the `idealArrays` method that uses prime factorization and binomial coefficients.
+
+---
+
+✅ Goal Recap
+
+We want to count the number of ideal arrays of length `n` such that:
+- Each element is ≤ `maxValue`
+- Every element divides the next
+
+---
+
+🔍 Key Observations
+Any ideal array is a multiplicative sequence:
+- If `a` is the first number, valid next numbers are multiples: `a`, `a×x`, `a×x×y`, etc.
+- The number of such sequences relates to the prime exponents in the factorization of numbers.
+
+---
+
+🧠 What the Code Does
+
+1. Prime Factorization Preprocessing — `minDivisor[]`
+
+```
+int[] minDivisor = new int[maxValue + 1];
+```
+Using a modified Sieve of Eratosthenes to precompute the smallest prime divisor for every number.
+
+🧠 This lets us factor any number quickly later.
+
+---
+
+2. Precomputing Binomial Coefficients — `binCoeff[]`
+
+We use the identity:
+
+> If a number has prime exponents `e1, e2, ..., ek`, then the number of ways to place it in an array of size `n` is:  
+>  
+> C(n - 1 + e1, e1) × C(n - 1 + e2, e2) × ...
+
+```
+BigInteger b = BigInteger.ONE;
+for (int i = 1; i <= maxPow; i++) {
+    b = b * (n + i - 1) / i;
+    binCoeff[i] = b mod MOD;
+}
+```
+
+👆 Efficiently stores binomial coefficients for all powers up to `log₂(maxValue)`.
+
+---
+
+3. Main Loop: For each value i (1 to maxValue)
+
+```
+for (int i = 1; i <= maxValue; i++) {
+    // Factor i using minDivisor[]
+    // Multiply binomial coefficients for each prime power
+}
+```
+
+Suppose `i = 12 → 2^2 × 3^1`
+
+We compute:
+- `C(n-1 + 2, 2)`
+- `C(n-1 + 1, 1)`
+and multiply these values to count the number of arrays starting with `12`.
+
+---
+
+✅ Visualization with Example
+
+Let's try:  
+```
+n = 3, maxValue = 5
+```
+
+Step-by-step
+
+For each `i = 1 to 5`:
+
+- `1 → no primes → count = 1`
+- `2 → 2^1 → count = C(3 - 1 + 1, 1) = C(3, 1) = 3`
+- `3 → 3^1 → count = C(3, 1) = 3`
+- `4 → 2^2 → count = C(4, 2) = 6`
+- `5 → 5^1 → count = C(3, 1) = 3`
+
+Then total = `1 + 3 + 3 + 6 + 3 = 16`
+
+✅ Matches LeetCode expected output!
+
+---
+
+📌 Summary of the Approach
+
+| Step | What It Does |
+|------|--------------|
+| `minDivisor[]` | Finds prime factors efficiently using sieve |
+| `binCoeff[]` | Stores binomial coefficients `C(n + e - 1, e)` |
+| For each `i` from 1 to `maxValue` | Factor `i` → multiply corresponding binomial coefficients |
+| Return total sum modulo `1e9+7` | Final answer |
+
+---
+
+This version is faster and avoids recursion. It's particularly suited for large `n` and `maxValue`.
+*/
