@@ -59,3 +59,81 @@ class Solution {
 
 /*
 Visualization of the above code
+ Let’s visualize step-by-step how the Java code works for `n = 13` with full breakdown. The goal is to group numbers based on the sum of their digits and return how many groups have the largest size.
+
+---
+
+🔢 Step 1: Loop through 1 to 13
+We compute the digit sum of each number and count occurrences:
+
+| Number | Digit Sum | Group |
+|--------|-----------|-------|
+| 1      | 1         | [1]   |
+| 2      | 2         | [2]   |
+| 3      | 3         | [3]   |
+| 4      | 4         | [4]   |
+| 5      | 5         | [5]   |
+| 6      | 6         | [6]   |
+| 7      | 7         | [7]   |
+| 8      | 8         | [8]   |
+| 9      | 9         | [9]   |
+| 10     | 1 (1+0)   | [1,10]|
+| 11     | 2 (1+1)   | [2,11]|
+| 12     | 3 (1+2)   | [3,12]|
+| 13     | 4 (1+3)   | [4,13]|
+
+---
+
+🧮 Group counts after loop:
+
+| Digit Sum | Count |
+|-----------|-------|
+| 1         | 2     |
+| 2         | 2     |
+| 3         | 2     |
+| 4         | 2     |
+| 5 to 9    | 1 each|
+
+Maximum group size = 2
+
+---
+
+✅ Step 2: Count groups of size 2
+
+From above: digit sums 1, 2, 3, 4 each have size 2 → 4 groups
+
+---
+
+📌 Final Answer: `4`
+
+---
+
+🔄 Visualization of Code Execution:
+
+```
+Map<Integer, Integer> map = new HashMap<>();
+int max = 0;
+```
+
+Iterating from 1 to 13:
+
+1. `i = 1` → digitSum = 1 → map[1] = 1 → max = 1  
+2. `i = 2` → digitSum = 2 → map[2] = 1  
+3. ...  
+10. `i = 10` → digitSum = 1 → map[1] = 2 → max = 2  
+11. `i = 11` → digitSum = 2 → map[2] = 2  
+12. `i = 12` → digitSum = 3 → map[3] = 2  
+13. `i = 13` → digitSum = 4 → map[4] = 2  
+
+Now:
+
+```
+for (int size : map.values()) {
+    if (size == max) count++;
+}
+```
+
+`count = 4`
+
+---
+*/
