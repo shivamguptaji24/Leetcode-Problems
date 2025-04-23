@@ -181,3 +181,137 @@ class Solution {
 
 /*
 Visualization of the above code
+ Let's break down and visualize this compact but complex solution step-by-step using a simple example — say, `n = 13`.
+
+---
+
+🔍 Problem Recap:
+We group numbers from `1` to `n` by the sum of their digits. Then, we count how many groups have the largest size.
+
+For `n = 13`, we already know the digit sum groups:
+
+```
+1  -> 1
+2  -> 2
+3  -> 3
+4  -> 4
+5  -> 5
+6  -> 6
+7  -> 7
+8  -> 8
+9  -> 9
+10 -> 1
+11 -> 2
+12 -> 3
+13 -> 4
+```
+
+So the digit sum groups are:
+
+```
+Sum 1: [1, 10]
+Sum 2: [2, 11]
+Sum 3: [3, 12]
+Sum 4: [4, 13]
+Sum 5-9: [5], [6], [7], [8], [9]
+```
+
+Max group size = 2, and there are 4 such groups → Final answer: 4
+
+---
+
+Now, let’s decode the Java code logic (especially the optimized way it precomputes values):
+
+---
+
+🔢 Code Breakdown
+
+1. ref Table Initialization
+```
+int[][] ref = { {1}, new int[10], new int[19], new int[28] };
+```
+This `ref` table helps build the number of ways digit sums can form recursively by digit positions (1-digit, 2-digit, etc.).
+
+- `ref[0]` = `{1}` → base case
+- `ref[1]` = new int[10] → for 1-digit numbers: max sum = 9
+- `ref[2]` = new int[19] → for 2-digit numbers: max sum = 18
+- `ref[3]` = new int[28] → for 3-digit numbers: max sum = 27
+
+2. Digit Sum Array
+```
+int[] digits = {1,0,0,0}
+```
+The `digits` array stores the sum of digits at each digit place (units, tens, hundreds...)
+
+We calculate `psum`, the total digit sum of `n`, which helps determine the max digit sum that could be formed.
+
+For `n = 13`, the loop:
+```
+for (int num = Math.min(n, 9999); num > 0; num /= 10)
+    psum += digits[power++] += num % 10;
+```
+This gives:
+- digits = [3, 1, 0, 0] (because 13 = 1\*10 + 3)
+- psum = 1 + 3 = 4
+
+---
+
+3. Building Combinations of Digit Sums
+
+This loop:
+```
+for (int d = 0; d < power; d++) { ... }
+```
+Builds how digit sums could combine for multi-digit numbers using previous values in `ref`.
+
+It uses:
+- `ref[d]` = previously computed combinations
+- `ref[d+1]` = current digit position
+- It accumulates combinations to `counts[psum + i]`, which represents how many numbers have digit sum `psum + i`.
+
+So by the end of this loop, `counts` contains the number of numbers that belong to each digit sum group.
+
+---
+
+4. Finding the Largest Group Size
+
+```
+for (int x : counts)
+    if (x > max) {
+        max = x;
+        count = 1;
+    } else if (x == max)
+        count++;
+```
+
+Just like a frequency count:
+- Finds the maximum frequency (`max`)
+- Counts how many groups have that frequency
+
+---
+
+✅ Example for n = 13:
+
+Final `counts[]` (key values):
+```
+counts[1] = 2 → [1, 10]
+counts[2] = 2 → [2, 11]
+counts[3] = 2 → [3, 12]
+counts[4] = 2 → [4, 13]
+...
+others = 1
+```
+
+So, `max = 2`, and it occurs in 4 places → ✅ Answer = `4`
+
+---
+
+📌 Summary:
+
+This approach uses:
+- A recursive DP-style approach (`ref`) to build digit sum frequencies
+- Efficient lookup and updating of groups
+- Final scan to find how many groups have the largest count
+
+This is a highly optimized solution for large n (up to 9999).
+*/
