@@ -26,3 +26,32 @@ Constraints:
 1 <= nums.length <= 1000
 1 <= nums[i] <= 2000
 */
+
+class Solution {
+    public int countCompleteSubarrays(int[] nums) {
+        int total = 0;
+        int n = nums.length;
+
+        // Step 1: Get number of distinct elements in the full array
+        Set<Integer> fullSet = new HashSet<>();
+        for (int num : nums)
+            fullSet.add(num);
+        int totalDistinct = fullSet.size();
+
+        // Step 2: Check all subarrays
+        for (int i = 0; i < n; i++) {
+            Set<Integer> subSet = new HashSet<>();
+            for (int j = i; j < n; j++) {
+                subSet.add(nums[j]);
+                if (subSet.size() == totalDistinct)
+                    total++;
+            }
+        }
+
+        return total;
+    }
+}
+
+/*
+Visualization of the above code
+ 
