@@ -305,3 +305,108 @@ class Solution {
         return sub;
     }
 }
+
+/*
+Visualization of the above code
+ Let's walk through this optimized and efficient Java solution step-by-step with a clear visual explanation — just like a dry run — so you fully understand how it works 🔍
+
+---
+
+💡 Goal:
+Count the number of complete subarrays in `nums`, where:
+> A complete subarray contains all unique elements present in the entire array.
+
+---
+
+📘 Given Example:
+
+```
+nums = [1, 3, 1, 2, 2]
+```
+
+---
+
+🧠 Code Logic Overview:
+
+```
+boolean[] exists = new boolean[2001];
+int distinct = 0;
+```
+👉 First, count how many unique elements are in the whole array.
+
+```
+for (int n : nums) {
+    if (!exists[n]) {
+        exists[n] = true;
+        distinct++;
+    }
+}
+```
+
+For `nums = [1, 3, 1, 2, 2]`  
+➡️ Unique elements: 1, 2, 3 → `distinct = 3`
+
+---
+
+🧮 Main Sliding Window Loop:
+
+We’ll now slide a window `[start ... end]` and use:
+- `freq[]` to track frequencies in the current window.
+- `count` to track number of distinct elements in the window.
+- When `count == distinct`, the current window is complete.
+- We then add all subarrays starting at `start` and ending from `end` to `n-1`.
+
+---
+
+🔍 Dry Run:
+
+Initialization:
+
+```
+int[] freq = new int[2001];
+int count = 0, n = 5, sub = 0;
+int start = 0;
+```
+
+---
+
+Loop:
+
+| `end` | `nums[end]` | `freq[]` Updates     | `count` | `Action`                                 | `sub` |
+|-------|-------------|----------------------|---------|------------------------------------------|-------|
+| 0     | 1           | freq[1] = 1          | 1       | count < distinct → skip                  | 0     |
+| 1     | 3           | freq[3] = 1          | 2       | count < distinct → skip                  | 0     |
+| 2     | 1           | freq[1] = 2          | 2       | count < distinct → skip                  | 0     |
+| 3     | 2           | freq[2] = 1          | 3 ✅     | count == distinct                        |       |
+|       |             |                      |         | Add (5 - 3) = 2 subarrays                | 2     |
+|       |             | freq[1] = 1 (start++)|         | (still complete) → add again             | 4     |
+|       |             | freq[3] = 0 (start++)| count-- | Now incomplete                           |       |
+| 4     | 2           | freq[2] = 2          | 2       | Not complete                             | 4     |
+
+✅ `sub = 4`  
+(Complete subarrays are `[1,3,1,2]`, `[1,3,1,2,2]`, `[3,1,2]`, `[3,1,2,2]`)
+
+---
+
+🔁 Summary of Sliding Logic:
+
+Whenever window `[start...end]` contains all distinct elements:
+- Any extension of this window to the right (`end` to `n-1`) is also complete.
+- So, we add `n - end` subarrays for current `start`.
+
+Then shrink window from `start` until it’s no longer complete.
+
+---
+
+✅ Output: `4`
+
+---
+
+⏱️ Time Complexity:
+
+- `O(n)` for unique count.
+- `O(n)` for sliding window.
+- Total: O(n) — super efficient.
+
+---
+*/
