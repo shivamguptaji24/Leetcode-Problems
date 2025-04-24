@@ -54,4 +54,94 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize the working of the code for this problem with a detailed step-by-step walkthrough — no images, just clear explanation.
+
+---
+
+🧠 Problem Recap
+
+We are given an array `nums`, and we need to count how many complete subarrays exist.
+
+> A complete subarray is one where the number of distinct elements is equal to the number of distinct elements in the entire array.
+
+---
+
+✅ Step-by-Step Visualization
+
+Let's take the example:
+
+```
+nums = [1, 3, 1, 2, 2]
+```
+
+---
+
+🔹 Step 1: Count distinct elements in the whole array
+
+```
+Set<Integer> fullSet = new HashSet<>();
+for (int num : nums)
+    fullSet.add(num);
+int totalDistinct = fullSet.size(); // = 3 → {1, 2, 3}
+```
+
+So, any complete subarray must contain all 3 elements: 1, 2, and 3.
+
+---
+
+🔹 Step 2: Loop through all subarrays and count the complete ones
+
+We use two nested loops:
+- Outer loop (`i`) is the start index of the subarray.
+- Inner loop (`j`) is the end index of the subarray.
+- For each subarray, we keep a Set to track distinct elements.
+
+---
+
+🔄 Iteration Breakdown:
+
+✅ i = 0:
+- j = 0 → [1] → distinct = {1} → ❌
+- j = 1 → [1, 3] → {1,3} → ❌
+- j = 2 → [1, 3, 1] → still {1,3} → ❌
+- j = 3 → [1,3,1,2] → {1,3,2} ✅ → ✔ complete (count = 1)
+- j = 4 → [1,3,1,2,2] → {1,3,2} ✅ → ✔ complete (count = 2)
+
+✅ i = 1:
+- j = 1 → [3] → {3} → ❌
+- j = 2 → [3,1] → {3,1} → ❌
+- j = 3 → [3,1,2] → {3,1,2} ✅ → ✔ complete (count = 3)
+- j = 4 → [3,1,2,2] → {3,1,2} ✅ → ✔ complete (count = 4)
+
+✅ i = 2:
+- j = 2 → [1] → {1} ❌
+- j = 3 → [1,2] → {1,2} ❌
+- j = 4 → [1,2,2] → {1,2} ❌
+
+✅ i = 3:
+- j = 3 → [2] → {2} ❌
+- j = 4 → [2,2] → {2} ❌
+
+✅ i = 4:
+- j = 4 → [2] → {2} ❌
+
+---
+
+🟩 Total Complete Subarrays = 4
+
+Which are:
+- [1,3,1,2]
+- [1,3,1,2,2]
+- [3,1,2]
+- [3,1,2,2]
+
+---
+
+🔚 Summary
+
+- This method brute-forces all subarrays but efficiently uses a `HashSet` to track unique elements.
+- It's simple and works well within the constraints (`n ≤ 1000`).
+- Visualization shows exactly how we're checking and counting only subarrays that contain all unique elements from the full array.
+
+---
+*/
