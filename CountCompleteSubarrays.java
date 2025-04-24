@@ -194,4 +194,82 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize your optimized Java code for counting complete subarrays — line by line and with a clear step-by-step explanation using an example. You’ve used a sliding window + HashMap technique, which is more efficient than brute force. Let’s break it down in a simple way 👇
+
+---
+
+✅ Problem Recap:
+
+You want to count all complete subarrays of `nums`, where:
+> A complete subarray contains all distinct elements that are present in the entire array.
+
+---
+
+🧠 Code Overview
+
+You:
+1. First find how many unique elements are in the full array (`k`).
+2. Then use a sliding window from index `i` to `j`.
+3. Maintain a `HashMap` to count frequency of each element inside the window.
+4. When current window has all `k` unique elements:
+   - Add `(nums.length - j)` to the result.
+   - Shrink the window from the left (`i++`).
+
+---
+
+📌 Let's use this array as an example:
+
+```
+nums = [1, 3, 1, 2, 2]
+```
+
+Step 1: Calculate unique elements
+```
+Set = {1, 3, 2} → k = 3
+```
+
+Step 2: Sliding window logic
+
+| i | j | Window            | Map                 | map.size() | Action                        | ans |
+|---|---|-------------------|---------------------|------------|-------------------------------|-----|
+| 0 | 0 | [1]               | {1=1}               | 1          | Not complete                  | 0   |
+| 0 | 1 | [1, 3]            | {1=1, 3=1}          | 2          | Not complete                  | 0   |
+| 0 | 2 | [1, 3, 1]         | {1=2, 3=1}          | 2          | Not complete                  | 0   |
+| 0 | 3 | [1, 3, 1, 2]      | {1=2, 3=1, 2=1}     | ✅ 3       | Complete → ans += 2 (5-3)     | 2   |
+| 1 | 3 | [3, 1, 2]         | {1=1, 3=1, 2=1}     | ✅ 3       | Complete → ans += 2           | 4   |
+| 2 | 3 | [1, 2]            | {1=1, 2=1}          | 2          | Not complete                  | 4   |
+| 2 | 4 | [1, 2, 2]         | {1=1, 2=2}          | 2          | Not complete                  | 4   |
+| 3 | 4 | [2, 2]            | {2=2}               | 1          | Not complete                  | 4   |
+
+---
+
+🟩 Final Answer: `4`
+
+Subarrays counted:
+- [1,3,1,2]
+- [1,3,1,2,2]
+- [3,1,2]
+- [3,1,2,2]
+
+---
+
+⚙️ Key Insight of Your Code
+
+- It avoids checking all `O(n²)` subarrays.
+- Instead, for each end pointer `j`, you only consider a valid window.
+- When a valid (complete) window is found, all its right extensions are also complete ⇒ That’s why:
+  ```
+  ans += (nums.length - j);
+  ```
+
+---
+
+🚀 Time Complexity
+
+- O(n) average for sliding window (since each element enters and exits the window at most once).
+- O(n) to count unique elements in the beginning.
+
+So, total time is approximately O(n).
+
+---
+*/
