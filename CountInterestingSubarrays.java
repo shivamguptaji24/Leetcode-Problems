@@ -178,3 +178,10 @@ Answer matches the example ✅
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 7ms runtime which is the lowest time in this problem.
+*/
+
