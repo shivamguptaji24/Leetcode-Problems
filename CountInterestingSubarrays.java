@@ -46,3 +46,33 @@ Constraints:
 1 <= modulo <= 109
 0 <= k < modulo
 */
+
+class Solution {
+    public long countInterestingSubarrays(List<Integer> nums, int modulo, int k) {
+        Map<Integer, Long> map = new HashMap<>();
+        map.put(0, 1L); // Initial prefix sum mod value
+
+        long result = 0;
+        int prefix = 0;
+
+        for (int num : nums) {
+            if (num % modulo == k) {
+                prefix++;
+            }
+
+            // Target prefix to form a valid subarray
+            int need = (prefix - k + modulo) % modulo;
+
+            result += map.getOrDefault(need, 0L);
+
+            int modVal = prefix % modulo;
+            map.put(modVal, map.getOrDefault(modVal, 0L) + 1);
+        }
+
+        return result;
+    }
+}
+
+/*
+Visualization of the above code
+ 
