@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 25 Apr 2025   | [2845. Count of Interesting Subarrays](https://leetcode.com/problems/count-of-interesting-subarrays/) | 🟠 Medium      |
 | 24 Apr 2025   | [2799. Count Complete Subarrays in an Array](https://leetcode.com/problems/count-complete-subarrays-in-an-array/) | 🟠 Medium      |
 | 23 Apr 2025   | [1399. Count Largest Group](https://leetcode.com/problems/count-largest-group/) | 🟢 Easy      |
 | 22 Apr 2025   | [2338. Count the Number of Ideal Arrays](https://leetcode.com/problems/count-the-number-of-ideal-arrays/) | 🔴 Hard      |
