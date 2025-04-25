@@ -75,4 +75,106 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize how the code for counting interesting subarrays works step by step using an example:
+
+---
+
+📘 Example
+
+```
+nums = [3, 1, 9, 6], modulo = 3, k = 0
+```
+
+We want to find subarrays where:
+
+> Number of elements in subarray such that `nums[i] % 3 == 0`  
+> is congruent to `0 modulo 3`.
+
+---
+
+🔁 Step-by-Step Execution
+
+We maintain:
+
+- `prefix`: How many values so far satisfy `nums[i] % modulo == k`
+- `map`: Keeps count of prefix values mod `modulo`
+- We initialize `map = { 0: 1 }` since 0 prefix count is valid.
+
+🧮 Initial state:
+```
+map = { 0: 1 }
+prefix = 0
+result = 0
+```
+
+---
+
+🔹 Iteration 1: `num = 3`
+
+- `3 % 3 == 0` ✅ → increase `prefix = 1`
+- Need: `(prefix - k + modulo) % modulo = (1 - 0 + 3) % 3 = 1`
+- `map[1]` = 0 → result += 0
+- Update `map[1] += 1` → map becomes: `{ 0: 1, 1: 1 }`
+
+```
+Valid subarrays found so far = 0
+```
+
+---
+
+🔹 Iteration 2: `num = 1`
+
+- `1 % 3 == 1` ❌ → `prefix` stays 1
+- Need: `(1 - 0 + 3) % 3 = 1`
+- `map[1]` = 1 → result += 1 → `result = 1`
+- Update `map[1] += 1` → `{ 0: 1, 1: 2 }`
+
+```
+Valid subarrays found: [1]
+```
+
+---
+
+🔹 Iteration 3: `num = 9`
+
+- `9 % 3 == 0` ✅ → increase `prefix = 2`
+- Need: `(2 - 0 + 3) % 3 = 2`
+- `map[2]` = 0 → result += 0 → `result = 1`
+- Update `map[2] += 1` → `{ 0: 1, 1: 2, 2: 1 }`
+
+```
+Valid subarrays found: [1]
+```
+
+---
+
+🔹 Iteration 4: `num = 6`
+
+- `6 % 3 == 0` ✅ → `prefix = 3`
+- Need: `(3 - 0 + 3) % 3 = 0`
+- `map[0]` = 1 → result += 1 → `result = 2`
+- Update `map[0] += 1` → `{ 0: 2, 1: 2, 2: 1 }`
+
+```
+Valid subarrays found: [1], [3,1,9,6]
+```
+
+---
+
+✅ Final `result = 2`
+
+Answer matches the example ✅
+
+---
+
+🧠 Visualization Summary
+
+| Index | num | prefix | needed_mod | result | map (prefix % modulo) |
+|-------|-----|--------|------------|--------|------------------------|
+| 0     | 3   | 1      | 1          | 0      | {0:1, 1:1}             |
+| 1     | 1   | 1      | 1          | 1      | {0:1, 1:2}             |
+| 2     | 9   | 2      | 2          | 1      | {0:1, 1:2, 2:1}        |
+| 3     | 6   | 3      | 0          | 2      | {0:2, 1:2, 2:1}        |
+
+---
+*/
