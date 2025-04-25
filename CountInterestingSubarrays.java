@@ -216,4 +216,124 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let’s break down and visualize the execution of your code step by step with an example, so you can understand how it counts interesting subarrays.
+
+---
+
+🧪 Example Input:
+```
+nums = [3, 1, 9, 6], modulo = 3, k = 0
+```
+
+---
+
+🔍 What is an Interesting Subarray?
+
+A subarray `nums[l..r]` is **interesting** if:
+
+```
+count of elements i in [l, r] where nums[i] % modulo == k
+→ let's call this count "cnt"
+→ then cnt % modulo == k
+```
+
+---
+
+🧠 Key Variables
+
+| Variable | Purpose |
+|---------|---------|
+| `sum`   | Keeps cumulative count of how many times `nums[i] % modulo == k` |
+| `count` | Frequency of different `sum % modulo` values |
+| `ans`   | Final answer: number of interesting subarrays |
+
+---
+
+🧮 Step-by-step Execution
+
+Initialization:
+
+```
+count = new int[n+1]; // count[0] = 1
+ans = 0
+sum = 0
+```
+
+---
+
+🔁 Iteration by each element:
+
+✅ `x = 3 → x % 3 = 0 == k → sum++`
+
+```
+sum = 1
+sum % modulo = 1
+r = (1 - 0 + 3) % 3 = 1
+count[1] = 0 → ans = 0
+Increment count[1] → count = [1,1,0,0,0]
+```
+
+---
+
+🔸 `x = 1 → x % 3 = 1 != k → sum unchanged`
+
+```
+sum = 1
+sum % modulo = 1
+r = (1 - 0 + 3) % 3 = 1
+count[1] = 1 → ans = 1
+Increment count[1] → count = [1,2,0,0,0]
+```
+
+---
+
+🔸 `x = 9 → x % 3 = 0 == k → sum++`
+
+```
+sum = 2
+sum % modulo = 2
+r = (2 - 0 + 3) % 3 = 2
+count[2] = 0 → ans = 1
+Increment count[2] → count = [1,2,1,0,0]
+```
+
+---
+
+🔸 `x = 6 → x % 3 = 0 == k → sum++`
+
+```
+sum = 3
+sum % modulo = 0
+r = (0 - 0 + 3) % 3 = 0
+count[0] = 1 → ans = 2
+Increment count[0] → count = [2,2,1,0,0]
+```
+
+---
+
+✅ Final `ans = 2`
+
+Same output as expected. ✅
+
+---
+
+🧾 Visual Table Summary:
+
+| Step | x | x%mod | x==k | sum | sum%mod | r   | count[r] | ans  | count[sum] after |
+|------|---|-------|------|-----|----------|-----|-----------|------|------------------|
+| 1    | 3 | 0     | ✅   | 1   | 1        | 1   | 0         | 0    | count[1] = 1      |
+| 2    | 1 | 1     | ❌   | 1   | 1        | 1   | 1         | 1    | count[1] = 2      |
+| 3    | 9 | 0     | ✅   | 2   | 2        | 2   | 0         | 1    | count[2] = 1      |
+| 4    | 6 | 0     | ✅   | 3   | 0        | 0   | 1         | 2    | count[0] = 2      |
+
+---
+
+🧠 Intuition
+
+You're counting how often a prefix sum modulo matches a previously seen value that would make a subarray end at the current index such that:
+```
+(count of nums[i] % mod == k) % mod == k
+```
+
+---
+*/
