@@ -175,3 +175,117 @@ class Solution {
 
 /*
 Visualization of the above code
+ Alright, let's visualize this `countSubarrays` code — it's very clean and similar to the previous version but even more compressed.
+
+---
+
+🚀 Problem
+
+Find the number of subarrays where:
+- The smallest number is exactly `minK`.
+- The largest number is exactly `maxK`.
+
+---
+
+🧠 Key Variables
+
+| Variable | Purpose |
+|:---|:---|
+| `left` | Last index where the element is **out of range** |
+| `min` | Last index where element == `minK` |
+| `max` | Last index where element == `maxK` |
+| `count` | Final answer (count of valid subarrays) |
+| `n` | Length of `nums` array |
+
+---
+
+🔁 Walkthrough Process
+
+For each index `i` in `nums`:
+
+1. If `nums[i] < minK` or `nums[i] > maxK`, then:
+   - Update `left`, `min`, and `max` to `i`.
+   - (Means we cannot have any valid subarray ending at `i`.)
+
+2. Else:
+   - Update `min` if `nums[i] == minK`.
+   - Update `max` if `nums[i] == maxK`.
+   - Add `(Math.min(min, max) - left)` to `count`.
+     - (Number of valid subarrays ending at index `i`.)
+
+---
+
+🧪 Example
+
+Let's take an example:
+
+```
+nums = [1, 3, 5, 2, 7, 5], minK = 1, maxK = 5
+```
+
+---
+
+| i | nums[i] | Action | left | min | max | min(min,max)-left | count |
+|:--|:--|:--|:--|:--|:--|:--|:--|
+| 0 | 1 | nums[i] == minK → update min=0 | -1 | 0 | -1 | min(0,-1)-(-1)=0 | 0 |
+| 1 | 3 | nothing happens | -1 | 0 | -1 | min(0,-1)-(-1)=0 | 0 |
+| 2 | 5 | nums[i] == maxK → update max=2 | -1 | 0 | 2 | min(0,2)-(-1)=1 | 1 |
+| 3 | 2 | nothing happens | -1 | 0 | 2 | min(0,2)-(-1)=1 | 2 |
+| 4 | 7 | nums[i] > maxK → reset left=min=max=4 | 4 | 4 | 4 | - | 2 |
+| 5 | 5 | nums[i] == maxK → update max=5 | 4 | 4 | 5 | min(4,5)-4=0 | 2 |
+
+✅ Final answer = `2`
+
+---
+
+🔥 Visual Flow
+
+```
+1. Loop through nums:
+    - If nums[i] is invalid → reset positions.
+    - Otherwise:
+        - Update min/max positions if needed.
+        - Calculate valid subarrays ending at i: (Math.min(min, max) - left).
+```
+
+You can think of `left` as the "barrier" for invalid numbers.
+And `min` and `max` as tracking the last locations of `minK` and `maxK`.
+
+Subarrays must start after `left` and include both `min` and `max`.
+
+---
+
+🎯 Important Observations
+
+| Condition | Action |
+|:--|:--|
+| nums[i] < minK or nums[i] > maxK | reset `left = i` |
+| nums[i] == minK | update `min = i` |
+| nums[i] == maxK | update `max = i` |
+| count valid subarrays | `count += min(min, max) - left` |
+
+---
+
+💡 Simplified Intuition
+
+- left = Where invalid values were seen.
+- min, max = Where the needed min and max values were last seen.
+- At every index, if you have seen both minK and maxK after left, you can form subarrays starting after left up to the earliest of min or max.
+
+---
+
+📈 Quick Visual Diagram
+
+```
+    left  min  max  i
+nums: [1] [3] [5] [2] [7] [5]
+      ↑
+   start point
+(valid subarrays count = min(min, max) - left)
+
+When nums[i] is bad (>maxK or <minK), shift left.
+Otherwise update min/max and count new valid subarrays.
+```
+
+---
+*/
