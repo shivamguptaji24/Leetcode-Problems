@@ -150,3 +150,10 @@ That's why:
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 4ms runtime which is the lowest time in this problem.
+*/
+
