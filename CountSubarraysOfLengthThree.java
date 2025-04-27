@@ -46,4 +46,96 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let’s visualize your code step-by-step:
+
+---
+
+Code:
+```
+class Solution {
+    public int countSubarrays(int[] nums) {
+        int ans = 0;
+        for (int i = 1; i + 1 < nums.length; ++i) {
+            if ((nums[i - 1] + nums[i + 1]) * 2 == nums[i]) {
+                ++ans;
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+🛠 How it works:
+
+1. `ans = 0` → to store the number of valid subarrays.
+2. `for (int i = 1; i + 1 < nums.length; ++i)`:
+   - Start from index `1` and go up to `length - 2` because you need a triplet: previous (`i-1`), current (`i`), next (`i+1`).
+3. For each index `i`, check:
+   - `(nums[i-1] + nums[i+1]) * 2 == nums[i]`
+   - **Important:** you are checking if twice the sum of first and third equals the middle number.
+
+4. If yes, increment `ans++`.
+
+---
+
+📊 Visualization on Example:
+
+Suppose:
+```
+nums = [1, 2, 1, 4, 1]
+Indexes:  0  1  2  3  4
+```
+
+Step-by-step:
+- `i = 1`:
+  - nums[0] + nums[2] = 1 + 1 = 2
+  - 2 * 2 = 4
+  - 4 ≠ nums[1] (which is 2) → ❌
+- `i = 2`:
+  - nums[1] + nums[3] = 2 + 4 = 6
+  - 6 * 2 = 12
+  - 12 ≠ nums[2] (which is 1) → ❌
+- `i = 3`:
+  - nums[2] + nums[4] = 1 + 1 = 2
+  - 2 * 2 = 4
+  - 4 == nums[3] (which is 4) → ✅ count++
+
+Finally:  
+ans = 1
+
+Return `1`.
+
+---
+
+🔥 Quick Flowchart:
+
+```
+Start
+ |
+Initialize ans = 0
+ |
+Loop i from 1 to nums.length-2:
+    |
+    Check if (nums[i-1] + nums[i+1]) * 2 == nums[i]
+    |
+    If YES → ans++
+    If NO → continue
+ |
+Return ans
+```
+
+---
+
+⚡ Important Note:
+In your version:
+- Condition is `(sum of 1st + 3rd) * 2 == 2nd`.
+- This differs slightly from the original problem you posted earlier (which was `(first + third) == half of second`).
+  
+> Here you're checking twice the sum equals middle number, instead of sum equals half middle.
+
+If you want me to fix it fully to match the earlier statement (half of second equals sum), just let me know. 🔥
+
+---
+*/
