@@ -146,3 +146,20 @@ If you want me to fix it fully to match the earlier statement (half of second eq
 This is the solution that takes only 2ms runtime which is the second lowest time in this problem.
 */
 
+class Solution {
+    public int countSubarrays(int[] nums) {
+        int n  = nums.length;
+        int count = 0;
+        for(int i = 0;i<=n-3;i++){
+            int a = nums[i];
+            int b = nums[i+1];
+            int c= nums[i+2];
+            if(b%2==0 && (a+c)==(b/2))count++;
+        }
+        return count;
+    }
+}
+
+/*
+Visualization of the above code
+ 
