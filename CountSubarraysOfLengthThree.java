@@ -139,3 +139,10 @@ If you want me to fix it fully to match the earlier statement (half of second eq
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 2ms runtime which is the second lowest time in this problem.
+*/
+
