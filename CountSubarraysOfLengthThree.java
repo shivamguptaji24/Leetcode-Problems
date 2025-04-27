@@ -43,3 +43,7 @@ class Solution {
         return ans;
     }
 }
+
+/*
+Visualization of the above code
+ 
