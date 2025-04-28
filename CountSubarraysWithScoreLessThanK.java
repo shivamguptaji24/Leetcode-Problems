@@ -115,3 +115,10 @@ Initial: []
    Shrink → [5] → score = 5 (valid) → count += 1
 ```
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 3ms runtime which is the second lowest time in this problem.
+*/
+
