@@ -37,3 +37,26 @@ Constraints:
 1 <= nums[i] <= 105
 1 <= k <= 1015
 */
+
+class Solution {
+    public long countSubarrays(int[] nums, long k) {
+        long count = 0;
+        long sum = 0;
+        int left = 0;
+        
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+            
+            // Shrink from left if the score is not valid
+            while (left <= right && sum * (right - left + 1) >= k) {
+                sum -= nums[left];
+                left++;
+            }
+            
+            // All subarrays ending at right are valid
+            count += (right - left + 1);
+        }
+        
+        return count;
+    }
+}
