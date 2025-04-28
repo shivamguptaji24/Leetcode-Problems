@@ -140,3 +140,98 @@ class Solution {
         return count; 
     }
 }
+
+/*
+Visualization of the above code
+ You have provided this Java code:
+
+```
+class Solution {
+    public long countSubarrays(int[] nums, long k) {
+        int n = nums.length; 
+        long sum = 0;
+        long count = 0;
+        int right = 0, left = 0;
+        
+        while (right < n) {
+            sum += nums[right];
+            
+            while (left <= right && sum * (right - left + 1) >= k) {
+                sum -= nums[left];
+                left++;
+            }
+            
+            count += (right - left + 1);
+            right++;
+        }
+        return count;
+    }
+}
+```
+
+---
+
+Let's Visualize Step-by-Step:
+
+Input:  
+`nums = [2, 1, 4, 3, 5]`  
+`k = 10`
+
+We initialize:
+- `left = 0`
+- `right = 0`
+- `sum = 0`
+- `count = 0`
+
+Now start moving `right` while maintaining a valid window `[left, right]`.
+
+---
+
+| Step | `left` | `right` | `nums[right]` | `sum` (after adding nums[right]) | Window Size | Score = sum × size | Action | `count` |
+|:----:|:------:|:-------:|:-------------:|:-------------------------------:|:-----------:|:------------------:|:------:|:-------:|
+| 1 | 0 | 0 | 2 | 2 | 1 | 2 | Score < k → add (1) to count | 1 |
+| 2 | 0 | 1 | 1 | 3 | 2 | 6 | Score < k → add (2) to count | 3 |
+| 3 | 0 | 2 | 4 | 7 | 3 | 21 | Score ≥ k → shrink left |
+|  | 1 | 2 | - | 5 | 2 | 10 | Still score ≥ k → shrink left |
+|  | 2 | 2 | - | 4 | 1 | 4 | Score < k → add (1) to count | 4 |
+| 4 | 2 | 3 | 3 | 7 | 2 | 14 | Score ≥ k → shrink left |
+|  | 3 | 3 | - | 3 | 1 | 3 | Score < k → add (1) to count | 5 |
+| 5 | 3 | 4 | 5 | 8 | 2 | 16 | Score ≥ k → shrink left |
+|  | 4 | 4 | - | 5 | 1 | 5 | Score < k → add (1) to count | 6 |
+
+✅ Final `count = 6`
+
+---
+
+How the window actually moves
+
+Visualizing the window as boxes:
+
+```
+[2] → valid → count += 1
+[2, 1] → valid → count += 2
+[2, 1, 4] → invalid (score=21)
+    -> shrink: [1, 4] (score=10) → still invalid
+    -> shrink: [4] (score=4) → valid → count += 1
+[4, 3] → invalid (score=14)
+    -> shrink: [3] (score=3) → valid → count += 1
+[3, 5] → invalid (score=16)
+    -> shrink: [5] (score=5) → valid → count += 1
+```
+
+---
+
+Key Observations in this sliding window technique:
+- Add `nums[right]` to the `sum`
+- Check if the `score = sum × (right - left + 1)` is valid
+  - If invalid, move `left++` and remove `nums[left]` from `sum`
+- After adjustments, `(right - left + 1)` gives the number of valid subarrays ending at `right`
+- Keep accumulating these into `count`
+
+---
+🔥 Simple summary
+- Always try to expand the window (`right++`).
+- Shrink it from the `left` when needed (if score becomes too large).
+- At every `right`, count all valid subarrays ending at `right`.
+
+---*/
