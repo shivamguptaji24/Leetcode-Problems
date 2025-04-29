@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 29 Apr 2025   | [2962. Count Subarrays Where Max Element Appears At Least K Times](https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/) | 🟠 Medium      |
 | 28 Apr 2025   | [2302. Count Subarrays With Score Less Than K](https://leetcode.com/problems/count-subarrays-with-score-less-than-k/) | 🔴 Hard      |
 | 27 Apr 2025   | [3392. Count Subarrays of Length Three With a Condition](https://leetcode.com/problems/count-subarrays-of-length-three-with-a-condition/) | 🟢 Easy      |
 | 26 Apr 2025   | [2444. Count Subarrays With Fixed Bounds](https://leetcode.com/problems/count-subarrays-with-fixed-bounds/) | 🔴 Hard      |
