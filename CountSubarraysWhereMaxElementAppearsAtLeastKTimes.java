@@ -25,3 +25,28 @@ Constraints:
 1 <= nums[i] <= 106
 1 <= k <= 105
 */
+
+class Solution {
+    public long countSubarrays(int[] nums, int k) {
+        int n = nums.length;
+        int max = 0;
+        for (int num : nums) max = Math.max(max, num);
+
+        long count = 0;
+        int left = 0, freq = 0;
+
+        for (int right = 0; right < n; right++) {
+            if (nums[right] == max) freq++;
+
+            while (freq >= k) {
+                // Count all subarrays ending at right with at least k max values
+                count += n - right;
+
+                if (nums[left] == max) freq--;
+                left++;
+            }
+        }
+
+        return count;
+    }
+}
