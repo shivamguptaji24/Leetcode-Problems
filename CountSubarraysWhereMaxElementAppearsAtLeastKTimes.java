@@ -214,3 +214,100 @@ class Solution {
         return result;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize the working of your Java code step-by-step using the input:
+
+---
+
+🧪 Example Input:
+```
+nums = [1, 3, 2, 3, 3], k = 2
+```
+
+---
+
+🔍 Step 1: Find the maximum element
+
+Loop through `nums`:
+```
+max = 3
+```
+
+---
+
+🧮 Step 2: Sliding Window Initialization
+```
+i = 0            // start of window
+countmax = 0     // how many times max (3) appears in current window
+result = 0       // total valid subarrays found
+```
+
+---
+
+➤ Iteration `j = 0`, nums[0] = 1  
+- Not max → `countmax = 0`  
+- `countmax < k` → do nothing
+
+---
+
+➤ Iteration `j = 1`, nums[1] = 3  
+- It's max → `countmax = 1`  
+- Still `countmax < k` → no result added
+
+---
+
+➤ Iteration `j = 2`, nums[2] = 2  
+- Not max → `countmax = 1`  
+- Still < k → no result added
+
+---
+
+➤ Iteration `j = 3`, nums[3] = 3  
+- It's max → `countmax = 2`  
+- Now `countmax >= k`, so:
+  - Add `(n - j) = 5 - 3 = 2` to result → `result = 2`
+  - Check if `nums[i] == max`: nums[0] = 1 ≠ 3 → move `i = 1`
+  - Still `countmax = 2` → repeat
+    - Add `n - j = 2` → `result = 4`
+    - nums[1] = 3 → `countmax-- = 1`, i = 2
+
+---
+
+➤ Iteration `j = 4`, nums[4] = 3  
+- It's max → `countmax = 2` again
+- `countmax >= k`:
+  - Add `n - j = 5 - 4 = 1` → `result = 5`
+  - nums[2] = 2 → not max → `i = 3`
+  - Still `countmax = 2`:
+    - Add `1` → `result = 6`
+    - nums[3] = 3 → `countmax-- = 1`, i = 4
+
+---
+
+✅ Final State:
+```
+result = 6
+```
+
+---
+
+📌 Subarrays that satisfy the condition:
+Subarrays where `max = 3` appears at least 2 times:
+1. [1, 3, 2, 3]
+2. [1, 3, 2, 3, 3]
+3. [3, 2, 3]
+4. [3, 2, 3, 3]
+5. [2, 3, 3]
+6. [3, 3]
+
+---
+
+✅ Output:
+```
+6
+```
+
+---
+*/
