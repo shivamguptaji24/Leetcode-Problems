@@ -29,3 +29,25 @@ Constraints:
 1 <= nums.length <= 500
 1 <= nums[i] <= 105
 */
+
+class Solution {
+    public int findNumbers(int[] nums) {
+        int count = 0;
+        for (int num : nums) {
+            if (numDigits(num) % 2 == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Helper method to count digits using math
+    private int numDigits(int num) {
+        int digits = 0;
+        while (num > 0) {
+            num /= 10;
+            digits++;
+        }
+        return digits;
+    }
+}
