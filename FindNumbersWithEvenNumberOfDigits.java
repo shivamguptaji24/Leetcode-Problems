@@ -103,3 +103,52 @@ class Solution {
         return result;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize the code is an optimized version that checks whether the number has an even number of digits using number ranges instead of digit counting.
+
+---
+
+🎯 Input Example:
+```
+nums = [12, 345, 2, 6, 7896]
+```
+
+---
+
+🔍 Step-by-Step Execution:
+
+| Iteration | `number` | Number of Digits | Condition Matched?                                      | `result` |
+|-----------|----------|------------------|----------------------------------------------------------|----------|
+| 1         | 12       | 2                | ✅ `number > 9 && number < 100`                           | 1        |
+| 2         | 345      | 3                | ❌ (not in any of the specified ranges)                  | 1        |
+| 3         | 2        | 1                | ❌                                                       | 1        |
+| 4         | 6        | 1                | ❌                                                       | 1        |
+| 5         | 7896     | 4                | ✅ `number > 999 && number < 10000`                      | 2        |
+
+---
+
+✅ Final Output:
+```
+return 2;
+```
+
+---
+
+📘 Logic Behind Conditions:
+Your `if` condition checks these:
+- `(number > 9 && number < 100)` → 2-digit numbers
+- `(number > 999 && number < 10000)` → 4-digit numbers
+- `(number == 100000)` → 6-digit number (only possible even-length 6-digit number given constraint)
+
+These are all even-digit lengths.
+
+---
+
+🧠 Efficiency:
+- Avoids loops or string conversions.
+- Fastest in terms of raw performance (O(n)) with simple range comparisons.
+
+---
+*/
