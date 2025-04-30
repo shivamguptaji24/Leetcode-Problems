@@ -93,3 +93,13 @@ return 2;
 /*
 This is the solution that takes only 0ms runtime which is the lowest time in this problem.
 */
+
+class Solution {
+    public int findNumbers(int[] nums) {
+        int result = 0;
+        for (int number: nums) {
+            if ((number > 9 && number < 100) || (number > 999 && number < 10000) || (number == 100000)) result++;
+        }
+        return result;
+    }
+}
