@@ -51,3 +51,39 @@ class Solution {
         return digits;
     }
 }
+
+/*
+Visualization of the above code
+ Here's a step-by-step visualization of how your `findNumbers` function works with an example input:
+
+---
+
+🎯 Input:
+```
+nums = [12, 345, 2, 6, 7896]
+```
+
+🔍 Step-by-step Execution:
+
+| Iteration | `num` | `numDigits(num)` | Digit Count | Even Digits? | `count` |
+|-----------|-------|------------------|--------------|--------------|---------|
+| 1         | 12    | 2                | 2            | ✅ Yes        | 1       |
+| 2         | 345   | 3                | 3            | ❌ No         | 1       |
+| 3         | 2     | 1                | 1            | ❌ No         | 1       |
+| 4         | 6     | 1                | 1            | ❌ No         | 1       |
+| 5         | 7896  | 4                | 4            | ✅ Yes        | 2       |
+
+🔚 Final Output:
+```
+return 2;
+```
+
+---
+
+🧠 What’s Happening Internally:
+
+- `numDigits()` function divides the number by 10 repeatedly to count how many digits it has.
+- `findNumbers()` checks if this count is even (`% 2 == 0`), and if yes, increments `count`.
+
+---
+*/
