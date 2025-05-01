@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 01 May 2025   | [2071. Maximum Number Of Tasks You Can Assign](https://leetcode.com/problems/maximum-number-of-tasks-you-can-assign/) | 🔴 Hard      |
 | 30 Apr 2025   | [1295. Find Numbers With Even Number Of Digits](https://leetcode.com/problems/find-numbers-with-even-number-of-digits/) | 🟢 Easy      |
 | 29 Apr 2025   | [2962. Count Subarrays Where Max Element Appears At Least K Times](https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/) | 🟠 Medium      |
 | 28 Apr 2025   | [2302. Count Subarrays With Score Less Than K](https://leetcode.com/problems/count-subarrays-with-score-less-than-k/) | 🔴 Hard      |
