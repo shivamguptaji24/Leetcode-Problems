@@ -200,3 +200,187 @@ Update ans = max assignable tasks found.
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 66ms runtime which is the second lowest time in this problem.
+*/
+
+class Solution {
+
+    public int maxTaskAssign(
+        int[] tasks,
+        int[] workers,
+        int pills,
+        int strength
+    ) {
+        int n = tasks.length, m = workers.length;
+        Arrays.sort(tasks);
+        Arrays.sort(workers);
+        int left = 1, right = Math.min(m, n), ans = 0;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (check(tasks, workers, pills, strength, mid)) {
+                ans = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+    // Check if pills and strength can be used in mid tasks
+    private boolean check(
+        int[] tasks,
+        int[] workers,
+        int pills,
+        int strength,
+        int mid
+    ) {
+        int p = pills;
+        int m = workers.length;
+        Deque<Integer> ws = new ArrayDeque<>();
+        int ptr = m - 1;
+        // Enumerate each task from largest to smallest
+        for (int i = mid - 1; i >= 0; --i) {
+            while (ptr >= m - mid && workers[ptr] + strength >= tasks[i]) {
+                ws.addFirst(workers[ptr]);
+                --ptr;
+            }
+            if (ws.isEmpty()) {
+                return false;
+            } else if (ws.getLast() >= tasks[i]) {
+                // If the largest element in the deque is greater than or equal to tasks[i]
+                ws.pollLast();
+            } else {
+                if (p == 0) {
+                    return false;
+                }
+                --p;
+                ws.pollFirst();
+            }
+        }
+        return true;
+    }
+}
+
+/*
+Visualization of the above code
+ Let's visualize how this optimized version of the `maxTaskAssign` algorithm works — it's a binary search + greedy + deque solution.
+
+---
+
+🔧 Problem Recap
+- Assign as many tasks as possible to available workers.
+- Each task requires a minimum strength.
+- Workers can take a pill to get a temporary strength boost.
+- You must maximize the number of tasks that can be assigned.
+
+---
+
+🧠 Core Idea
+Use binary search to find the maximum number of tasks (`mid`) you can assign.
+
+For each `mid`, you check if it's possible to assign `mid` tasks using the current number of pills and boost strength using a helper function `check()`.
+
+---
+
+🔍 Binary Search Range
+```
+int left = 1, right = Math.min(m, n), ans = 0;
+```
+We search for the maximum number of tasks from `1` to `min(#workers, #tasks)`.
+
+---
+
+🧪 check() Function Details
+Purpose: Can we assign `mid` tasks with the available pills and strength?
+
+Step-by-step:
+
+```
+Deque<Integer> ws = new ArrayDeque<>();
+int ptr = m - 1;
+```
+
+- The `ptr` starts at the strongest worker.
+- `ws` (deque) stores workers who might be able to complete the current task with or without a pill.
+
+Now loop through the `mid` hardest tasks (from hardest to easiest):
+```
+for (int i = mid - 1; i >= 0; --i)
+```
+
+📦 While loop
+```
+while (ptr >= m - mid && workers[ptr] + strength >= tasks[i]) {
+    ws.addFirst(workers[ptr]);
+    --ptr;
+}
+```
+This collects all workers who can potentially do the task (even with a pill).  
+They are added to the front of the deque.
+
+✅ Assignment Decision
+```
+if (ws.isEmpty()) {
+    return false;
+}
+```
+If there are no available workers for the current task → not possible.
+
+```
+else if (ws.getLast() >= tasks[i]) {
+    ws.pollLast(); // Assign without pill
+}
+```
+If the strongest available worker is enough → assign without pill.
+
+```
+else {
+    if (p == 0) return false; // No pills left
+    --p;
+    ws.pollFirst(); // Use pill on weakest suitable worker
+}
+```
+If not strong enough, try to use a pill on the weakest worker who, with the pill, can now do the task.
+
+---
+
+📊 Visualization Flowchart
+
+```
+Start Binary Search (1..min(tasks, workers))
+|
+|-- mid = (left + right)/2
+|   |
+|   |-- check(mid tasks can be assigned?)
+|       |
+|       |-- For i = mid-1 .. 0 (hardest to easiest tasks)
+|       |   |
+|       |   |-- While workers[ptr] + strength ≥ task[i]
+|       |   |     Add to deque
+|       |
+|       |   |-- If deque empty → return false
+|       |   |-- If strongest worker ≥ task[i] → assign, pop back
+|       |   |-- Else if pill available:
+|       |         Use on weakest suitable worker (pop front), pills--
+|       |   |-- Else → return false
+|       |
+|       |-- All tasks assigned → return true
+|
+|-- If check(mid) true → ans = mid, left = mid + 1
+|-- Else → right = mid - 1
+```
+
+---
+
+✅ Key Optimizations
+- `Deque` gives O(1) access to both weakest and strongest candidates.
+- No need for `TreeMap` → much faster.
+- Tasks are processed greedily from hardest to easiest to ensure we match the most difficult ones first.
+
+---
+*/
