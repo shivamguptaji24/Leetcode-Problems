@@ -460,3 +460,155 @@ class Solution {
         return read == write;        
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize and understand how this version of `maxTaskAssign` works — it's a binary search + greedy + simulated queue approach to solve the task assignment problem.
+
+---
+
+🧠 Goal
+You want to assign as many tasks as possible to available workers.
+
+- Each task has a strength requirement.
+- Workers have a base strength.
+- You can give a limited number of pills, each increasing strength by `strength`.
+
+---
+
+🔍 Step-by-Step Visualization
+
+🔁 Binary Search Setup
+```
+int l = 0, r = Math.min(m, n);
+```
+We search for the maximum number of tasks that can be assigned.
+
+🧪 Binary Search Loop
+```
+while (l <= r) {
+    int mid = l + r >> 1; // Check if 'mid' tasks can be done
+    if (check(..., mid, n - mid))
+        l = mid + 1;
+    else
+        r = mid - 1;
+}
+return r;
+```
+We keep trying higher `mid` if it’s feasible to assign `mid` tasks.
+
+---
+
+✅ `check()` Method Logic
+
+👇 Arguments
+- `mid`: How many tasks we're trying to assign
+- `start`: Index in workers array: the strongest `mid` workers (from `n - mid` to `n-1`)
+
+---
+
+⚙️ High-Level Plan in `check()`
+- Simulate assigning `mid` tasks.
+- If a worker can't handle a task directly:
+  - Try using a pill.
+  - Use greedy strategy: assign the hardest task that can now be handled.
+- Use a simulated queue (`que[]`) to store extra tasks a worker can do after taking a pill.
+
+---
+
+🧪 Walkthrough
+Let's walk through a few key parts:
+
+1. Loop through `mid` workers
+```
+for (int i = 0, j = 0; i < mid; i++) {
+    int curStrength = workers[start + i]; // Strongest worker
+```
+
+2. If queue is empty (no leftover tasks from previous workers)
+```
+if (read == write) {
+    if (curStrength >= tasks[j]) {
+        j++; // Assign without pill
+        continue;
+    }
+    if (pills == 0) return false;
+    
+    curStrength += strength;
+    pills--;
+    
+    // Add all new tasks this worker can now do
+    while (j < mid && curStrength >= tasks[j])
+        que[write++] = tasks[j++];
+    
+    if (read == write) return false; // Still nothing they can do
+    write--; // Simulate assigning one
+}
+```
+
+3. If queue has tasks from previous workers
+```
+else {
+    if (curStrength >= que[read]) {
+        read++; // Assign from queue
+        continue;
+    }
+
+    if (pills == 0) return false;
+
+    curStrength += strength;
+    pills--;
+
+    while (j < mid && curStrength >= tasks[j])
+        que[write++] = tasks[j++];
+
+    write--; // Simulate assigning one task
+}
+```
+
+---
+
+📦 Final Condition
+```
+return read == write;
+```
+We succeed only if all tasks in the queue are processed.
+
+---
+
+🧠 Summary of Key Concepts
+
+| Concept         | Role                                                                 |
+|----------------|----------------------------------------------------------------------|
+| `binary search`| Determines max number of tasks assignable                            |
+| `start`        | Uses strongest `mid` workers only                                     |
+| `queue`        | Stores leftover assignable tasks after using a pill                  |
+| `greedy`       | Always tries to assign the hardest task a worker can handle          |
+| `read/write`   | Pointers simulate a real queue of pending tasks                      |
+
+---
+
+📊 Flowchart (Simplified)
+
+```
+Start Binary Search on [0, min(tasks, workers)]
+|
+|-- For each mid:
+|    |
+|    |-- Pick strongest `mid` workers (from n - mid to n - 1)
+|    |
+|    |-- For each worker:
+|        |
+|        |-- If task can be done → assign
+|        |-- Else if pills > 0:
+|              Take pill, gain strength
+|              Try to assign as many new tasks as possible
+|        |-- Else → return false
+|
+|-- If all tasks done → mid is valid
+|
+|-- Binary search continues
+```
+
+---
+*/
