@@ -197,3 +197,177 @@ Final forces\[] after subtracting:
 * Use two sweeps (left-to-right and right-to-left).
 * The `forces[]` array gives us a way to determine the final state with no explicit recursion or queue, keeping the algorithm efficient.
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 14ms runtime which is the most used time in this problem.
+*/
+
+class Solution {
+    public String pushDominoes(String dominoes) {
+        int N = dominoes.length();
+        char[] arr = dominoes.toCharArray();
+        int[] dis = new int[N];
+        int pushDist = 0;
+        boolean push = false;
+        for(int l=N-1;l>=0;l--){
+            if(arr[l]=='L'){
+                pushDist=0;
+                push=true;
+            }
+            else if(arr[l]=='R'){
+                pushDist=0;
+                push=false;
+                dis[l]=-1;
+            } 
+            
+            if(push){
+                dis[l]= pushDist;
+                pushDist++;
+            }else{
+                dis[l]= Integer.MAX_VALUE;
+            }
+        }
+        //System.out.println(Arrays.toString(dis));
+
+        pushDist = 0;
+        push = false;
+        for(int i=0;i<N;i++){
+            if(arr[i]=='R'){
+                pushDist=0;
+                push=true;
+            }
+
+            if(arr[i]=='L'){
+                pushDist=0;
+                push=false;
+            }  
+
+            if(arr[i] == '.'){
+                if(push && pushDist == dis[i]){
+                    arr[i] = '.';
+                }
+                else if(push && pushDist < dis[i]){
+                    arr[i] = 'R';
+                } else if(dis[i]!= Integer.MAX_VALUE){
+                    arr[i] = 'L';
+                }
+            }
+            if(push)pushDist++;
+        }
+        //System.out.println(new String(arr));
+        return new String(arr);
+    }
+}
+
+/*
+Visualization of the above code
+ Let's visualize how this version of your `pushDominoes` code works with a detailed step-by-step simulation.
+
+---
+
+✅ Approach Summary:
+
+* Two-pass greedy solution using distance arrays.
+* First pass (right to left): Calculate distance from nearest `'L'` domino.
+* Second pass (left to right): Process `'R'` pushes and determine the final state based on relative distances to `'L'`.
+
+---
+
+🔍 Input Example:
+
+```
+dominoes = ".L.R...LR..L.."
+```
+
+---
+
+🧩 Step-by-Step Execution:
+
+---
+
+🔄 First Pass: Right to Left
+
+Goal: Store distance from the nearest `'L'` going leftward into `dis[]`.
+
+Looping from `N-1` to `0`:
+
+| Index | Char | Is Pushed Left? | pushDist | dis\[] |
+| ----- | ---- | --------------- | -------- | ------ |
+| 13    | '.'  | false           | -        | INF    |
+| 12    | '.'  | false           | -        | INF    |
+| 11    | 'L'  | true            | 0        | 0      |
+| 10    | '.'  | true            | 1        | 1      |
+| 9     | '.'  | true            | 2        | 2      |
+| 8     | 'R'  | false (stop L)  | 0        | -1     |
+| 7     | 'L'  | true            | 0        | 0      |
+| 6     | '.'  | true            | 1        | 1      |
+| 5     | '.'  | true            | 2        | 2      |
+| 4     | '.'  | true            | 3        | 3      |
+| 3     | 'R'  | false           | 0        | -1     |
+| 2     | '.'  | false           | -        | INF    |
+| 1     | 'L'  | true            | 0        | 0      |
+| 0     | '.'  | true            | 1        | 1      |
+
+Resulting `dis[]`:
+
+```
+[1, 0, INF, -1, 3, 2, 1, 0, -1, 2, 1, 0, INF, INF]
+```
+
+Note:
+
+* `dis[i] == -1`: position is itself an `'R'`.
+* `dis[i] == Integer.MAX_VALUE`: no `'L'` influence.
+
+---
+
+🔄 Second Pass: Left to Right
+
+Goal: Simulate `'R'` pushes and compare their influence with `'L'` (distance comparison).
+
+Logic:
+
+* For each `'.'`:
+
+  * If being pushed from both `'R'` and `'L'`:
+
+    * If distance from `'R'` == distance from `'L'`, remain `'.'`.
+    * If `'R'` is closer → `'R'`
+    * If `'L'` is closer → `'L'`
+
+| Index | Char | push? | pushDist | dis\[i] | Final Char |
+| ----- | ---- | ----- | -------- | ------- | ---------- |
+| 0     | '.'  | false | -        | 1       | L          |
+| 1     | 'L'  | false | -        | 0       | L          |
+| 2     | '.'  | false | -        | INF     | .          |
+| 3     | 'R'  | true  | 0        | -1      | R          |
+| 4     | '.'  | true  | 1        | 3       | R          |
+| 5     | '.'  | true  | 2        | 2       | .          |
+| 6     | '.'  | true  | 3        | 1       | L          |
+| 7     | 'L'  | false | -        | 0       | L          |
+| 8     | 'R'  | true  | 0        | -1      | R          |
+| 9     | '.'  | true  | 1        | 2       | R          |
+| 10    | '.'  | true  | 2        | 1       | L          |
+| 11    | 'L'  | false | -        | 0       | L          |
+| 12    | '.'  | false | -        | INF     | .          |
+| 13    | '.'  | false | -        | INF     | .          |
+
+---
+
+✅ Final State:
+
+```
+"LL.RR.LLRRLL.."
+```
+
+---
+
+💡 Key Insights:
+
+* Instead of using actual forces (like the optimal force array solution), this version uses distance comparisons to determine who (L or R) reaches each domino first.
+* It's an intuitive greedy strategy and still very efficient: O(n) time and space.
+
+---
+*/
