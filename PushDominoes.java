@@ -371,3 +371,193 @@ Logic:
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 8ms runtime which is the lowest time in this problem.
+*/
+
+class Solution {
+    public String pushDominoes(String dominoes) {
+        int n = dominoes.length();
+        char ch[] = dominoes.toCharArray();
+        int i = 0;
+        while( i < n) {
+            if(ch[i] != '.') {
+                i++;
+                continue;
+            }
+            int j = i; 
+            while( j < n && ch[j] == '.')
+                j++;
+            if(i-1 >= 0 && j < n) {
+                if(ch[i-1] == ch[j]) {
+                    int k = i;
+                    while(k < j)
+                        ch[k++] = ch[i-1];
+                } else {
+                    if(ch[i-1] == 'R') {
+                        int u = i, v = j-1;
+                        while(u < v) {
+                            ch[u++] = 'R';
+                            ch[v--] = 'L';
+                        }
+                    }
+                }
+            } else if(i-1 >= 0) {
+                if(ch[i-1] == 'R') {
+                    int k = i;
+                    while(k < j)
+                        ch[k++] = 'R';
+                }
+            } else if(j < n) {
+                if(ch[j] == 'L') {
+                    int k = i;
+                    while(k < j)
+                        ch[k++] = 'L';
+                }
+            }
+            i = j;
+        }
+        return String.valueOf(ch);
+    }
+}
+
+/*
+Visualization of the above code
+ Let's visualize and explain the working of this `pushDominoes` solution step by step.
+
+---
+
+✅ Approach Overview
+
+This is a two-pointer greedy approach that identifies contiguous blocks of `'.'` (upright dominoes) and decides their final state based on the left and right boundaries:
+
+* It checks the character before (`ch[i-1]`) and after (`ch[j]`) the `'.'` segment.
+* It simulates three situations:
+
+  * Both sides push in the same direction: fill the block entirely with that direction.
+  * Left is `'R'` and right is `'L'`: fill symmetrically inward.
+  * Only one side pushes: fill all accordingly.
+  * No push on either side: leave as `'.'`.
+
+---
+
+🔍 Input Example:
+
+```
+dominoes = ".L.R...LR..L.."
+```
+
+---
+
+🧩 Step-by-Step Execution
+
+We go through the string and find stretches of `.` between non-dot characters, then determine their state:
+
+Initial:
+
+```
+. L . R . . . L R . . L . .
+^
+i=0
+```
+
+---
+
+⏩ Iteration 1: i=0 (dot segment from 0 to 0)
+
+* `i-1 < 0` and `ch[1] = 'L'`
+* → Fill index `0` with `'L'`
+
+Result:
+
+```
+L L . R . . . L R . . L . .
+      ^
+```
+
+---
+
+⏩ Iteration 2: i=2 (dot segment from 2 to 2)
+
+* `ch[1] = 'L'`, `ch[3] = 'R'` → Different directions
+* Nothing changes
+
+Result:
+
+```
+L L . R . . . L R . . L . .
+        ^
+```
+
+---
+
+⏩ Iteration 3: i=4 (dot segment from 4 to 6)
+
+* `ch[3] = 'R'`, `ch[7] = 'L'` → Opposite directions
+* Fill symmetrically:
+
+  * `ch[4] = R`, `ch[6] = L`
+  * `ch[5] = .` → remains if odd length
+
+Result:
+
+```
+L L . R R . L L R . . L . .
+                ^
+```
+
+---
+
+⏩ Iteration 4: i=9 (dot segment from 9 to 10)
+
+* `ch[8] = 'R'`, `ch[11] = 'L'`
+* Symmetrically: `ch[9]=R`, `ch[10]=L`
+
+Result:
+
+```
+L L . R R . L L R R L L . .
+                        ^
+```
+
+---
+
+⏩ Iteration 5: i=12 (dot segment from 12 to 13)
+
+* `ch[11] = L`, `ch[13]` = out of bounds
+* Only left push (`L`), fill both with `'L'`
+
+Final Result:
+
+```
+L L . R R . L L R R L L L L
+```
+
+---
+
+✅ Final Output:
+
+```
+"LL.RR.LLRRLL.."
+```
+
+---
+
+💡 Summary of the Logic:
+
+* The algorithm:
+
+  1. Finds ranges of `'.'`
+  2. Examines the boundary dominoes
+  3. Updates the range based on:
+
+     * Same push → fill
+     * Opposite push → symmetric fill
+     * One-sided push → directional fill
+     * No push → leave as is
+
+---
+*/
