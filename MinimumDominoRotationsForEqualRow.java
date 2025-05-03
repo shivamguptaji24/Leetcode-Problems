@@ -29,3 +29,33 @@ Constraints:
 bottoms.length == tops.length
 1 <= tops[i], bottoms[i] <= 6
 */
+
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        int result = check(tops[0], tops, bottoms);
+        if (result != -1 || tops[0] == bottoms[0]) {
+            return result;
+        } else {
+            return check(bottoms[0], tops, bottoms);
+        }
+    }
+
+    private int check(int target, int[] tops, int[] bottoms) {
+        int rotationsTop = 0;
+        int rotationsBottom = 0;
+
+        for (int i = 0; i < tops.length; i++) {
+            // If target is not present on either side, not possible
+            if (tops[i] != target && bottoms[i] != target) {
+                return -1;
+            } else if (tops[i] != target) {
+                rotationsTop++; // Rotate top[i] to target
+            } else if (bottoms[i] != target) {
+                rotationsBottom++; // Rotate bottom[i] to target
+            }
+        }
+
+        return Math.min(rotationsTop, rotationsBottom);
+    }
+}
+
