@@ -59,3 +59,91 @@ class Solution {
     }
 }
 
+/*
+Visualization of the above code
+ Let's walk through and visualize the logic of your code using a step-by-step explanation and an example input.
+
+---
+
+🔍 Goal
+
+Make all elements in either the `tops` or `bottoms` array the same by rotating some dominoes.
+
+---
+
+🧩 Domino Representation
+
+Each domino has two numbers:
+
+* `tops[i]` is the top number of the `i-th` domino
+* `bottoms[i]` is the bottom number of the `i-th` domino
+
+You are allowed to swap these numbers (i.e., rotate the domino).
+
+---
+
+🧪 Example Input
+
+```
+int[] tops =    {2, 1, 2, 4, 2, 2};
+int[] bottoms = {5, 2, 6, 2, 3, 2};
+```
+
+Your method checks:
+
+1. Can all values be made equal to `tops[0]` (which is `2`)?
+2. If not, can all values be made equal to `bottoms[0]` (which is `5`)?
+
+---
+
+👣 Step-by-Step Execution
+
+✅ Step 1: Try to make all values == `2` (`tops[0]`)
+
+| Index | tops\[i] | bottoms\[i] | Can we keep `2`?    | Rotate Top? | Rotate Bottom? |
+| ----- | -------- | ----------- | ------------------- | ----------- | -------------- |
+| 0     | 2        | 5           | ✅ Yes (top is 2)    | No          | No             |
+| 1     | 1        | 2           | ✅ Yes (bottom is 2) | ✅ Yes       | No             |
+| 2     | 2        | 6           | ✅ Yes (top is 2)    | No          | No             |
+| 3     | 4        | 2           | ✅ Yes (bottom is 2) | ✅ Yes       | No             |
+| 4     | 2        | 3           | ✅ Yes (top is 2)    | No          | No             |
+| 5     | 2        | 2           | ✅ Yes (both are 2)  | No          | No             |
+
+👉 Total Rotations:
+
+* `rotationsTop = 2` (at i = 1, 3)
+* `rotationsBottom = 0`
+
+→ Minimum = `2`
+
+---
+
+Since `2` worked, you return 2 as the final answer.
+
+---
+
+🚫 If First Try Fails
+
+If `tops[0]` doesn’t work, your code checks `bottoms[0]` as a candidate.
+
+This ensures you're checking only two values, making it optimal.
+
+---
+
+✅ Visualization Summary
+
+```
+Check candidate values: tops[0] and bottoms[0]
+↓
+Try to make all values in tops or bottoms equal to the candidate
+↓
+For each index:
+    - If candidate is on top → OK
+    - If candidate is on bottom → can rotate
+    - If not in either → return -1
+↓
+Track how many rotations needed
+↓
+Return minimum number of rotations
+```
+*/
