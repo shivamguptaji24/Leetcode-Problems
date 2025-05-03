@@ -180,3 +180,85 @@ class Solution {
         return res;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize and break down this Java code step by step using a sample input, flow explanation, and table-based simulation.
+
+---
+
+🔍 Purpose
+
+This code finds the minimum number of rotations required to make all values in either the `tops` or `bottoms` array the same across all dominoes. If it's impossible, it returns `-1`.
+
+---
+
+🔢 Input Example
+
+```
+tops    = [2, 1, 2, 4, 2, 2]
+bottoms = [5, 2, 6, 2, 3, 2]
+```
+
+---
+
+📦 Step-by-Step Breakdown
+
+➤ `minDominoRotations(tops, bottoms)`
+
+* Tries to make all values equal to `tops[0] = 2` by calling `solve(...)`
+* If possible, return result
+* If not, try `bottoms[0] = 5` by calling `solve(...)` again
+
+---
+
+🧮 Simulation Table for `target = 2`
+
+| i | tops\[i] | bottoms\[i] | Contains 2? | Rotate Needed | flipTop | flipBottom |
+| - | -------- | ----------- | ----------- | ------------- | ------- | ---------- |
+| 0 | 2        | 5           | ✅ Top       | ❌             | 0       | 0          |
+| 1 | 1        | 2           | ✅ Bottom    | ✔ Top         | 1       | 0          |
+| 2 | 2        | 6           | ✅ Top       | ❌             | 1       | 0          |
+| 3 | 4        | 2           | ✅ Bottom    | ✔ Top         | 2       | 0          |
+| 4 | 2        | 3           | ✅ Top       | ❌             | 2       | 0          |
+| 5 | 2        | 2           | ✅ Both      | ❌             | 2       | 0          |
+
+→ `flipTop = 2`, `flipBottom = 0`
+→ Result = `min(2, 0) = 0`
+But note: flips are counted to make either row uniform, so here, to make bottoms all 2, no rotation is needed.
+
+---
+
+🔄 Flowchart (Textual Form)
+
+```
+Start
+│
+├─► Try candidate = tops[0]
+│    └─ Check all dominoes:
+│         ├─ If neither top nor bottom = candidate → return -1
+│         ├─ If top ≠ candidate → flipTop++
+│         └─ If bottom ≠ candidate → flipBottom++
+│    └─ Return min(flipTop, flipBottom)
+│
+├─► If result ≠ -1 → return result
+│
+└─► Else try candidate = bottoms[0] and repeat above
+```
+
+---
+
+✅ Code Logic in Simple English
+
+* Try using the first top value (`tops[0]`) as the common number.
+* If not possible, try the first bottom value (`bottoms[0]`).
+* For each attempt:
+
+  * Go through all dominoes.
+  * If the target number is missing from both top and bottom of a domino → impossible.
+  * If the top is not equal to the target → a flip is required for top.
+  * If the bottom is not equal to the target → a flip is required for bottom.
+* Return the minimum flips needed (either all in top or all in bottom).
+
+---
+*/
