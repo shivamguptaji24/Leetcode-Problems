@@ -301,3 +301,112 @@ class Solution {
         return ans;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize and explain this version of the `minDominoRotations` solution step by step. This approach is slightly different—it tries all possible values from 1 to 6 (as domino values range from 1 to 6).
+
+---
+
+🔍 Goal
+
+To make all domino tops or all domino bottoms equal to the same value by rotating as few dominoes as needed.
+If impossible, return `-1`.
+
+---
+
+🧠 Key Idea
+
+Check for each value from `1` to `6`:
+
+* Can we make all the values in `tops` or `bottoms` equal to this value (`val`)?
+* If yes, count how many rotations are needed and keep track of the minimum.
+
+---
+
+📦 Sample Input
+
+```
+tops    = [2, 1, 2, 4, 2, 2];
+bottoms = [5, 2, 6, 2, 3, 2];
+```
+
+---
+
+🔁 Code Flow
+
+1. `minDominoRotations(...)`
+
+* Loops from `val = 1` to `6`
+* Calls `helper(tops, bottoms, val)` for each
+* Tracks the minimum `cur_ans` where result is not `-1`
+
+2. `helper(...)` Function
+
+For a given target value `val`:
+
+* Initialize `top_res` and `bottom_res` to 0
+* For each domino:
+
+  * If neither side has `val` → return `-1` (not possible)
+  * If top ≠ val → increment `top_res` (we need to rotate this domino to top)
+  * If bottom ≠ val → increment `bottom_res`
+* Return the minimum of `top_res` and `bottom_res`
+
+---
+
+🧮 Simulation for Each `val`
+
+Let’s simulate `helper(tops, bottoms, val)` for a few values:
+
+`val = 2`
+
+| i | tops\[i] | bottoms\[i] | Match? | RotateTop | RotateBottom |
+| - | -------- | ----------- | ------ | --------- | ------------ |
+| 0 | 2        | 5           | ✅      | No        | No           |
+| 1 | 1        | 2           | ✅      | ✔ Yes     | No           |
+| 2 | 2        | 6           | ✅      | No        | No           |
+| 3 | 4        | 2           | ✅      | ✔ Yes     | No           |
+| 4 | 2        | 3           | ✅      | No        | No           |
+| 5 | 2        | 2           | ✅      | No        | No           |
+
+→ `top_res = 2`, `bottom_res = 0` → return `0`
+
+`val = 1`
+
+| i | tops\[i] | bottoms\[i] | Match? |
+| - | -------- | ----------- | ------ |
+| 0 | 2        | 5           | ❌      |
+
+→ return `-1`
+
+This repeats for values 1 to 6.
+
+---
+
+📊 Final Decision
+
+The minimum rotations among all `val` = 1 to 6 is taken.
+For the input `[2,1,2,4,2,2]`, `[5,2,6,2,3,2]`, the best is when `val = 2`, requiring 0 rotations in `bottoms`.
+
+---
+
+✅ Final Output
+
+```
+Output: 2
+```
+
+Because to make all tops equal to `2`, we need to rotate 2 dominoes.
+
+---
+
+📌 Summary of Logic
+
+* Try all values `1` to `6`
+* For each, check if it's possible to make all tops or bottoms that value
+* Count how many rotations are needed
+* Return the minimum such value
+
+---
+*/
