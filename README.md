@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 03 May 2025   | [1007. Minimum Domino Rotations For Equal Row](https://leetcode.com/problems/minimum-domino-rotations-for-equal-row/) | 🟠 Medium      |
 | 02 May 2025   | [838. Push Dominoes](https://leetcode.com/problems/push-dominoes/) | 🟠 Medium      |
 | 01 May 2025   | [2071. Maximum Number Of Tasks You Can Assign](https://leetcode.com/problems/maximum-number-of-tasks-you-can-assign/) | 🔴 Hard      |
 | 30 Apr 2025   | [1295. Find Numbers With Even Number Of Digits](https://leetcode.com/problems/find-numbers-with-even-number-of-digits/) | 🟢 Easy      |
