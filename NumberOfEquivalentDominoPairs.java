@@ -225,3 +225,113 @@ class Solution {
 // 8    0   0   0   0   0   0   0   0   0   0
         
 // 9    0   0   0   0   0   0   0   0   0   0
+
+/*
+Visualization of the above code
+ Let's visualize your code step by step, with a clear explanation of what the 2D array (`dp[10][10]`) is doing and how the logic flows.
+
+---
+
+🔍 Code Overview
+
+```
+public int numEquivDominoPairs(int[][] dominoes) {
+    int[][] dp = new int[10][10];  // Stores frequency of each (a, b) pair
+
+    for (int[] domino : dominoes) {
+        dp[domino[0]][domino[1]]++;
+    }
+
+    int max = 0;
+    for (int i = 1; i < dp.length; i++) {
+        for (int j = i; j < dp[i].length; j++) {
+            int count = dp[i][j];
+            if (i != j) {
+                count += dp[j][i];
+            }
+            max += count * (count - 1) / 2;
+        }
+    }
+
+    return max;
+}
+```
+
+---
+
+🔧 Sample Input:
+
+```
+int[][] dominoes = {
+    {1,2}, {2,1}, {1,2}, {2,1}, {1,1}
+};
+```
+
+🧠 Step-by-Step Execution:
+
+Step 1: Fill the `dp` table
+
+* This table keeps count of exact appearances:
+  `dp[a][b]++` ← stores the domino as-is.
+
+| Domino | dp\[a]\[b] Incremented |
+| ------ | ---------------------- |
+| \[1,2] | dp\[1]\[2] → 1         |
+| \[2,1] | dp\[2]\[1] → 1         |
+| \[1,2] | dp\[1]\[2] → 2         |
+| \[2,1] | dp\[2]\[1] → 2         |
+| \[1,1] | dp\[1]\[1] → 1         |
+
+Final `dp` state (only relevant values shown):
+
+```
+dp[1][1] = 1
+dp[1][2] = 2
+dp[2][1] = 2
+```
+
+Step 2: Count equivalent pairs
+
+Iterate through only the upper triangle (i ≤ j) to avoid double-counting.
+
+| i | j | dp\[i]\[j] | dp\[j]\[i] | total count | Pairs Formula                 | Pairs |
+| - | - | ---------- | ---------- | ----------- | ----------------------------- | ----- |
+| 1 | 1 | 1          | —          | 1           | 1 \* (1 - 1) / 2              | 0     |
+| 1 | 2 | 2          | 2          | 4           | 4 \* (4 - 1) / 2 = 4 \* 3 / 2 | 6     |
+| 2 | 2 | 0          | —          | 0           | 0                             | 0     |
+| … | … | …          | …          | …           | …                             | …     |
+
+🟢 Total Pairs = 6
+
+---
+
+✅ Final Result:
+
+```
+return 6;
+```
+
+---
+
+📌 Key Observations:
+
+* Instead of normalizing dominoes right away, we store all original orientations in `dp[a][b]`.
+* In the second loop, we account for symmetry: if `[a,b]` and `[b,a]` both exist, we combine them (`i != j`).
+* The formula `count * (count - 1) / 2` gives us number of ways to choose 2 out of `count` (combinatorics).
+
+---
+
+📊 dp Table Visualization:
+
+```
+     0 1 2 3 4 5 6 7 8 9
+   ---------------------
+0 |  0 0 0 0 0 0 0 0 0 0
+1 |  0 1 2 0 0 0 0 0 0 0
+2 |  0 2 0 0 0 0 0 0 0 0
+3 |  0 0 0 0 0 0 0 0 0 0
+...
+```
+
+---
+*/
