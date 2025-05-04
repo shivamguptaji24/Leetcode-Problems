@@ -109,3 +109,68 @@ class Solution {
         return ret;
     }
 }
+
+/*
+Visualization of the above code
+ Let's visualize this Java code step by step with a sample input.
+
+---
+
+🔁 Input Example:
+
+```
+int[][] dominoes = {
+    {1,2}, {2,1}, {1,2}, {3,4}, {5,6}
+};
+```
+
+🧠 Understanding the Code:
+
+* We create an array `num[100]` to count occurrences of each normalized domino.
+
+* Dominoes like `[1,2]` and `[2,1]` are considered equivalent → we normalize by always storing the smaller number first:
+
+  ```
+  val = min * 10 + max
+  ```
+
+* For each domino:
+
+  * Add the count of previous same dominoes to `ret`.
+  * Then increment that count.
+
+---
+
+📊 Step-by-Step Visualization:
+
+| Iteration | Domino | Normalized `val` | num\[val] before | ret (pair count) | num\[val] after |
+| --------- | ------ | ---------------- | ---------------- | ---------------- | --------------- |
+| 1         | \[1,2] | 12               | 0                | 0                | 1               |
+| 2         | \[2,1] | 12               | 1                | 1                | 2               |
+| 3         | \[1,2] | 12               | 2                | 3 (1+2)          | 3               |
+| 4         | \[3,4] | 34               | 0                | 3                | 1               |
+| 5         | \[5,6] | 56               | 0                | 3                | 1               |
+
+---
+
+✅ Final Result:
+
+```
+ret = 3
+```
+
+Because:
+
+* `[1,2]` and `[2,1]` → 1 pair
+* `[1,2]` and `[1,2]` → 2 more pairs
+
+> Total = 3 equivalent pairs.
+
+---
+
+🧾 Summary:
+
+* Normalized key: `min * 10 + max` (ensures \[a,b] == \[b,a])
+* num\[val] keeps count of occurrences
+* ret accumulates number of previously seen matching dominoes
+*/
