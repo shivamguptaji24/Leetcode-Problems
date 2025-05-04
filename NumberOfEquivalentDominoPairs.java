@@ -38,3 +38,53 @@ class Solution {
         return result;
     }
 }
+
+/*
+Visualization of the above code
+ Sure, let's visualize how the code works with a step-by-step example.
+
+---
+
+👨‍💻 Code:
+
+```
+int[][] dominoes = {{1,2}, {2,1}, {3,4}, {5,6}};
+```
+
+We use:
+
+* `int[] count = new int[100]` to track normalized domino keys.
+* For each domino:
+
+  * Normalize it to a unique key using `key = a < b ? a * 10 + b : b * 10 + a`
+  * Add `count[key]` to result (because that’s the number of equivalent dominoes seen so far)
+  * Increment `count[key]`
+
+---
+
+🧠 Step-by-Step Execution:
+
+| Iteration | Domino | a | b | Key | count\[key] before | result | count\[key] after |
+| --------- | ------ | - | - | --- | ------------------ | ------ | ----------------- |
+| 1         | \[1,2] | 1 | 2 | 12  | 0                  | 0      | 1                 |
+| 2         | \[2,1] | 2 | 1 | 12  | 1                  | 1      | 2                 |
+| 3         | \[3,4] | 3 | 4 | 34  | 0                  | 1      | 1                 |
+| 4         | \[5,6] | 5 | 6 | 56  | 0                  | 1      | 1                 |
+
+---
+
+✅ Final Answer: `1`
+
+We found 1 pair of equivalent dominoes: `[1,2]` and `[2,1]`.
+
+---
+
+📊 Visual Representation of `count[]` after the loop:
+
+* `count[12] = 2` → represents two dominoes equivalent to `[1,2]`
+* `count[34] = 1`
+* `count[56] = 1`
+* All other `count[i] = 0`
+
+---
+*/
