@@ -53,3 +53,117 @@ class Solution {
         return (int) d;
     }
 }
+
+/*
+Visualization of the above code
+ Let’s break down and visualize your `numTilings` code step by step so you can clearly understand how it works and why it's optimal.
+
+---
+
+🧩 Problem: Tiling a `2 x n` board using:
+
+* Domino (2×1) — can be placed vertically or horizontally.
+* Tromino (L-shaped) — can be rotated in 4 ways.
+
+---
+
+📦 DP Idea:
+
+We define `dp[n]` = number of ways to tile a 2×n board.
+
+We keep only last few values:
+
+* `a` = `dp[0]`
+* `b` = `dp[1]`
+* `c` = `dp[2]`
+* `d` = `dp[3]`
+* `sum` = dp\[0] + dp\[1] + ... + dp\[i-3] (for computing tromino contributions)
+
+---
+
+🧮 Initialization:
+
+| Variable | Meaning       | Value |
+| -------- | ------------- | ----- |
+| a        | dp\[0]        | 1     |
+| b        | dp\[1]        | 1     |
+| c        | dp\[2]        | 2     |
+| d        | dp\[3]        | 5     |
+| sum      | dp\[0]+dp\[1] | 2     |
+
+This setup covers the base cases.
+
+---
+
+🔁 Loop (from i = 4 to n)
+
+At each step `i`:
+
+```
+temp = (2 * sum + d + c) % MOD;
+```
+
+| Term     | Meaning                                                   |
+| -------- | --------------------------------------------------------- |
+| 2 \* sum | Accounts for placing L-shaped tromino in two orientations |
+| d        | dp\[i-1]: placing a vertical domino                       |
+| c        | dp\[i-2]: placing two horizontal dominoes                 |
+| temp     | dp\[i]                                                    |
+
+Then we update:
+
+```
+sum = (sum + c) % MOD;  // expand sum to include dp[i - 2]
+```
+
+Then rotate the window forward:
+
+```
+a = b;
+b = c;
+c = d;
+d = temp;
+```
+
+---
+
+📈 Example Trace: n = 4
+
+Already:
+
+* dp\[0] = 1
+* dp\[1] = 1
+* dp\[2] = 2
+* dp\[3] = 5
+  (sum = dp\[0] + dp\[1] = 2)
+
+Now for i = 4:
+
+```
+temp = (2 * sum + d + c)
+     = (2 * 2 + 5 + 2) = 11
+sum = sum + c = 2 + 2 = 4
+```
+
+Then:
+
+* dp\[4] = 11
+* shift: a = 1, b = 2, c = 5, d = 11
+
+And so on for n = 5, 6, ...
+
+---
+
+📌 Visualization Summary:
+
+Here's a quick layout:
+
+```
+dp[i] = dp[i-1] + dp[i-2] + 2 * (dp[0] + ... + dp[i-3])
+       ^ vertical      ^ 2 horizontals  ^ L-tromino in 2 ways
+```
+
+Instead of storing full `dp[]`, we rotate the last few values, and use a `sum` to accumulate the L-shaped possibilities efficiently.
+
+---
+*/
