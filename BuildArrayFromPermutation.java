@@ -234,3 +234,27 @@ Each value in `ans` is built directly by looking up `nums[nums[i]]`.
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 0ms runtime which is the lowest time in this problem.
+*/
+
+class Solution {
+    public int[] buildArray(int[] nums) {
+        apermutation(nums,0);
+        return nums;
+    }
+    void apermutation(int[] nums, int start){
+        if(start<nums.length){
+            int temp = nums[start];
+            int result = nums[temp];
+            apermutation(nums,start+1);
+            nums[start]=result;
+        }
+    }
+}
+
+/*
+Visualization of the above code
