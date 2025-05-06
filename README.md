@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 06 May 2025   | [1920. Build Array From Permutation](https://leetcode.com/problems/build-array-from-permutation/) | 🟢 Easy      |
 | 05 May 2025   | [790. Domino And Tromino Tiling](https://leetcode.com/problems/domino-and-tromino-tiling/) | 🟠 Medium      |
 | 04 May 2025   | [1128. Number Of Equivalent Domino Pairs](https://leetcode.com/problems/number-of-equivalent-domino-pairs/) | 🟢 Easy      |
 | 03 May 2025   | [1007. Minimum Domino Rotations For Equal Row](https://leetcode.com/problems/minimum-domino-rotations-for-equal-row/) | 🟠 Medium      |
