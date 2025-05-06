@@ -258,3 +258,124 @@ class Solution {
 
 /*
 Visualization of the above code
+ Let's visualize how this recursive code works step by step using an example input:
+
+---
+
+✅ Code Summary:
+
+```
+class Solution {
+    public int[] buildArray(int[] nums) {
+        apermutation(nums, 0);
+        return nums;
+    }
+
+    void apermutation(int[] nums, int start) {
+        if (start < nums.length) {
+            int temp = nums[start];
+            int result = nums[temp];
+            apermutation(nums, start + 1);
+            nums[start] = result;
+        }
+    }
+}
+```
+
+---
+
+🧪 Input Example:
+
+```
+nums = [0, 2, 1, 5, 3, 4]
+```
+
+---
+
+🎯 Goal:
+
+Build an array where:
+
+```
+ans[i] = nums[nums[i]];
+```
+
+But this code uses recursion and in-place modification instead of creating a new array.
+
+---
+
+🔍 Execution Flow:
+
+Let’s walk through each recursive call and change.
+
+1. `apermutation(nums, 0)`
+
+* `temp = nums[0] = 0`
+* `result = nums[0] = 0`
+* Recursive call to `apermutation(nums, 1)`
+
+2. `apermutation(nums, 1)`
+
+* `temp = nums[1] = 2`
+* `result = nums[2] = 1`
+* Recursive call to `apermutation(nums, 2)`
+
+3. `apermutation(nums, 2)`
+
+* `temp = nums[2] = 1`
+* `result = nums[1] = 2`
+* Recursive call to `apermutation(nums, 3)`
+
+4. `apermutation(nums, 3)`
+
+* `temp = nums[3] = 5`
+* `result = nums[5] = 4`
+* Recursive call to `apermutation(nums, 4)`
+
+5. `apermutation(nums, 4)`
+
+* `temp = nums[4] = 3`
+* `result = nums[3] = 5`
+* Recursive call to `apermutation(nums, 5)`
+
+6. `apermutation(nums, 5)`
+
+* `temp = nums[5] = 4`
+* `result = nums[4] = 3`
+* Recursive call to `apermutation(nums, 6)` → base case hit, returns
+
+---
+
+🧠 Backtracking Phase:
+
+Now we assign values back in reverse order:
+
+* `nums[5] = 3`
+* `nums[4] = 5`
+* `nums[3] = 4`
+* `nums[2] = 2`
+* `nums[1] = 1`
+* `nums[0] = 0`
+
+---
+
+✅ Final `nums` Result:
+
+```
+nums = [0, 1, 2, 4, 5, 3]
+```
+
+Same as expected output.
+
+---
+
+⚠ Why This Works:
+
+The key trick is:
+
+* First, store the current value (`temp`)
+* Compute `nums[temp]` while the original values are still intact (since recursion hasn’t overwritten them yet)
+* Assign result after recursive call (so recursion sees original values)
+
+---
+*/
