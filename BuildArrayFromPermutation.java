@@ -30,3 +30,19 @@ Constraints:
 0 <= nums[i] < nums.length
 The elements in nums are distinct.
 */
+
+class Solution {
+    public int[] buildArray(int[] nums) {
+        int n = nums.length;
+        for(int i = 0; i < n; i++) {
+            nums[i] = nums[i] + (nums[nums[i]] % n) * n;
+        }
+        for(int i = 0; i < n; i++) {
+            nums[i] = nums[i] / n;
+        }
+        return nums;
+    }
+}
+
+/*
+Visualization of the above code
