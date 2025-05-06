@@ -159,4 +159,78 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize how this Java code works step-by-step using an example input.
+
+---
+
+✅ Code:
+
+```
+class Solution {
+    public int[] buildArray(int[] nums) {
+        int[] ans = new int[nums.length];
+        for(int i = 0; i < nums.length; i++) {
+            ans[i] = nums[nums[i]];
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+🧪 Example Input:
+
+```
+nums = [0, 2, 1, 5, 3, 4]
+```
+
+---
+
+🧠 Problem Statement Recap:
+
+You are given a zero-based permutation (i.e., it contains all numbers from 0 to n-1 without repeats).
+
+You need to return a new array `ans` such that:
+
+```
+ans[i] = nums[nums[i]];
+```
+
+---
+
+🔁 Step-by-Step Execution:
+
+Let’s build `ans[]` index by index:
+
+| i | nums\[i] | nums\[nums\[i]] | ans\[i] |
+| - | -------- | --------------- | ------- |
+| 0 | 0        | nums\[0] = 0    | 0       |
+| 1 | 2        | nums\[2] = 1    | 1       |
+| 2 | 1        | nums\[1] = 2    | 2       |
+| 3 | 5        | nums\[5] = 4    | 4       |
+| 4 | 3        | nums\[3] = 5    | 5       |
+| 5 | 4        | nums\[4] = 3    | 3       |
+
+---
+
+✅ Final Output:
+
+```
+ans = [0, 1, 2, 4, 5, 3]
+```
+
+---
+
+🧩 Summary Visualization:
+
+```
+nums = [0, 2, 1, 5, 3, 4]
+         ↓  ↓  ↓  ↓  ↓  ↓
+        [0, 1, 2, 4, 5, 3] → ans
+```
+
+Each value in `ans` is built directly by looking up `nums[nums[i]]`.
+
+---
+*/
