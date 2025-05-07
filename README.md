@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 07 May 2025   | [3341. Find Minimum Time To Reach Last Room I]([https://leetcode.com/problems/build-array-from-permutation/](https://leetcode.com/problems/find-minimum-time-to-reach-last-room-i/)) | 🟠 Medium      |
 | 06 May 2025   | [1920. Build Array From Permutation](https://leetcode.com/problems/build-array-from-permutation/) | 🟢 Easy      |
 | 05 May 2025   | [790. Domino And Tromino Tiling](https://leetcode.com/problems/domino-and-tromino-tiling/) | 🟠 Medium      |
 | 04 May 2025   | [1128. Number Of Equivalent Domino Pairs](https://leetcode.com/problems/number-of-equivalent-domino-pairs/) | 🟢 Easy      |
