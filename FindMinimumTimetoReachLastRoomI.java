@@ -187,3 +187,89 @@ The goal is to minimize total time to reach the last cell.
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 7ms runtime which is the most used time in this problem.
+*/
+
+import java.util.*;
+
+class Tuple implements Comparable<Tuple> {
+    int row, col, time;
+
+    public Tuple(int row, int col, int time) {
+        this.row = row;
+        this.col = col;
+        this.time = time;
+    }
+
+    @Override
+    public int compareTo(Tuple t2) {
+        return this.time - t2.time;  // PriorityQueue orders by minimum time
+    }
+}
+
+class Solution {
+    public int minTimeToReach(int[][] moveTime) {
+        int n = moveTime.length;
+        int m = moveTime[0].length;
+        
+        // Distance array to store minimum time to reach each room
+        int[][] dis = new int[n][m];
+        
+        // Initialize distance array to "infinity"
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dis[i], Integer.MAX_VALUE);
+        }
+        
+        // Start from (0,0) at time = 0
+        dis[0][0] = 0;
+        
+        // PriorityQueue to process rooms based on minimum time
+        PriorityQueue<Tuple> pq = new PriorityQueue<>();
+        pq.add(new Tuple(0, 0, 0));
+        
+        // Directions: up, right, down, left
+        int[] drow = {-1, 0, 1, 0};
+        int[] dcol = {0, 1, 0, -1};
+        
+        // Dijkstra's Algorithm
+        while (!pq.isEmpty()) {
+            Tuple t = pq.poll();
+            int row = t.row;
+            int col = t.col;
+            int time = t.time;
+
+            // If we have reached the bottom-right corner, return the time
+            if (row == n - 1 && col == m - 1) {
+                return time;
+            }
+
+            // Explore all 4 directions (up, right, down, left)
+            for (int i = 0; i < 4; i++) {
+                int nrow = row + drow[i];
+                int ncol = col + dcol[i];
+
+                // Check if within bounds
+                if (nrow >= 0 && ncol >= 0 && nrow < n && ncol < m) {
+                    // Calculate the time to enter the next room
+                    int newTime = Math.max(time, moveTime[nrow][ncol]) + 1;
+
+                    // If we can reach this room earlier, update and push it into the queue
+                    if (newTime < dis[nrow][ncol]) {
+                        dis[nrow][ncol] = newTime;
+                        pq.add(new Tuple(nrow, ncol, newTime));
+                    }
+                }
+            }
+        }
+        
+        return -1;  // If no path exists, which shouldn't happen based on the problem statement.
+    }
+}
+
+/*
+Visualization of the above code
+  
