@@ -94,4 +94,96 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  Let’s visualize how the `minTimeToReach` function works using Dijkstra's algorithm on a 2D grid. This method is used to find the minimum time to reach the bottom-right corner from the top-left corner of a grid where:
+
+* Each cell in the `moveTime` matrix indicates the minimum time you must wait before moving into that cell.
+* You can move in 4 directions: up, down, left, right (no diagonals).
+* Moving takes 1 time unit, but you must wait if the time is less than `moveTime[x][y]`.
+
+---
+
+🔍 Key Concepts in Code:
+
+1. Input:
+
+```
+int[][] moveTime = {
+  {0, 2, 1},
+  {1, 5, 2},
+  {4, 6, 1}
+};
+```
+
+2. Start: Top-left (0,0)
+
+End: Bottom-right (2,2)
+
+---
+
+📈 Visualization Step-by-Step:
+
+Let’s say `moveTime` is like this:
+
+```
++---+---+---+
+| 0 | 2 | 1 |
++---+---+---+
+| 1 | 5 | 2 |
++---+---+---+
+| 4 | 6 | 1 |
++---+---+---+
+```
+
+Each cell holds the minimum time you must reach before stepping into that cell.
+
+---
+
+🔄 How Dijkstra Works Here:
+
+Step 0:
+
+* Start at (0,0) at time 0.
+* Available move options: right (0,1) and down (1,0)
+
+Step 1: Move to (1,0)
+
+* Time to reach: `max(moveTime[1][0], 0) + 1 = max(1, 0) + 1 = 2`
+
+Step 2: Move to (0,1)
+
+* Time to reach: `max(2, 0) + 1 = 3`
+
+Step 3: Continue expanding the lowest time paths...
+
+* For each neighbor cell `(x, y)`, you calculate:
+
+  ```
+  newDist = max(moveTime[x][y], currentTime) + 1
+  ```
+
+  So you wait if needed, then add 1 to move in.
+
+---
+
+✅ Goal:
+
+The algorithm keeps visiting the shortest-time cells using a min-heap (priority queue), like Dijkstra's algorithm, until it reaches the destination cell `(m-1, n-1)`.
+
+---
+
+🧠 Example Movement Summary:
+
+If starting from (0,0), and moving optimally, your path could be:
+
+* (0,0) → (1,0) → (2,0) → (2,1) → (2,2)
+
+At each move, we compute:
+
+```
+newTime = max(moveTime[nextCell], currentTime) + 1
+```
+
+The goal is to minimize total time to reach the last cell.
+
+---
+*/
