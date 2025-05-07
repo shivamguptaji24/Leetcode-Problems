@@ -570,4 +570,100 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  Let's delve into the provided Java code, which implements a modified version of Dijkstra's algorithm to determine the minimum time required to traverse a grid from the top-left corner to the bottom-right corner. This algorithm accounts for specific constraints related to each cell's accessibility based on time.
+
+---
+
+🧠 Understanding the Algorithm
+
+Problem Statement
+
+Given a 2D grid `moveTime`, where each cell `(i, j)` contains a value representing the earliest time you can enter that cell, the objective is to find the minimum time to move from the starting cell `(0, 0)` to the destination cell `(n-1, m-1)`. Movement is allowed in four directions: up, down, left, and right. Each move takes 1 unit of time, but you can only enter a cell if the current time is greater than or equal to its `moveTime` value.
+
+Key Components
+
+1. Room Class: Represents each cell in the grid. It contains:
+
+   * `openTime`: The earliest time the room can be entered.
+   * `adjacent`: An array of adjacent rooms (up to four).
+   * `next`: A pointer used to build a linked list of rooms to be processed.
+
+2. DUMMY\_ROOM: A sentinel `Room` object used to simplify boundary conditions.
+
+3. initRooms Method: Initializes the grid of `Room` objects based on the `moveTime` matrix and sets up the adjacency relationships between rooms.
+
+4. minTimeToReach Method: Implements the modified Dijkstra's algorithm using a priority queue to process rooms based on their `openTime`.
+
+---
+
+🔄 Step-by-Step Execution
+
+Let's consider an example `moveTime` grid:
+
+```
+moveTime = {
+  {0, 2, 1},
+  {1, 5, 2},
+  {4, 6, 1}
+}
+```
+
+Initialization
+
+* Create a grid of `Room` objects corresponding to each cell in `moveTime`.
+* Set up the adjacency for each room (up, down, left, right).
+* Define the starting room as `rooms[0][0]` and the destination room as `rooms[2][2]`.
+
+Algorithm Execution
+
+1. Start at Room (0,0):
+
+   * Current time: 0
+   * `openTime`: 0
+   * Since current time ≥ `openTime`, we can enter.
+   * Add adjacent rooms to the processing queue if they haven't been visited and their `openTime` ≤ current time.
+
+2. Process Next Rooms:
+
+   * Increment current time by 1.
+   * For each room in the processing queue:
+
+     * If current time ≥ `openTime`, enter the room.
+     * Add unvisited adjacent rooms to the queue based on their `openTime`.
+
+3. Repeat:
+
+   * Continue this process, incrementing the current time and processing rooms accordingly, until the destination room is reached.
+
+---
+
+📊 Visualization of Time Flow
+
+Here's a representation of the minimum time to reach each cell:
+
+```
+[0, 3, 4]
+[2, 6, 5]
+[5, ∞, 6]
+```
+
+* `0`: Starting point.
+* `∞`: Unreachable at the current step.
+* The numbers represent the earliest time each cell can be entered.
+
+---
+
+✅ Final Output
+
+The minimum time to reach the destination cell `(2,2)` is 6.
+
+---
+
+📌 Key Observations
+
+* This implementation avoids revisiting rooms by marking them as visited once they're added to the processing queue.
+* The use of a priority queue ensures that rooms are processed in order of their earliest possible entry time.
+* The algorithm efficiently handles the constraint that each room can only be entered at or after its specified `openTime`.
+
+---
+*/
