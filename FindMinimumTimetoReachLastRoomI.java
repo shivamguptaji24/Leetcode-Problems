@@ -272,4 +272,156 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  Let's visualize how this Java Dijkstra-based algorithm works on a 2D grid (`moveTime`) to calculate the minimum time to reach the bottom-right cell from the top-left cell.
+
+---
+
+🧠 What's Happening in the Code?
+
+You are solving a grid navigation problem using Dijkstra’s algorithm. Each cell in `moveTime` represents the minimum time you are allowed to enter that cell.
+
+At each step:
+
+* You can move in 4 directions.
+* You can only enter a cell after waiting for `moveTime[x][y]`, then spend +1 time to move.
+
+---
+
+🗺️ Example Grid (Let's Visualize)
+
+Suppose:
+
+```
+moveTime = {
+  {0, 2, 1},
+  {1, 5, 2},
+  {4, 6, 1}
+}
+```
+
+```
+Each cell value = minimum time allowed to enter
+(0,0) is the start, (2,2) is the goal
+```
+
+---
+
+⛳ Goal:
+
+Reach from (0, 0) → (2, 2) in minimum time.
+
+---
+
+🧭 Algorithm Flow Visualization (Step-by-step with queue):
+
+Initialization:
+
+* `dis[0][0] = 0`
+* `pq = [(0,0,0)]`
+
+---
+
+Step 1:
+
+Dequeue `(0,0)` at time = 0
+Neighbors:
+
+* `(1,0)`: `max(0, moveTime[1][0]) + 1 = max(0,1)+1 = 2`
+* `(0,1)`: `max(0, moveTime[0][1]) + 1 = max(0,2)+1 = 3`
+
+Enqueue:
+
+* `(1,0,2)`
+* `(0,1,3)`
+
+---
+
+Step 2:
+
+Dequeue `(1,0)` at time = 2
+Neighbors:
+
+* `(2,0)`: `max(2,4)+1 = 5`
+* `(1,1)`: `max(2,5)+1 = 6`
+
+Enqueue:
+
+* `(2,0,5)`
+* `(1,1,6)`
+
+---
+
+Step 3:
+
+Dequeue `(0,1)` at time = 3
+Neighbors:
+
+* `(0,2)`: `max(3,1)+1 = 4` ✅ (note: max is 3)
+* `(1,1)`: Already visited with smaller time (6 vs 6) → skip
+
+Enqueue:
+
+* `(0,2,4)`
+
+---
+
+Step 4:
+
+Dequeue `(0,2)` at time = 4
+Neighbors:
+
+* `(1,2)`: `max(4,2)+1 = 5`
+
+Enqueue:
+
+* `(1,2,5)`
+
+---
+
+Step 5:
+
+Dequeue `(1,2)` at time = 5
+Neighbors:
+
+* `(2,2)`: `max(5,1)+1 = 6` ✅ GOAL!
+
+Return 6 ← ✅ Minimum time to reach (2,2)
+
+---
+
+✅ Final Output:
+
+```
+Minimum time to reach (2,2): 6
+```
+
+---
+
+🔄 Summary Diagram of Time Flow:
+
+```
+Grid: moveTime
+[0, 2, 1]
+[1, 5, 2]
+[4, 6, 1]
+
+Time of arrival:
+[0, 3, 4]
+[2, 6, 5]
+[5, ∞, 6] ← result
+```
+
+---
+
+📌 Key Points:
+
+* You're using a classic Dijkstra's shortest path technique on a grid with a custom weight function:
+
+  ```
+  newTime = max(currentTime, moveTime[x][y]) + 1
+  ```
+* The `PriorityQueue` ensures that we always process the lowest-time path first.
+* Very efficient for real-time grid traversal problems with wait constraints.
+
+---
+*/
