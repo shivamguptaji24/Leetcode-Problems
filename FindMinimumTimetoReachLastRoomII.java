@@ -292,3 +292,175 @@ class MoveInfo {
         this.moves_taken = moves_taken;
     }
 }
+
+/*
+Visualization of the above code
+  Let's visualize how this enhanced version of Dijkstra's algorithm works using the `MoveInfo` class that tracks:
+
+* `row` and `col` – current grid position
+* `time_taken` – total time to reach that cell
+* `moves_taken` – number of steps made (used to determine move cost: 1s or 2s)
+
+---
+
+🧠 Summary of Logic
+
+* The first move always takes 1 second.
+* Every next move takes either:
+
+  * 1 second if the total moves so far are odd (`moves_taken % 2 == 1`)
+  * 2 seconds if the total moves are even.
+* You're comparing the maximum of:
+
+  * current accumulated time + move cost
+  * moveTime for the next room + move cost
+
+It’s essentially Dijkstra with dynamic move cost and grid-based traversal.
+
+---
+
+✅ Let's Visualize It with a 3x3 Example
+
+```
+moveTime = [
+    [0, 1, 3],
+    [2, 4, 2],
+    [3, 1, 0]
+]
+```
+
+Initial `time_to_reach[][]`:
+
+```
+[∞, ∞, ∞]
+[∞, ∞, ∞]
+[∞, ∞, ∞]
+```
+
+Start: `(0, 0)`, `time_taken = 0`, `moves_taken = 1` → pushed into priority queue.
+
+---
+
+🔁 Step-by-step Grid Movement
+
+Step 1: From (0,0)
+
+* Current Time: `0`, Moves: `1` → **cost = 1**
+* Move to:
+
+  * (0,1): max(0+1, 1+1) = 2
+  * (1,0): max(0+1, 2+1) = 3
+
+`time_to_reach`:
+
+```
+[0, 2, ∞]
+[3, ∞, ∞]
+[∞, ∞, ∞]
+```
+
+---
+
+Step 2: From (0,1)
+
+* Time = 2, Moves = 2 → cost = 2 (even move)
+* Move to:
+
+  * (0,2): max(2+2, 3+2) = 5
+  * (1,1): max(2+2, 4+2) = 6
+
+`time_to_reach`:
+
+```
+[0, 2, 5]
+[3, 6, ∞]
+[∞, ∞, ∞]
+```
+
+---
+
+Step 3: From (1,0)
+
+* Time = 3, Moves = 2 → cost = 2
+* Move to:
+
+  * (2,0): max(3+2, 3+2) = 5
+  * (1,1): max(3+2, 4+2) = 6 (already present)
+
+`time_to_reach`:
+
+```
+[0, 2, 5]
+[3, 6, ∞]
+[5, ∞, ∞]
+```
+
+---
+
+Step 4: From (0,2)
+
+* Time = 5, Moves = 3 → cost = 1
+* Move to:
+
+  * (1,2): max(5+1, 2+1) = 6
+
+`time_to_reach`:
+
+```
+[0, 2, 5]
+[3, 6, 6]
+[5, ∞, ∞]
+```
+
+---
+
+Step 5: From (2,0)
+
+* Time = 5, Moves = 3 → cost = 1
+* Move to:
+
+  * (2,1): max(5+1, 1+1) = 6
+
+`time_to_reach`:
+
+```
+[0, 2, 5]
+[3, 6, 6]
+[5, 6, ∞]
+```
+
+---
+
+Step 6: From (1,2)
+
+* Time = 6, Moves = 4 → cost = 2
+* Move to:
+
+  * (2,2): max(6+2, 0+2) = 8 → 🎯 Reached destination
+
+`time_to_reach`:
+
+```
+[0, 2, 5]
+[3, 6, 6]
+[5, 6, 8]
+```
+
+---
+
+📊 Final Output
+
+```
+return 8;
+```
+
+You reach the bottom-right `(2,2)` in 8 seconds considering:
+
+* move parity
+* moveTime per cell
+* and optimal paths via Dijkstra's logic
+
+---
+
+🖼️ Want a Diagram?
+*/
