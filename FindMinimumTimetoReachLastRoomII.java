@@ -584,4 +584,108 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  The provided Java code implements a customized version of Dijkstra's algorithm to determine the minimum time required to traverse from the top-left room to the bottom-right room in a grid-based dungeon. Each room has a specific earliest entry time, and the time to move between rooms varies based on certain conditions.
+
+---
+
+🧩 Core Concepts
+
+* Room Representation: Each room is encapsulated in a `Room` object, which holds information about its earliest entry time (`openTime`), whether it requires a longer stay (`longStay`), and its adjacent rooms.
+
+* Movement Rules:
+
+  * Entry Time Constraint: You cannot enter a room before its `openTime`.
+  * Stay Duration:
+
+    * Short Stay: If `longStay` is `false`, the room requires a 1-second stay.
+    * Long Stay: If `longStay` is `true`, the room requires a 2-second stay.
+
+* Traversal Strategy: The algorithm simulates the passage of time, processing rooms that can be entered at the current time and updating the state accordingly.([Medium][1])
+
+---
+
+🔄 Step-by-Step Execution with Example
+
+Consider the following `moveTime` grid:
+
+```
+int[][] moveTime = {
+    {0, 4},
+    {4, 4}
+};
+```
+
+
+
+This grid represents a 2x2 dungeon where each cell indicates the earliest time you can enter that room.([Medium][1])
+
+Initialization
+
+* Room Grid Creation: Using `initRooms(moveTime)`, a grid of `Room` objects is created. Each room is initialized with its corresponding `openTime` and a `longStay` value determined by the parity of its coordinates (i.e., `(i + j) % 2 == 0`).
+
+* Starting Point: The traversal begins at the top-left room `(0,0)`.([Medium][1])
+
+Time Simulation Loop
+
+The algorithm simulates each time unit, processing rooms that can be entered at the current time:
+
+1. Time = 0:
+
+   * Current Room: (0,0)
+   * Adjacent Rooms: (0,1) and (1,0)
+   * Processing:
+
+     * (0,1): `openTime` is 4; cannot enter yet. Added to the waiting queue.
+     * (1,0): `openTime` is 4; cannot enter yet. Added to the waiting queue.
+
+2. Time = 1 to 3:
+
+   * No rooms can be entered; time increments.
+
+3. Time = 4:
+
+   * Processing Waiting Queue:
+
+     * (0,1) and (1,0): `openTime` is 4; can now enter.
+     * Stay Duration: Determined by `longStay` value.
+
+4. Subsequent Times:
+
+   * The algorithm continues processing rooms as they become available, updating the current time, and checking for the destination room `(1,1)`.
+
+Destination Reached
+
+Once the bottom-right room `(1,1)` is reached, the algorithm returns the total time taken, considering all constraints.
+
+---
+
+📊 Visualization
+
+Here's a simplified visualization of the grid with `openTime` values:
+
+```
++-------+-------+
+| (0,0) | (0,1) |
+|   0   |   4   |
++-------+-------+
+| (1,0) | (1,1) |
+|   4   |   4   |
++-------+-------+
+```
+
+
+
+Each cell shows the coordinates and the earliest time you can enter that room.([Medium][1])
+
+---
+
+🧠 Key Takeaways
+
+* Custom Dijkstra's Algorithm: The algorithm adapts Dijkstra's approach to handle time-based constraints and varying stay durations.
+
+* Efficient Time Simulation: By simulating each time unit and processing rooms accordingly, the algorithm ensures that all constraints are respected.
+
+* Scalability: This approach can handle larger grids and more complex `moveTime` configurations efficiently.
+
+---
+*/
