@@ -89,4 +89,129 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  Let’s visualize how this algorithm works step-by-step using a grid and explain the logic with a diagrammatic explanation.
+
+---
+
+🧠 Code Functionality Summary
+
+You're implementing a modified Dijkstra's algorithm to find the minimum time to reach the bottom-right corner of a 2D grid `moveTime[][]` from the top-left corner `(0, 0)`.
+
+Each cell has a `moveTime[i][j]`, and the total time to reach the next cell depends on:
+
+* the maximum of current accumulated time and the cell's moveTime,
+* plus an extra delay depending on whether the sum `i + j` is even or odd.
+
+---
+
+🧱 Key Components to Visualize
+
+Let’s take a small 3×3 sample grid:
+
+```
+moveTime = [
+    [1, 3, 5],
+    [2, 8, 2],
+    [4, 2, 1]
+]
+```
+
+Here’s how the algorithm progresses:
+
+📌 Initial State:
+
+* `dist` matrix is filled with `Integer.MAX_VALUE` (∞), except `dist[0][0] = 0`.
+* Priority queue starts with `{0, 0, 0}` → meaning time `0` at `(0, 0)`.
+
+---
+
+🧭 Traversal Example
+
+Let’s simulate the first few steps. I’ll use a grid to represent the state of `dist`:
+
+Step 0:
+
+```
+Current Cell: (0, 0) | Time: 0
+
+From (0, 0), move to:
+- (1, 0): max(2, 0) + (0+0)%2 + 1 = 2 + 1 = 3
+- (0, 1): max(3, 0) + (0+0)%2 + 1 = 3 + 1 = 4
+```
+
+Updated `dist`:
+
+```
+[0, 4, ∞]
+[3, ∞, ∞]
+[∞, ∞, ∞]
+```
+
+---
+
+Step 1:
+
+```
+Current Cell: (1, 0) | Time: 3
+
+From (1, 0), move to:
+- (2, 0): max(4, 3) + (1+0)%2 + 1 = 4 + 2 = 6
+- (1, 1): max(8, 3) + (1+0)%2 + 1 = 8 + 2 = 10
+```
+
+Updated `dist`:
+
+```
+[0, 4, ∞]
+[3, 10, ∞]
+[6, ∞, ∞]
+```
+
+---
+
+Step 2:
+
+```
+Current Cell: (0, 1) | Time: 4
+
+From (0, 1), move to:
+- (0, 2): max(5, 4) + (0+1)%2 + 1 = 5 + 2 = 7
+- (1, 1): max(8, 4) + 2 = 10 → already 10, no update
+```
+
+Updated `dist`:
+
+```
+[0, 4, 7]
+[3, 10, ∞]
+[6, ∞, ∞]
+```
+
+... and so on, until you reach `(2, 2)`.
+
+---
+
+🔁 Dijkstra + Dynamic Delay Logic
+
+`int t = Math.max(moveTime[x][y], dist[i][j]) + (i + j) % 2 + 1;`
+
+This is a dynamic edge weight, affected by:
+
+* the destination cell's difficulty (`moveTime[x][y]`),
+* your current accumulated time (`dist[i][j]`),
+* and a small delay based on your cell's parity (`(i+j)%2`).
+
+---
+
+📊 Grid Visualization of `dist[][]` Over Time
+
+| Iteration | dist\[0]\[0] | dist\[0]\[1] | dist\[0]\[2] | dist\[1]\[0] | dist\[1]\[1] | dist\[1]\[2] | dist\[2]\[0] | dist\[2]\[1] | dist\[2]\[2] |
+| --------- | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
+| Init      | 0            | ∞            | ∞            | ∞            | ∞            | ∞            | ∞            | ∞            | ∞            |
+| After 1   | 0            | 4            | ∞            | 3            | ∞            | ∞            | ∞            | ∞            | ∞            |
+| After 2   | 0            | 4            | ∞            | 3            | 10           | ∞            | 6            | ∞            | ∞            |
+| After 3   | 0            | 4            | 7            | 3            | 10           | ∞            | 6            | ∞            | ∞            |
+| ...       | ...          | ...          | ...          | ...          | ...          | ...          | ...          | ...          | ...          |
+
+---
+*/
