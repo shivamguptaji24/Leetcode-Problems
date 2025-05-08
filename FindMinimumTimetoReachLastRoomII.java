@@ -215,3 +215,80 @@ This is a dynamic edge weight, affected by:
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 220ms runtime which is the most used time in this problem.
+*/
+
+class Solution {
+    public int minTimeToReach(int[][] moveTime) {
+        return dijkstraTraversal(moveTime);
+    }
+    //we need to track the move number as well from the source
+
+    private int dijkstraTraversal(int[][] moveTime) {
+        PriorityQueue<MoveInfo> processQueue = new PriorityQueue<>(
+                (a, b) -> Integer.compare(a.time_taken, b.time_taken));
+        processQueue.add(new MoveInfo(0, 0, 0, 1)); //first move should add '1 s', so start with moves_made as '1' rather than zero
+        int[][] directions = new int[][] {
+                { 0, 1 }, { 1, 0 },
+                { -1, 0 }, { 0, -1 }
+        };
+        int[][] time_to_reach = new int[moveTime.length][moveTime[0].length];
+        for (int i = 0; i < time_to_reach.length; i++) {
+            Arrays.fill(time_to_reach[i], Integer.MAX_VALUE);
+        }
+        while (!processQueue.isEmpty()) {
+            MoveInfo curr_room = processQueue.poll();
+            int time_for_move = curr_room.moves_taken % 2 == 0 ? 2 : 1;
+            if (curr_room.row == moveTime.length - 1 && curr_room.col == moveTime[0].length - 1) {
+                return curr_room.time_taken;
+            }
+            if (curr_room.time_taken > time_to_reach[curr_room.row][curr_room.col]) {
+                continue;
+            }
+
+            for (int[] dir : directions) {
+                int new_room_row = curr_room.row + dir[0];
+                int new_room_col = curr_room.col + dir[1];
+                if (!isValid(new_room_row, new_room_col, moveTime))
+                    continue;
+                int final_move_time = Math.max(curr_room.time_taken + time_for_move,
+                        moveTime[new_room_row][new_room_col] + time_for_move);
+                if (final_move_time < time_to_reach[new_room_row][new_room_col]) {
+                    processQueue
+                            .add(new MoveInfo(new_room_row, new_room_col, final_move_time, curr_room.moves_taken + 1));
+                    time_to_reach[new_room_row][new_room_col] = final_move_time;
+                }
+            }
+        }
+
+        return -1;
+
+    }
+
+    private boolean isValid(int new_row, int new_col, int[][] moveTime) {
+        if (new_row < 0 || new_row >= moveTime.length)
+            return false;
+        if (new_col < 0 || new_col >= moveTime[0].length)
+            return false;
+        return true;
+    }
+
+}
+
+class MoveInfo {
+    int row;
+    int col;
+    int time_taken;
+    int moves_taken;
+
+    MoveInfo(int row, int col, int time_taken, int moves_taken) {
+        this.row = row;
+        this.col = col;
+        this.time_taken = time_taken;
+        this.moves_taken = moves_taken;
+    }
+}
