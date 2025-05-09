@@ -393,4 +393,121 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  Let’s visualize this code with a step-by-step walkthrough using an example:
+
+---
+
+🔢 Problem Statement Recap (Simplified)
+
+You are given a string `num` consisting of digits. You need to count the number of distinct permutations such that if you split the digits into two halves (even and odd indices), the sum of digits in both halves is the same.
+
+---
+
+🧪 Example:
+
+Let’s use `num = "1234"`.
+
+Digits:
+
+* `'1'`, `'2'`, `'3'`, `'4'`
+* Total Sum = 1 + 2 + 3 + 4 = 10
+* If total sum is **odd**, return 0. (In this case, it's even so we proceed.)
+
+---
+
+🧠 Goal:
+
+We want to count how many unique permutations of `"1234"` exist where, if you assign the first half of digits to even indices (0 and 2), and the second half to odd indices (1 and 3), the sum of digits at even positions == sum of digits at odd positions.
+
+---
+
+🧩 All 4! = 24 permutations of `"1234"`:
+
+We will check for each of these permutations if the condition holds:
+
+1. `1234` → even: 1 + 3 = 4, odd: 2 + 4 = 6 ❌
+2. `1243` → even: 1 + 4 = 5, odd: 2 + 3 = 5 ✅
+3. `1324` → even: 1 + 2 = 3, odd: 3 + 4 = 7 ❌
+4. `1342` → even: 1 + 4 = 5, odd: 3 + 2 = 5 ✅
+5. `1423` → even: 1 + 2 = 3, odd: 4 + 3 = 7 ❌
+6. `1432` → even: 1 + 3 = 4, odd: 4 + 2 = 6 ❌
+   ...
+   (only continue for valid ones)
+
+We find 8 valid permutations in total (you can try verifying).
+
+---
+
+🔍 How the Code Works Step-by-Step:
+
+---
+
+✅ Step 1: Initialization
+
+```
+factorials[0 to 40] and inverseFactorials[0 to 40] 
+```
+
+Precomputes `n!` and modular inverses for faster calculation.
+
+---
+
+✅ Step 2: Input Analysis
+
+```
+num = "1234"
+digitCounts = [0,1,1,1,1,0,...]
+totalSum = 10
+```
+
+* Evenly split: `n = 4`, so halfLength = 2
+
+---
+
+✅ Step 3: Recursion
+
+The `recursiveBalance(...)` function tries to choose how many times to assign each digit (from 9 to 0) to the even indices such that the sum becomes 5 (half of total sum).
+
+For digit = 4:
+
+* Can choose `k = 0 or 1`  (since digit '4' appears only once)
+* For each `k`, reduce remaining digits, remaining sum → go deeper recursively.
+
+---
+
+🧠 Key Ideas in the Recursive Step
+
+* Uses 3D memoization to store `(digit, remainingLeft, remainingSum)` states.
+* At each level, tries all `k` (how many times digit `d` is used in even half).
+* Multiplies sub-results with inverse factorials to **avoid overcounting permutations** due to duplicate digits.
+
+---
+
+🧮 Formula Involved
+
+To avoid duplicate permutations (e.g., in "1122"), we divide by factorials of duplicate digits using inverse factorials.
+
+---
+
+🔁 Final Formula Used:
+
+```
+factorials[2] * factorials[2] * result_from_recursion
+= 2! * 2! * recursiveBalance(...) = 4 * result
+```
+
+That’s why it returns:
+
+```
+return (int) (factorials[halfLength] * factorials[length - halfLength] % MOD *
+              recursiveBalance(...) % MOD);
+```
+
+---
+
+✅ Final Result for "1234"
+
+It will return `8`, the number of balanced permutations for "1234".
+
+---
+*/
