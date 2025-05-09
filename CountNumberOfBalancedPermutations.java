@@ -644,4 +644,125 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  To help you visualize what this code does, let's break it down using an example and step-by-step reasoning.
+
+---
+
+🔍 Problem Goal:
+
+Given a string `num` consisting of digits, we want to count the number of permutations of those digits that can be divided into two equal halves (in terms of length and sum of digits).
+
+For example:
+
+```
+Input: "1122"  
+Output: 2  
+```
+
+Explanation:
+
+* All permutations of "1122": `1122, 1212, 1221, 2112, 2121, 2211`
+* Valid balanced permutations (half length = 2, sum of each half = 3):
+  `1212` (1+2 == 1+2)
+  `2112` (2+1 == 1+2)
+  So, 2 permutations meet the criteria.
+
+---
+
+📊 Step-by-Step Breakdown:
+
+1. Precomputation
+
+* Factorials up to 40 and their modular inverses are calculated once using Fermat's Little Theorem. These are used for efficient combination calculations during permutation counting.
+
+---
+
+2. Processing Input "num"
+
+```
+int[] digitCounts = calculateDigitCounts(num);
+int totalSum = calculateTotalSum(num);
+```
+
+For `"1122"`:
+
+* `digitCounts` = `[0, 2, 2, 0, ..., 0]`
+* `totalSum` = `1+1+2+2 = 6`
+
+Since the total sum is even, continue.
+
+---
+
+3. Convert `digitCounts` to prefix sum
+
+```
+for (int i = 1; i < 10; i++) {
+    digitCounts[i] += digitCounts[i - 1];
+}
+```
+
+Now `digitCounts` becomes:
+
+```
+[0, 2, 4, 4, ..., 4] 
+// cumulative count of digits ≤ i
+```
+
+---
+
+4. Recursive Count With Memoization
+
+```
+recursiveBalance(9, halfLength, totalSum / 2, digitCounts, memo);
+```
+
+* Half length = 2 (length 4 → half is 2)
+* Half sum = 6 / 2 = 3
+* You now try to choose digits in different ways to:
+
+  * Choose 2 digits from the full set (the left half)
+  * Make their sum = 3
+  * The rest go to the right half
+
+It recursively goes through digits 9 to 0 and:
+
+* Tries all possible ways to assign k copies of the current digit to the left half
+* Ensures that the sum of selected digits is exactly half
+* Multiplies with combinations for valid permutations
+
+Memoization (`memo[digit][remainingLeft][remainingSum]`) ensures no repeated calculations.
+
+---
+
+5. Final Result Calculation
+
+```
+factorials[2] * factorials[2] % MOD * recursiveResult % MOD;
+```
+
+This multiplies the count of ways to arrange the two halves separately (factorial of half lengths) with the number of valid digit selections for the left half (recursive result). Right half is determined automatically.
+
+---
+
+🧠 Visualization Recap with Example `"1122"`
+
+| Step         | Value             |
+| ------------ | ----------------- |
+| Total Sum    | 6                 |
+| Half Sum     | 3                 |
+| Half Length  | 2                 |
+| Valid Halves | \[1,2] and \[1,2] |
+| Permutations | `1212`, `2112`    |
+
+✅ Answer = 2
+
+---
+
+📌 Summary
+
+The code:
+
+* Uses factorial math and dynamic programming to efficiently count balanced permutations
+* Avoids brute-force permutation generation (which is slow)
+* Smartly splits digits between two halves and ensures both are equal in sum
+*/
