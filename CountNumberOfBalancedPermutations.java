@@ -148,4 +148,115 @@ class Solution {
 
 /*
 Visualization of the above code
-  
+  Let’s visualize the working of the given Java code using a simple example.
+
+---
+
+✅ Purpose of the Code
+
+This code counts the number of balanced permutations of digits from a string. A balanced permutation is defined as:
+
+> A permutation where the sum of digits placed at even indices is equal to the sum of digits placed at odd indices.
+
+---
+
+🧪 Example Input
+
+Let's say:
+
+```
+String num = "123";
+```
+
+Digits: `[1, 2, 3]`
+Total sum = 6 (even, so we can try to split equally: 3 for even-indexed digits, 3 for odd-indexed digits)
+
+---
+
+🔍 Step-by-step Visualization
+
+1. Initial Setup
+
+```
+int[] nums = [1, 2, 3]; // digits extracted from input
+```
+
+Total `sum = 6`, so we target `evenBalance = 3`.
+
+We calculate:
+
+```
+even = (nums.length + 1) / 2 = 2   // indices 0 and 2 (even positions)
+odd = nums.length / 2 = 1          // index 1 (odd position)
+```
+
+So we want to place 2 digits in even indices and 1 digit in the odd index, such that sum of digits at even positions = 3.
+
+2. Sorting & Reversing
+
+The digits are sorted and reversed:
+
+```
+Sorted & Reversed: nums = [3, 2, 1]
+```
+
+This helps in pruning permutations early.
+
+---
+
+🔁 Recursive DP Explanation:
+
+We now recursively pick digits for even and odd positions and track if the sum of digits at even positions = 3.
+
+Let’s visualize only valid permutations:
+
+1. Permutation: [1, 2, 3]
+
+   * Even indices: 1 (index 0), 3 (index 2) → sum = 4 ❌
+2. Permutation: [1, 3, 2]
+
+   * Even indices: 1, 2 → sum = 3 ✅
+3. Permutation: [2, 1, 3]
+
+   * Even indices: 2, 3 → sum = 5 ❌
+4. Permutation: [2, 3, 1]
+
+   * Even indices: 2, 1 → sum = 3 ✅
+5. Permutation: [3, 1, 2]
+
+   * Even indices: 3, 2 → sum = 5 ❌
+6. Permutation: [3, 2, 1]
+
+   * Even indices: 3, 1 → sum = 4 ❌
+
+✅ Only [1, 3, 2] and [2, 3, 1] are balanced permutations.
+
+---
+
+🔣 Handling Duplicates
+
+If the input had repeated digits (e.g., `"112"`), permutations would include duplicates. So the result is divided by the factorial of frequency of repeated digits using:
+
+```
+long perm = getPerm(nums);
+result = (count * modInverse(perm)) % MOD;
+```
+
+---
+
+✅ Final Result
+
+For input `"123"`, valid balanced permutations = 2:
+
+```
+[1, 3, 2] and [2, 3, 1]
+```
+
+Thus:
+
+```
+Output = 2
+```
+
+---
+*/
