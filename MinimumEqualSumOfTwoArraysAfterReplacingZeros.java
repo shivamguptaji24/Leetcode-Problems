@@ -159,9 +159,9 @@ But:
 
 | nums1      | nums2      | Return |
 | ---------- | ---------- | ------ |
-| \[0, 2, 3] | \[1, 1, 4] | 6      |
-| \[0, 1]    | \[9, 9]    | -1     |
-| \[1, 2]    | \[0, 0, 0] | 6      |
+| [0, 2, 3] | [1, 1, 4] | 6      |
+| [0, 1]    | [9, 9]    | -1     |
+| [1, 2]    | [0, 0, 0] | 6      |
 
 ---
 */
@@ -371,3 +371,46 @@ Return `-1`
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 1ms runtime which is the lowest time in this problem.
+*/
+
+class Solution {
+    public long minSum(int[] nums1, int[] nums2) {
+        long sum1 = 0;
+        long zeroCount1 = 0;
+
+        for (int n: nums1) {
+            sum1 += (long) n;
+            zeroCount1 += n == 0 ? 1 : 0;
+        }
+
+        long sum2 = 0;
+        long zeroCount2 = 0;
+
+        for (int n: nums2) {
+            sum2 += (long) n;
+            zeroCount2 += n == 0 ? 1 : 0;
+        }
+
+        long minSum1 = sum1+zeroCount1;
+        long minSum2 = sum2+zeroCount2;
+
+        if (minSum1<minSum2 && zeroCount1 == 0) {
+            return -1;
+        }
+
+        if (minSum1>minSum2 && zeroCount2 == 0) {
+            return -1;
+        }
+
+        return Math.max(minSum1, minSum2);
+    }
+}
+
+/*
+Visualization of the above code
+ 
