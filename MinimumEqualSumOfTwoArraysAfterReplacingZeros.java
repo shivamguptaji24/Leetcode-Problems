@@ -44,4 +44,124 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize what this Java code does with a clear example and explanation.
+
+---
+
+🎯 Goal of the Code:
+
+You're given two arrays `nums1` and `nums2`, each containing integers from 0 to 9 (inclusive).
+
+* `0` means the value is missing, and you can replace it with any value from 1 to 9 (minimum being 1).
+* Your task is to replace each 0 with 1 (the minimum possible) to minimize the total sum of both arrays.
+* After this, both arrays must have equal total sum.
+* You need to return the minimum possible equal sum of both arrays, or `-1` if it's not possible.
+
+---
+
+📌 Code Breakdown:
+
+```
+final long sum1 = Arrays.stream(nums1).asLongStream().sum();
+final long sum2 = Arrays.stream(nums2).asLongStream().sum();
+```
+
+🟢 Compute sum of both arrays (including 0s).
+
+```
+final long zero1 = Arrays.stream(nums1).filter(num -> num == 0).count();
+final long zero2 = Arrays.stream(nums2).filter(num -> num == 0).count();
+```
+
+🔵 Count number of `0`s in each array (which can be replaced with 1s).
+
+```
+if (zero1 == 0 && sum1 < sum2 + zero2) return -1;
+if (zero2 == 0 && sum2 < sum1 + zero1) return -1;
+```
+
+🔴 Check if it's impossible to equalize the sum by replacing 0s with `1`. If one array has no 0s and can't catch up to the other even if the other replaces all 0s with 1, return `-1`.
+
+```
+return Math.max(sum1 + zero1, sum2 + zero2);
+```
+
+🟡 Compute final sum by replacing each 0 with 1 and take the larger sum (both will become equal).
+
+---
+
+✅ Example Walkthrough
+
+Example 1:
+
+```
+nums1 = [0, 2, 3]  
+nums2 = [1, 1, 4]
+```
+
+Step 1:
+`sum1 = 0 + 2 + 3 = 5`
+`sum2 = 1 + 1 + 4 = 6`
+
+Step 2:
+`zero1 = 1` (one zero in nums1)
+`zero2 = 0` (no zero in nums2)
+
+Step 3:
+Check:
+
+```
+if (zero2 == 0 && sum2 < sum1 + zero1)
+=> if (0 == 0 && 6 < 5 + 1) → false
+```
+
+So, continue.
+
+Step 4:
+Replace zero in `nums1` with 1 → new sum1 = 5 + 1 = 6
+sum2 = 6
+
+✅ Return `6` as both are equal now.
+
+---
+
+Example 2:
+
+```
+nums1 = [0, 1]
+nums2 = [9, 9]
+```
+
+`sum1 = 1`, `zero1 = 1` → possible max sum = 1 + 1 = 2
+`sum2 = 18`, `zero2 = 0`
+
+Check:
+
+```
+if (zero1 == 0 && sum1 < sum2 + zero2) → false  
+if (zero2 == 0 && sum2 < sum1 + zero1)
+=> if (0 == 0 && 18 < 1 + 1) → false
+```
+
+But:
+
+* `sum1 + zero1 = 2`
+* `sum2 = 18`
+  → 2 ≠ 18
+
+❌ Can't make sums equal
+
+🔴 Return `-1`
+
+---
+
+📌 Summary Table
+
+| nums1      | nums2      | Return |
+| ---------- | ---------- | ------ |
+| \[0, 2, 3] | \[1, 1, 4] | 6      |
+| \[0, 1]    | \[9, 9]    | -1     |
+| \[1, 2]    | \[0, 0, 0] | 6      |
+
+---
+*/
