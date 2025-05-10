@@ -165,3 +165,55 @@ But:
 
 ---
 */
+
+/*-------------------------------------------------------------------------------------------------------------------------*/
+
+/*
+This is the solution that takes only 3ms runtime which is the most used time in this problem.
+*/
+
+class Solution {
+    public long minSum(int[] nums1, int[] nums2) {
+        long c = 0;
+        long s =0;
+        long cc = 0;
+        long ss =0;
+        for(int i=0; i<nums1.length; i++){
+            if(nums1[i] == 0){
+                c++;
+            }
+            s += nums1[i];
+        }
+        for(int i=0; i<nums2.length ; i++){
+            if(nums2[i] == 0){
+                cc++;
+            }
+            ss += nums2[i];
+        }
+        if(c==0 && cc ==0){
+            if(s != ss) return -1;
+            else{
+                return s;
+            }
+        }
+        if(c==0 || cc ==0){
+            if(c == 0){
+                if(s< ss+cc) return -1;
+            }
+            else{
+                if(ss< s+c) return -1;
+            }
+        }
+
+        if(c +s > cc+ss){
+            return c+s;
+        }
+        else{
+            return cc+ss;
+        }
+    }
+}
+
+/*
+Visualization of the above code
+ 
