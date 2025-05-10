@@ -36,6 +36,7 @@ This repository contains daily problems from [LeetCode's Problem of the Day](htt
 
 | 🗓️ Date       | 🧩 Problem Title                                      | 🎯 Difficulty |
 |---------------|--------------------------------------------------------|--------------|
+| 10 May 2025   | [2918. Minimum Equal Sum Of Two Arrays After Replacing Zeros](([https://leetcode.com/problems/count-number-of-balanced-permutations/](https://leetcode.com/problems/minimum-equal-sum-of-two-arrays-after-replacing-zeros/))) | 🟠 Medium      |
 | 09 May 2025   | [3343. Count Number Of Balanced Permutations]((https://leetcode.com/problems/count-number-of-balanced-permutations/)) | 🔴 Hard      |
 | 08 May 2025   | [3342. Find Minimum Time To Reach Last Room II]((https://leetcode.com/problems/find-minimum-time-to-reach-last-room-ii/)) | 🟠 Medium      |
 | 07 May 2025   | [3341. Find Minimum Time To Reach Last Room I]((https://leetcode.com/problems/find-minimum-time-to-reach-last-room-i/)) | 🟠 Medium      |
