@@ -413,4 +413,137 @@ class Solution {
 
 /*
 Visualization of the above code
- 
+ Let's visualize and explain this version of the `minSum` function using an example, a step-by-step breakdown, and a decision flow. It helps you understand the logic clearly.
+
+---
+
+🔍 Purpose of the Code
+
+You're given two integer arrays `nums1` and `nums2`. Each array may contain zeros, which can be replaced with 1s to increase the sum. You need to:
+
+* Make the sum of both arrays equal by replacing all `0`s with `1`s.
+* If it's not possible, return `-1`.
+* If it's possible, return the minimum possible equal sum.
+
+---
+
+🔢 Step-by-Step Breakdown
+
+```
+long sum1 = 0;
+long zeroCount1 = 0;
+```
+
+* `sum1` will hold the sum of all numbers in `nums1`.
+* `zeroCount1` counts how many `0`s are in `nums1`.
+
+```
+for (int n: nums1) {
+    sum1 += (long) n;
+    zeroCount1 += n == 0 ? 1 : 0;
+}
+```
+
+* Count total sum and zeros in `nums1`.
+
+Same for `nums2`:
+
+```
+long sum2 = 0;
+long zeroCount2 = 0;
+
+for (int n: nums2) {
+    sum2 += (long) n;
+    zeroCount2 += n == 0 ? 1 : 0;
+}
+```
+
+Now calculate:
+
+```
+long minSum1 = sum1 + zeroCount1;
+long minSum2 = sum2 + zeroCount2;
+```
+
+* This simulates replacing every `0` with `1`.
+
+---
+
+❌ Infeasibility Checks
+
+```
+if (minSum1 < minSum2 && zeroCount1 == 0) return -1;
+```
+
+* `nums1` can't catch up with `nums2`, and it has no zero to adjust → ❌
+
+```
+if (minSum1 > minSum2 && zeroCount2 == 0) return -1;
+```
+
+* Same for other side.
+
+---
+
+✅ Final Answer
+
+```
+return Math.max(minSum1, minSum2);
+```
+
+* Minimum equal sum both can reach after replacing 0s.
+
+---
+
+✅ Example 1
+
+```
+nums1 = [0, 1]
+nums2 = [2]
+```
+
+* sum1 = 1, zeroCount1 = 1 → minSum1 = 1 + 1 = 2
+* sum2 = 2, zeroCount2 = 0 → minSum2 = 2
+
+✔ `minSum1 = minSum2` → return `2`
+
+---
+
+❌ Example 2
+
+```
+nums1 = [1, 2]
+nums2 = [5]
+```
+
+* sum1 = 3, zeroCount1 = 0 → minSum1 = 3
+* sum2 = 5, zeroCount2 = 0 → minSum2 = 5
+
+❌ `minSum1 < minSum2 && zeroCount1 == 0` → return `-1`
+
+---
+
+📊 Summary Table
+
+| nums1      | nums2   | Return | Reason                  |
+| ---------- | ------- | ------ | ----------------------- |
+| [0, 1]    | [2]    | 2      | 0 replaced with 1       |
+| [1, 2]    | [5]    | -1     | No way to increase sum1 |
+| [0, 0, 0] | [1, 2] | 5      | Replace 0s with 1       |
+| [2, 3]    | [0, 0] | 5      | Replace 0s with 1       |
+
+---
+
+🧭 Flowchart Logic (Text Version)
+
+1. Calculate `sum1` and `zeroCount1` from `nums1`
+2. Calculate `sum2` and `zeroCount2` from `nums2`
+3. Compute:
+   * `minSum1 = sum1 + zeroCount1`
+   * `minSum2 = sum2 + zeroCount2`
+4. If `minSum1 < minSum2` and `zeroCount1 == 0` → ❌ return `-1`
+5. If `minSum2 < minSum1` and `zeroCount2 == 0` → ❌ return `-1`
+6. ✅ Return `Math.max(minSum1, minSum2)`
+
+---
+*/
