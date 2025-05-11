@@ -33,3 +33,6 @@ class Solution {
         return false;
     }
 }
+
+/*
+Visualization of the above code
